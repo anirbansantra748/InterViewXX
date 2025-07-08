@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= round.title %> - DSA Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #1e1e2f, #2a2a40);
+      color: #f5f5f5;
+      padding: 2rem;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      max-width: 950px;
+      margin: auto;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ffb347;
+      margin-bottom: 2rem;
+    }
+
+    .problem {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 2rem;
+    }
+
+    .problem h4 {
+      font-size: 1.2rem;
+      color: #7de5ed;
+    }
+
+    .problem p {
+      margin: 0.6rem 0;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .problem strong {
+      color: #eee;
+    }
+
+    pre {
+      background: #1e1e2f;
+      color: #dcdcdc;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 0.5rem;
+      white-space: pre-wrap;
+    }
+
+    textarea {
+      width: 100%;
+      height: 250px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      background: #2b2b3b;
+      color: #f1f1f1;
+      border: 1px solid #555;
+      border-radius: 8px;
+      resize: vertical;
+      font-size: 15px;
+      margin-top: 1rem;
+    }
+
+    button {
+      display: block;
+      margin: 30px auto 0;
+      background: linear-gradient(to right, #43e97b, #38f9d7);
+      color: #111;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #00f260, #0575e6);
+    }
+
+    .empty-msg {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #aaa;
+      margin: 40px 0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      textarea {
+        height: 200px;
+      }
+    }
+  </style>
+
+  <script>
+    let timeLeft = 400; // default 6min 40sec unless replaced by actual value
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      const form = document.getElementById("roundForm");
+
+      const interval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          alert("⏰ Time is up! Auto-submitting...");
+          form.submit();
+        }
+        timeLeft--;
+      }, 1000);
+    }
+
+    window.onload = startTimer;
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <h2>💻 <%= round.title %> - DSA Round</h2>
+    <p class="timer">⏳ Time Left: <span id="timer"></span></p>
+
+    <% if (round.roundContent.questions.length === 0) { %>
+      <p class="empty-msg">📭 No questions available in this round.</p>
+    <% } else { %>
+      <form id="roundForm" method="POST" action="/rounds/submit-round/<%= round._id %>">
+        <% round.roundContent.questions.forEach((q, index) => { %>
+          <div class="problem">
+            <h4>🔸 <%= index + 1 %>. <%- q.title %></h4>
+
+            <p><strong>Problem Statement:</strong> <%- q.problemStatement %></p>
+
+            <% if (q.inputFormat) { %>
+              <p><strong>Input Format:</strong> <%- q.inputFormat %></p>
+            <% } %>
+
+            <% if (q.outputFormat) { %>
+              <p><strong>Output Format:</strong> <%- q.outputFormat %></p>
+            <% } %>
+
+            <% if (q.constraints) { %>
+              <p><strong>Constraints:</strong> <%- q.constraints %></p>
+            <% } %>
+
+            <% if (q.sampleInput || q.sampleOutput) { %>
+              <p><strong>Sample I/O:</strong></p>
+              <pre>
+Input:
+<%- q.sampleInput || "N/A" %>
+
+Output:
+<%- q.sampleOutput || "N/A" %>
+              </pre>
+            <% } %>
+
+            <textarea name="answers[<%= q._id %>]" placeholder="Write your code here..." required></textarea>
+          </div>
+        <% }) %>
+
+        <button type="submit">✅ Submit</button>
+      </form>
+    <% } %>
+  </div>
+
+</body>
+</html>

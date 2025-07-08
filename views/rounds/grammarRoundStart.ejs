@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= round.title %> - Grammar Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: #0e0c1f;
+      color: #f4f4ff;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 214, 111, 0.2);
+      backdrop-filter: blur(12px);
+      padding: 2.5rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 850px;
+      box-shadow: 0 0 18px rgba(255, 223, 127, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      color: #ffd24c;
+      margin-bottom: 1.2rem;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 1rem;
+      color: #ffe29a;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      margin: 0.3rem 0 1rem;
+      color: #e8e8e8;
+    }
+
+    .question-block {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 214, 111, 0.12);
+    }
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #ffe89c;
+    }
+
+    .option {
+      margin: 8px 0;
+    }
+
+    input[type="radio"] {
+      accent-color: #ffd24c;
+      margin-right: 8px;
+    }
+
+    button {
+      background: linear-gradient(to right, #ffcc70, #ffe29a);
+      color: #222;
+      font-weight: bold;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 2rem;
+      box-shadow: 0 0 12px rgba(255, 229, 142, 0.3);
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #ffdf7e;
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+  <script>
+    let timeLeft = 300;
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      const form = document.getElementById("roundForm");
+
+      const interval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          alert("⏰ Time is up! Auto-submitting...");
+          form.submit();
+        }
+        timeLeft--;
+      }, 1000);
+    }
+
+    window.onload = startTimer;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2><%= round.title %> (Grammar Round)</h2>
+    <p class="timer">⏳ Time Left: <span id="timer"></span></p>
+    <p><strong>Total Questions:</strong> <%= round.roundContent.questions.length %></p>
+    <p><strong>Instructions:</strong> <%= round.instructions || 'Answer all questions.' %></p>
+
+    <form id="roundForm" method="POST" action="/rounds/submit-round/<%= round._id %>">
+      <% round.roundContent.questions.forEach((q, index) => { %>
+        <div class="question-block">
+          <label><%= index + 1 %>. <%- q.question %></label>
+          <% q.options.forEach((opt) => { %>
+            <div class="option">
+              <label>
+                <input type="radio" name="answers[<%= q._id %>]" value="<%- opt %>" required>
+                <%= opt %>
+              </label>
+            </div>
+          <% }) %>
+        </div>
+      <% }) %>
+
+      <button type="submit">✅ Submit</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Round Type</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #302b63, #24243e);
+      color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .form-wrapper {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 2.2rem 2.8rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .form-wrapper h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1.8rem;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
+      color: #dcdcdc;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 1rem;
+      margin-bottom: 1.6rem;
+      appearance: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <h2>Round <%= currentRound %> / <%= totalRounds %></h2>
+
+    <form action="/rounds/select-type" method="POST">
+      <input type="hidden" name="jobId" value="<%= jobId %>">
+      <input type="hidden" name="roundIndex" value="<%= currentRound %>">
+
+      <label for="roundType">Select Round Type</label>
+      <select name="roundType" id="roundType" required>
+        <option value="MCQ">MCQ</option>
+        <option value="DSA">DSA</option>
+        <option value="Grammar">Grammar</option>
+        <option value="Voice">Voice</option>
+        <option value="Interview">Interview</option>
+      </select>
+
+      <button type="submit">Next</button>
+    </form>
+  </div>
+
+</body>
+</html>

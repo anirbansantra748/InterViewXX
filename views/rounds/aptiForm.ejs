@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Aptitude Round</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --text: #f1f5f9;
+      --accent: #38bdf8;
+      --subtle: #cbd5e1;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      margin: 0;
+      padding: 2rem;
+      color: var(--text);
+    }
+
+    form {
+      max-width: 900px;
+      margin: auto;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+    }
+
+    h4 {
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.3rem;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 1rem;
+      background: #1e293b;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    button {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    #add-question-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 2px dashed var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    #add-question-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    hr {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <form action="/add-round/aptitude/<%= jobId %>" method="POST">
+    <h2 style="text-align:center; color:var(--accent);">🧠 Add Aptitude Round</h2>
+
+    <label>Round Title:</label>
+    <input type="text" name="title" required>
+
+    <label>Order:</label>
+    <input type="number" name="order" min="1" required>
+
+    <label>Time Limit (minutes):</label>
+    <input type="number" name="timeLimit" required>
+
+    <label>Total Marks:</label>
+    <input type="number" name="totalMarks" required>
+
+    <label>Passing Marks:</label>
+    <input type="number" name="passingMarks" required>
+
+    <div id="question-container">
+      <div class="apti-question">
+        <h4>Question 1</h4>
+
+        <label>Question:</label>
+        <textarea name="questions[0][question]" required></textarea>
+
+        <label>Options:</label>
+        <input type="text" name="questions[0][options][]" placeholder="Option 1" required>
+        <input type="text" name="questions[0][options][]" placeholder="Option 2" required>
+        <input type="text" name="questions[0][options][]" placeholder="Option 3" required>
+        <input type="text" name="questions[0][options][]" placeholder="Option 4" required>
+
+        <label>Correct Answer:</label>
+        <input type="text" name="questions[0][correctAnswer]" required>
+
+        <label>Explanation (optional):</label>
+        <textarea name="questions[0][explanation]"></textarea>
+
+        <label>Difficulty:</label>
+        <select name="questions[0][difficulty]">
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <label>Category:</label>
+        <select name="questions[0][category]">
+          <option value="Quantitative">Quantitative</option>
+          <option value="Logical Reasoning">Logical Reasoning</option>
+          <option value="Verbal">Verbal</option>
+          <option value="Misc">Misc</option>
+        </select>
+        <hr>
+      </div>
+    </div>
+
+    <button type="button" id="add-question-btn">➕ Add Another Question</button>
+    <button type="submit">✅ Add Aptitude Round</button>
+  </form>
+
+  <script>
+    let questionIndex = 1;
+    document.getElementById('add-question-btn').addEventListener('click', () => {
+      const container = document.getElementById('question-container');
+      const div = document.createElement('div');
+      div.className = 'apti-question';
+      div.innerHTML = `
+        <h4>Question ${questionIndex + 1}</h4>
+
+        <label>Question:</label>
+        <textarea name="questions[${questionIndex}][question]" required></textarea>
+
+        <label>Options:</label>
+        <input type="text" name="questions[${questionIndex}][options][]" placeholder="Option 1" required>
+        <input type="text" name="questions[${questionIndex}][options][]" placeholder="Option 2" required>
+        <input type="text" name="questions[${questionIndex}][options][]" placeholder="Option 3" required>
+        <input type="text" name="questions[${questionIndex}][options][]" placeholder="Option 4" required>
+
+        <label>Correct Answer:</label>
+        <input type="text" name="questions[${questionIndex}][correctAnswer]" required>
+
+        <label>Explanation (optional):</label>
+        <textarea name="questions[${questionIndex}][explanation]"></textarea>
+
+        <label>Difficulty:</label>
+        <select name="questions[${questionIndex}][difficulty]">
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <label>Category:</label>
+        <select name="questions[${questionIndex}][category]">
+          <option value="Quantitative">Quantitative</option>
+          <option value="Logical Reasoning">Logical Reasoning</option>
+          <option value="Verbal">Verbal</option>
+          <option value="Misc">Misc</option>
+        </select>
+        <hr>
+      `;
+      container.appendChild(div);
+      questionIndex++;
+    });
+  </script>
+</body>
+</html>

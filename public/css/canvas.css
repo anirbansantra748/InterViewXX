@@ -1,0 +1,355 @@
+/* ========== GLOBAL STYLES ========== */
+body {
+  font-family: 'Fira Code', 'Segoe UI', sans-serif;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ========== TOOLBAR BUTTONS ========== */
+.tool-btn {
+  background-color: #2d2d2d;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.tool-btn:hover {
+  background-color: #3a3a3a;
+  transform: scale(1.05);
+}
+
+.tool-btn.active {
+  background-color: #007acc;
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.5);
+}
+
+/* ========== SETTINGS PANEL ========== */
+.tool-settings {
+  position: absolute;
+  background-color: #252525;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 30;
+  display: none;
+  margin-top: 6px;
+}
+
+.tool-btn:hover .tool-settings,
+.tool-btn.active .tool-settings {
+  display: block;
+}
+
+/* ========== INPUTS ========== */
+select,
+input[type="range"],
+input[type="color"] {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+input[type="color"] {
+  padding: 0;
+  border-radius: 100%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* ========== CANVAS AREA ========== */
+#canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  background-color: #1e1e1e;
+}
+
+/* ========== DRAWING CANVAS ========== */
+#drawing-canvas {
+  cursor: crosshair;
+}
+
+/* ========== TEXT BOX AREA ========== */
+.text-box {
+  position: absolute;
+  min-width: 80px;
+  min-height: 30px;
+  border: 1px dashed #5e9cff;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  resize: both;
+  padding: 4px 6px;
+  outline: none;
+  pointer-events: auto;
+  backdrop-filter: blur(2px);
+  transition: 0.15s ease;
+}
+
+.text-box-content {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+
+.text-box:focus {
+  border-color: #007acc;
+}
+
+/* ========== SELECTION BOX FOR OBJECTS ========== */
+.selectable {
+  position: absolute;
+  border: 1.5px dashed #4ade80;
+  background-color: rgba(74, 222, 128, 0.05);
+  z-index: 10;
+  resize: both;
+  pointer-events: auto;
+  transition: 0.2s ease-in-out;
+}
+
+.selectable.selected {
+  border-color: #5e9cff;
+  box-shadow: 0 0 0 2px rgba(94, 156, 255, 0.5);
+  background-color: rgba(94, 156, 255, 0.1);
+}
+
+/* ========== WINDOWS 11 STYLE FLOATING TOOLBAR ========== */
+#navbar {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #262626;
+  padding: 12px 20px;
+  border-radius: 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ========== DISABLED BUTTON ========== */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.text-box {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.text-box-content {
+  background: transparent;
+  color: white;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  width: 200px;
+  padding: 4px;
+  resize: none;
+  overflow: hidden;
+  transition: border 0.2s ease;
+}
+
+.text-box-content:focus {
+  border: 1px dashed #4ade80;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* === General Layout === */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e;
+  font-size: large;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* === Canvas === */
+#canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #1e1e1e;
+}
+
+#drawing-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: transparent;
+  cursor: crosshair;
+}
+
+/* === Toolbar === */
+#navbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.tool-btn {
+  background-color: #3a3a3a;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.tool-btn:hover {
+  background-color: #4a4a4a;
+}
+
+.tool-btn.active {
+  background-color: #5a5a5a;
+}
+
+.tool-settings {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2000;
+  color: white;
+}
+
+.relative:hover .tool-settings {
+  display: flex;
+}
+
+/* === Selects & Inputs === */
+input[type="color"],
+input[type="range"],
+select {
+  cursor: pointer;
+}
+
+select {
+  border: none;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* === Textbox Container === */
+#text-box-container {
+  font-size: large;
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+/* === Video Section === */
+#video-section {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#video-section video {
+  border-radius: 0.5rem;
+  border: 2px solid #444;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#video-section p {
+  color: white;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.tool-settings {
+  display: none;
+}
+
+.tool-settings.show-settings {
+  display: flex;
+}
+
+.text-box, .text-box-content {
+  font-size: inherit;
+}
+
+.text-box {
+  position: absolute;
+  min-width: 80px;
+  min-height: 30px;
+  border: 1px dashed #5e9cff;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  line-height: 1.4;
+  resize: both;
+  padding: 6px;
+  outline: none;
+  pointer-events: auto;
+}
+
+.text-box-content {
+  width: 100%;
+  height: auto;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+textarea {
+  font-family: inherit;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

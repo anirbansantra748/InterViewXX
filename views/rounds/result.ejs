@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Round Result</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f0036, #3b0066);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .container {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 40px 35px;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    .summary {
+      font-size: 17px;
+      color: #ccc;
+    }
+
+    .summary p {
+      margin: 12px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #9f7bff;
+    }
+
+    .status {
+      font-weight: bold;
+      font-size: 17px;
+      margin-top: 15px;
+    }
+
+    .status.pass {
+      color: #00ffb7;
+    }
+
+    .status.fail {
+      color: #ff4e6b;
+    }
+
+    .btn {
+      margin-top: 30px;
+    }
+
+    .btn a {
+      text-decoration: none;
+      background: #9f7bff;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(159, 123, 255, 0.5);
+    }
+
+    .btn a:hover {
+      background: #b88cff;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2><%= isPassed ? '🎉 Congratulations! You Passed the Round.' : '❌ Sorry, You Did Not Qualify.' %></h2>
+
+    <div class="summary">
+      <p><span class="highlight">Round Title:</span> <%= round.title %></p>
+      <p><span class="highlight">Your Score:</span> <%= score %> / <%= total %></p>
+      <p><span class="highlight">Passing Marks:</span> <%= passingMarks %></p>
+
+      <% if (isPassed) { %>
+        <p class="status pass">✅ You have unlocked the next round.</p>
+      <% } else { %>
+        <p class="status fail">🚫 You need at least <%= passingMarks %> to qualify.</p>
+      <% } %>
+    </div>
+
+    <div class="btn">
+      <a href="/jobs/<%= jobId %>">🔙 Back to Job Details</a>
+    </div>
+  </div>
+
+</body>
+</html>

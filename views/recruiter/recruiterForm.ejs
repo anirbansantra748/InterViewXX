@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recruiter Profile</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a0033, #2e004d);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 15px;
+      color: #ddd;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 15px;
+      margin-top: 6px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bbb;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: #9f7bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 5px 14px rgba(159, 123, 255, 0.3);
+    }
+
+    button:hover {
+      background: #b88cff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body style="margin-top: 4rem;">
+  <form action="/recruiter/profile" method="POST" class="form-container">
+    <h2>🧾 Recruiter Profile</h2>
+
+    <label>
+      Company Name
+      <input type="text" name="companyDetails[name]" required placeholder="e.g., TechVerse Inc.">
+    </label>
+
+    <label>
+      Website
+      <input type="text" name="companyDetails[website]" placeholder="e.g., https://techverse.com">
+    </label>
+
+    <label>
+      Description
+      <textarea name="companyDetails[description]" placeholder="Brief about your company..."></textarea>
+    </label>
+
+    <label>
+      Location
+      <input type="text" name="companyDetails[location]" placeholder="City, Country">
+    </label>
+
+    <label>
+      Industry
+      <input type="text" name="companyDetails[industry]" placeholder="e.g., IT Services, Fintech">
+    </label>
+
+    <label>
+      Company Size
+      <input type="text" name="companyDetails[size]" placeholder="e.g., 51-200 employees">
+    </label>
+
+    <label>
+      Your Designation
+      <input type="text" name="designation" required placeholder="e.g., HR Manager, CTO">
+    </label>
+
+    <button type="submit">💾 Save Profile</button>
+    <br><br><br>
+  </form>
+</body>
+</html>

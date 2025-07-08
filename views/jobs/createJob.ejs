@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Job</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f0036, #3b0066);
+      color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 4rem 1rem;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1rem;
+      transition: border 0.3s ease, background 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border: 1px solid #a78bfa;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    select option {
+      background-color: #2c2c2c;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #a78bfa, #c084fc);
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+      box-shadow: 0 6px 16px rgba(167, 139, 250, 0.4);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #c084fc, #d8b4fe);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(167, 139, 250, 0.5);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #ccc;
+    }
+
+    @media screen and (max-width: 500px) {
+      form {
+        padding: 2rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form action="/jobs/create" method="POST">
+    <h2>📝 Create a New Job</h2>
+
+    <input name="title" placeholder="Job Title" required />
+    <textarea name="description" placeholder="Job Description" required></textarea>
+
+    <input name="company" placeholder="Company Name" required />
+    <input name="location" placeholder="Location" required />
+    <input name="salaryRange" placeholder="Salary (e.g. ₹20K - ₹40K)" required />
+
+    <select name="jobType" required>
+      <option value="">Select Job Type</option>
+      <option>Internship</option>
+      <option>Full-time</option>
+      <option>Part-time</option>
+    </select>
+
+    <select name="mode" required>
+      <option value="">Select Mode</option>
+      <option>Remote</option>
+      <option>On-site</option>
+    </select>
+
+    <input name="skillsRequired" placeholder="Skills (comma separated)" />
+    <input name="experienceRequired" placeholder="Experience (e.g. Fresher, 1yr+)" />
+    <input type="date" name="deadlineDate" placeholder="Deadline (YYYY-MM-DD)" />
+    <input name="totalRounds" type="number" placeholder="How many rounds?" required />
+
+    <button type="submit">🚀 Next: Add Rounds</button>
+  </form>
+</body>
+</html>

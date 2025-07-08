@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit DSA Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 3rem 1rem;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: auto;
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1.1rem;
+      color: #e0e0e0;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: monospace;
+    }
+
+    fieldset {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    legend {
+      padding: 0 12px;
+      font-weight: bold;
+      font-size: 1.05rem;
+      color: #9effff;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #111;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: block;
+      margin: 3rem auto 0;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #00b4db, #3dd2aa);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bbb;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>✍️ Edit DSA Round</h2>
+
+    <form action="/rounds/dsa/edit/<%= round._id %>" method="POST">
+      <label>Title:</label>
+      <input type="text" name="title" value="<%= dsaRound.title %>" required>
+
+      <label>Time Limit (minutes):</label>
+      <input type="number" name="timeLimit" value="<%= dsaRound.timeLimit %>" required>
+
+      <h3>🧠 Questions</h3>
+
+      <% dsaRound.questions.forEach((q, index) => { %>
+        <fieldset>
+          <legend>Question <%= index + 1 %></legend>
+
+          <label>Title:</label>
+          <input type="text" name="questions[<%= index %>][title]" value="<%= q.title %>" required>
+
+          <label>Problem Statement:</label>
+          <textarea name="questions[<%= index %>][problemStatement]" required><%= q.problemStatement %></textarea>
+
+          <label>Input Format:</label>
+          <input type="text" name="questions[<%= index %>][inputFormat]" value="<%= q.inputFormat %>">
+
+          <label>Output Format:</label>
+          <input type="text" name="questions[<%= index %>][outputFormat]" value="<%= q.outputFormat %>">
+
+          <label>Constraints:</label>
+          <input type="text" name="questions[<%= index %>][constraints]" value="<%= q.constraints %>">
+
+          <label>Sample Input:</label>
+          <input type="text" name="questions[<%= index %>][sampleInput]" value="<%= q.sampleInput %>">
+
+          <label>Sample Output:</label>
+          <input type="text" name="questions[<%= index %>][sampleOutput]" value="<%= q.sampleOutput %>">
+
+          <label>Solution:</label>
+          <textarea name="questions[<%= index %>][solution]" required><%= q.solution %></textarea>
+        </fieldset>
+      <% }) %>
+
+      <button type="submit">💾 Update Round</button>
+    </form>
+  </div>
+</body>
+</html>

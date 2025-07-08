@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Aptitude Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: #f4f4f4;
+      padding: 3rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1.2rem;
+      color: #e0e0e0;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    select option {
+      background-color: #333;
+    }
+
+    fieldset {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    legend {
+      padding: 0 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #b8fffd;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #111;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: block;
+      margin: 3rem auto 0;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #00b4db, #3dd2aa);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bbb;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🛠️ Edit Aptitude Round</h2>
+
+    <form action="/rounds/aptitude/edit/<%= round._id %>" method="POST">
+      <label>Round Title:</label>
+      <input type="text" name="title" value="<%= round.title %>" required>
+
+      <label>Duration (minutes):</label>
+      <input type="number" name="timeLimit" value="<%= round.duration %>" required>
+
+      <label>Total Marks:</label>
+      <input type="number" name="totalMarks" value="<%= aptitudeRound.totalMarks || '' %>" required>
+
+      <label>Passing Marks:</label>
+      <input type="number" name="passingMarks" value="<%= aptitudeRound.passingMarks || '' %>" required>
+
+      <h3>🧠 Questions</h3>
+
+      <% aptitudeRound.questions.forEach((q, index) => {
+          const optionsCSV = q.options.join(', ');
+      %>
+        <fieldset>
+          <legend>Question <%= index + 1 %></legend>
+
+          <label>Question Text:</label>
+          <input type="text" name="questions[<%= index %>][question]" value="<%= q.question %>" required>
+
+          <label>Options (comma-separated):</label>
+          <input type="text" name="questions[<%= index %>][options]" value="<%= optionsCSV %>" required>
+
+          <label>Correct Answer:</label>
+          <input type="text" name="questions[<%= index %>][correctAnswer]" value="<%= q.correctAnswer %>" required>
+
+          <label>Explanation:</label>
+          <input type="text" name="questions[<%= index %>][explanation]" value="<%= q.explanation || '' %>">
+
+          <label>Difficulty:</label>
+          <select name="questions[<%= index %>][difficulty]" required>
+            <option value="Easy" <%= q.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+            <option value="Medium" <%= q.difficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="Hard" <%= q.difficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+          </select>
+
+          <label>Category:</label>
+          <select name="questions[<%= index %>][category]" required>
+            <option value="Quantitative" <%= q.category === 'Quantitative' ? 'selected' : '' %>>Quantitative</option>
+            <option value="Logical Reasoning" <%= q.category === 'Logical Reasoning' ? 'selected' : '' %>>Logical Reasoning</option>
+            <option value="Verbal Ability" <%= q.category === 'Verbal Ability' ? 'selected' : '' %>>Verbal Ability</option>
+            <option value="Data Interpretation" <%= q.category === 'Data Interpretation' ? 'selected' : '' %>>Data Interpretation</option>
+            <option value="Misc" <%= q.category === 'Misc' ? 'selected' : '' %>>Misc</option>
+          </select>
+        </fieldset>
+      <% }) %>
+
+      <button type="submit">💾 Update Round</button>
+    </form>
+  </div>
+</body>
+</html>

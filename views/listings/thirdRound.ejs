@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="h-screen w-screen flex flex-col overflow-hidden bg-[#1e1e1e] text-white font-sans">
+  <!-- Navbar (Floating Taskbar Style) -->
+  <header id="navbar" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 flex gap-4 p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-xl shadow-lg">
+    <!-- Tool Buttons -->
+    <div class="flex gap-2">
+      <div class="relative">
+        <button id="pen-tool" class="tool-btn active" title="Pen Tool">✏️</button>
+        <div class="tool-settings" data-tool="pen">
+          <input type="color" class="tool-color-picker" value="#ffffff" />
+          <input type="range" class="tool-width-slider" min="1" max="20" value="5" />
+          <span id="pen-width-value">5</span>
+        </div>
+      </div>
+      <div class="relative">
+        <button id="marker-tool" class="tool-btn" title="Marker Tool">🖍️</button>
+        <div class="tool-settings" data-tool="marker">
+          <input type="color" class="tool-color-picker" value="#ff0000" />
+          <input type="range" class="tool-width-slider" min="1" max="30" value="10" />
+          <span id="marker-width-value">10</span>
+        </div>
+      </div>
+      <div class="relative">
+        <button id="text-tool" class="tool-btn" title="Text Tool">🅰️</button>
+        <div class="tool-settings" data-tool="text">
+          <input type="color" class="tool-color-picker" value="#ffffff" />
+          <input type="range" class="tool-width-slider" min="8" max="72" value="16" />
+          <span id="text-size-value">16</span>px
+          <select id="text-font" class="ml-2 bg-white text-black px-1 rounded">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+          </select>
+        </div>
+      </div>
+      <button id="eraser-tool" class="tool-btn" title="Eraser">🧼</button>
+      <button id="shape-tool" class="tool-btn" title="Shape Tool">📐</button>
+      <select id="shape-type" class="ml-2 bg-white text-black px-1 rounded">
+        <option value="rectangle">Rectangle</option>
+        <option value="circle">Circle</option>
+        <option value="arrow">Arrow</option>
+      </select>
+      <button id="select-tool" class="tool-btn" title="Select Tool">🖱️</button>
+    </div>
+
+    <!-- Global Options -->
+    <div class="flex items-center gap-3">
+      <input type="color" id="color-picker" value="#ffffff" class="w-8 h-8 rounded-full cursor-pointer border-none" title="Global Color" />
+      <input type="range" id="stroke-width" min="1" max="20" value="5" class="w-24" title="Global Size" />
+      <span id="stroke-width-value" class="text-xs">5</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex gap-2">
+      <button id="undo-btn" class="tool-btn" title="Undo">↩️</button>
+      <button id="redo-btn" class="tool-btn opacity-50 cursor-not-allowed" title="Redo" disabled>↪️</button>
+      <button id="clear-btn" class="tool-btn bg-red-600 hover:bg-red-700 text-white" title="Clear Canvas">🗑️</button>
+    </div>
+  </header>
+
+  <!-- Canvas Area -->
+  <section id="canvas-container" class="flex-1 relative overflow-hidden bg-[#1e1e1e]">
+    <canvas id="drawing-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+    <div id="text-box-container" class="absolute pointer-events-none"></div>
+  </section>
+</div>
+
+<link rel="stylesheet" href="/css/canvas.css" />
+<script src="/js/script.js" defer></script>

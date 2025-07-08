@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Round Type</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #ffffff;
+    }
+
+    label {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #00c9ff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    option {
+      background: #2c5364;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #00b4db, #3dd2aa);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 201, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Select Round for Job: <%= job.title %></h2>
+
+    <form action="/rounds/select-round/<%= job._id %>" method="POST">
+      <label for="roundType">Choose Round Type:</label>
+      <select name="roundType" id="roundType" required>
+        <option value="">--Select--</option>
+        <option value="MCQ">MCQ</option>
+        <option value="DSA">DSA</option>
+        <option value="Grammar">Grammar</option>
+        <option value="Aptitude">Aptitude</option>
+        <option value="General">General</option>
+        <option value="Voice">Voice</option>
+        <option value="Interview">Interview</option>
+      </select>
+
+      <button type="submit">🚀 Continue</button>
+    </form>
+  </div>
+</body>
+</html>

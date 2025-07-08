@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Grammar Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 3rem 1rem;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #232526, #414345);
+      color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1.1rem;
+      color: #e0e0e0;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: monospace;
+    }
+
+    fieldset {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    legend {
+      padding: 0 12px;
+      font-weight: bold;
+      font-size: 1.05rem;
+      color: #9effff;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #111;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: block;
+      margin: 3rem auto 0;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #00b4db, #3dd2aa);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bbb;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📝 Edit Grammar Round</h2>
+
+    <form action="/rounds/grammar/edit/<%= round._id %>" method="POST">
+      <label>Title:</label>
+      <input type="text" name="title" value="<%= grammarRound.title %>" required>
+
+      <label>Time Limit (in minutes):</label>
+      <input type="number" name="timeLimit" value="<%= grammarRound.timeLimit %>" required>
+
+      <label>Total Marks:</label>
+      <input type="number" name="totalMarks" value="<%= grammarRound.totalMarks %>" required>
+
+      <label>Passing Marks:</label>
+      <input type="number" name="passingMarks" value="<%= grammarRound.passingMarks %>" required>
+
+      <h3>📚 Questions</h3>
+
+      <% grammarRound.questions.forEach((q, index) => { %>
+        <fieldset>
+          <legend>Question <%= index + 1 %></legend>
+
+          <label>Question:</label>
+          <input type="text" name="questions[<%= index %>][question]" value="<%= q.question %>" required>
+
+          <label>Options (comma-separated):</label>
+          <input type="text" name="questions[<%= index %>][options]" value="<%= q.options.join(', ') %>" required>
+
+          <label>Correct Answer:</label>
+          <input type="text" name="questions[<%= index %>][correctAnswer]" value="<%= q.correctAnswer %>" required>
+
+          <label>Explanation:</label>
+          <input type="text" name="questions[<%= index %>][explanation]" value="<%= q.explanation || '' %>">
+
+          <label>Difficulty:</label>
+          <select name="questions[<%= index %>][difficulty]">
+            <option value="Easy" <%= q.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+            <option value="Medium" <%= q.difficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="Hard" <%= q.difficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+          </select>
+
+          <label>Category:</label>
+          <select name="questions[<%= index %>][category]">
+            <option value="Tense" <%= q.category === 'Tense' ? 'selected' : '' %>>Tense</option>
+            <option value="Preposition" <%= q.category === 'Preposition' ? 'selected' : '' %>>Preposition</option>
+            <option value="Conjunction" <%= q.category === 'Conjunction' ? 'selected' : '' %>>Conjunction</option>
+            <option value="Articles" <%= q.category === 'Articles' ? 'selected' : '' %>>Articles</option>
+            <option value="Misc" <%= q.category === 'Misc' ? 'selected' : '' %>>Misc</option>
+          </select>
+        </fieldset>
+      <% }) %>
+
+      <button type="submit">💾 Update Round</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<form action="/add-round/grammar/<%= jobId %>" method="POST">
+  <label>Round Title:</label>
+  <input type="text" name="title" value="Grammar Round" required>
+  <label>Order:</label><br>
+    <input type="number" name="order" min="1" required><br><br>
+
+  <label>Time Limit (minutes):</label>
+  <input type="number" name="timeLimit" required>
+
+  <label>Total Marks:</label>
+  <input type="number" name="totalMarks" required>
+
+  <label>Passing Marks:</label>
+  <input type="number" name="passingMarks" required>
+
+  <div id="question-container">
+    <!-- Question Block Template -->
+    <div class="grammar-question">
+      <h4>Grammar Question 1</h4>
+
+      <label>Question:</label>
+      <textarea name="questions[0][question]" required></textarea>
+
+      <label>Options:</label>
+      <input type="text" name="questions[0][options][]" required placeholder="Option 1">
+      <input type="text" name="questions[0][options][]" required placeholder="Option 2">
+      <input type="text" name="questions[0][options][]" required placeholder="Option 3">
+      <input type="text" name="questions[0][options][]" required placeholder="Option 4">
+
+      <label>Correct Answer:</label>
+      <input type="text" name="questions[0][correctAnswer]" required>
+
+      <label>Explanation:</label>
+      <textarea name="questions[0][explanation]"></textarea>
+
+      <label>Difficulty:</label>
+      <select name="questions[0][difficulty]">
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+
+      <label>Category:</label>
+      <select name="questions[0][category]">
+        <option value="Tense">Tense</option>
+        <option value="Preposition">Preposition</option>
+        <option value="Conjunction">Conjunction</option>
+        <option value="Articles">Articles</option>
+        <option value="Misc">Misc</option>
+      </select>
+
+      <hr>
+    </div>
+  </div>
+
+  <button type="button" id="add-question-btn">➕ Add Another Grammar Question</button>
+  <br><br>
+  <button type="submit">✅ Add Grammar Round</button>
+  <br><br><br><br>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let questionIndex = 1;
+
+    document.getElementById('add-question-btn').addEventListener('click', function () {
+      const container = document.getElementById('question-container');
+
+      const newDiv = document.createElement('div');
+      newDiv.classList.add('grammar-question');
+
+      newDiv.innerHTML = `
+        <h4>Grammar Question ${questionIndex + 1}</h4>
+
+        <label>Question:</label>
+        <textarea name="questions[${questionIndex}][question]" required></textarea>
+
+        <label>Options:</label>
+        <input type="text" name="questions[${questionIndex}][options][]" required placeholder="Option 1">
+        <input type="text" name="questions[${questionIndex}][options][]" required placeholder="Option 2">
+        <input type="text" name="questions[${questionIndex}][options][]" required placeholder="Option 3">
+        <input type="text" name="questions[${questionIndex}][options][]" required placeholder="Option 4">
+
+        <label>Correct Answer:</label>
+        <input type="text" name="questions[${questionIndex}][correctAnswer]" required>
+
+        <label>Explanation:</label>
+        <textarea name="questions[${questionIndex}][explanation]"></textarea>
+
+        <label>Difficulty:</label>
+        <select name="questions[${questionIndex}][difficulty]">
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <label>Category:</label>
+        <select name="questions[${questionIndex}][category]">
+          <option value="Tense">Tense</option>
+          <option value="Preposition">Preposition</option>
+          <option value="Conjunction">Conjunction</option>
+          <option value="Articles">Articles</option>
+          <option value="Misc">Misc</option>
+        </select>
+
+        <hr>
+      `;
+
+      container.appendChild(newDiv);
+      questionIndex++;
+    });
+  });
+</script>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    background-color: #0e0c1f;
+    color: #f1f1f1;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  form {
+    width: 100%;
+    max-width: 850px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(160, 130, 255, 0.15);
+    padding: 2.5rem;
+    box-shadow: 0 0 18px rgba(127, 112, 255, 0.2);
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #b47aff;
+    margin-bottom: 2rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    color: #a89bff;
+    margin: 30px 0 10px;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    display: block;
+    color: #cfcfff;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 5px;
+    border: 1px solid rgba(150, 130, 255, 0.15);
+    border-radius: 8px;
+    background: #1e1c33;
+    color: #f4f4ff;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #836bff;
+    box-shadow: 0 0 6px #836bff88;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: linear-gradient(to right, #6a5af9, #836bff);
+    color: white;
+    box-shadow: 0 0 12px rgba(127, 112, 255, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    background: #5b4dfc;
+    transform: scale(1.03);
+    box-shadow: 0 0 18px rgba(140, 120, 255, 0.4);
+  }
+
+  #add-question-btn {
+    background: linear-gradient(to right, #fc466b, #3f5efb);
+    margin-bottom: 1rem;
+  }
+
+  hr {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    margin: 1.5rem 0;
+  }
+
+  .grammar-question {
+    padding-bottom: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    form {
+      padding: 1.5rem;
+    }
+
+    button {
+      font-size: 0.9rem;
+    }
+  }
+</style>

@@ -1,0 +1,287 @@
+<% layout("/layouts/boilerplate") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= user.fullName %>'s Public Profile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap');
+
+  :root {
+    --bg-gradient: linear-gradient(135deg, #1c1f2b, #2e3548, #202632);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --glass-blur: blur(14px);
+    --primary: #60a5fa;
+    --accent: #a78bfa;
+    --text: #f3f4f6;
+    --subtext: #d1d5db;
+    --border: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    margin: 0;
+    padding: 2rem;
+    font-family: 'Noto Serif JP', serif;
+    background: var(--bg-gradient);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .box {
+    background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+
+  .box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--subtext);
+  }
+
+  strong {
+    color: var(--accent);
+  }
+
+  ul {
+    padding-left: 1.5rem;
+    margin-top: 0.8rem;
+  }
+
+  li {
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: #3b82f6;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 1rem;
+    }
+
+    .box {
+      padding: 1.25rem 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- Basic Info -->
+  <div class="box">
+    <h2>👤 Basic Info</h2>
+    <p><strong>Name:</strong> <%= user.fullName %></p>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>Phone:</strong> <%= user.phone || 'N/A' %></p>
+    <p><strong>Location:</strong>
+      <%= user.location?.city || '' %>,
+      <%= user.location?.state || '' %>,
+      <%= user.location?.country || '' %>
+    </p>
+    <p><strong>Role:</strong> <%= user.role %></p>
+    <p><strong>Date of Birth:</strong> <%= user.dob?.toDateString() || 'N/A' %></p>
+  </div>
+
+  <!-- Resume -->
+  <% if (user.resumeFile?.url) { %>
+    <div class="box">
+      <h2>📄 Resume</h2>
+      <a href="<%= user.resumeFile.url %>" target="_blank">Download/View Resume</a>
+    </div>
+  <% } %>
+
+  <!-- College Details -->
+  <div class="box">
+    <h2>🎓 College Details</h2>
+    <% const college = user.resumeExtractedData?.collegeDetails || {}; %>
+    <p><strong>College Name:</strong> <%= college.collegeName || 'N/A' %></p>
+    <p><strong>Degree:</strong> <%= college.degree || 'N/A' %></p>
+    <p><strong>Start Year:</strong> <%= college.startYear || 'N/A' %></p>
+    <p><strong>End Year:</strong> <%= college.endYear || 'N/A' %></p>
+    <p><strong>CGPA:</strong> <%= college.cgpa || 'N/A' %></p>
+  </div>
+
+  <!-- Skills -->
+  <div class="box">
+    <h2>⚙️ Skills</h2>
+    <% if (user.resumeExtractedData?.skills?.length) { %>
+      <ul>
+        <% user.resumeExtractedData.skills.forEach(skill => { %>
+          <li><%= skill %></li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No skills listed.</p>
+    <% } %>
+  </div>
+
+  <!-- Experience -->
+  <div class="box">
+    <h2>💼 Experience</h2>
+    <% if (user.resumeExtractedData?.experience?.length) { %>
+      <ul>
+        <% user.resumeExtractedData.experience.forEach(exp => { %>
+          <li>
+            <strong><%= exp.position %></strong> at <%= exp.company %>
+            (<%= exp.startDate || '?' %> - <%= exp.endDate || '?' %>)<br>
+            <em><%= exp.type %>, <%= exp.mode %></em><br>
+            <%= exp.description || 'No description' %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No experience listed.</p>
+    <% } %>
+  </div>
+
+  <!-- Projects -->
+  <div class="box">
+    <h2>🚀 Projects</h2>
+    <% if (user.resumeExtractedData?.projects?.length) { %>
+      <ul>
+        <% user.resumeExtractedData.projects.forEach(proj => { %>
+          <li>
+            <strong><%= proj.title %></strong><br>
+            <%= proj.description %><br>
+            Tech: <%= proj.technologies?.join(', ') || 'N/A' %><br>
+            <% if (proj.links?.github) { %>
+              GitHub: <a href="<%= proj.links.github %>" target="_blank"><%= proj.links.github %></a><br>
+            <% } %>
+            <% if (proj.links?.liveSite) { %>
+              Live: <a href="<%= proj.links.liveSite %>" target="_blank"><%= proj.links.liveSite %></a>
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No projects listed.</p>
+    <% } %>
+  </div>
+
+  <!-- Certifications -->
+  <div class="box">
+    <h2>🎖️ Certifications</h2>
+    <% if (user.resumeExtractedData?.certifications?.length) { %>
+      <ul>
+        <% user.resumeExtractedData.certifications.forEach(cert => { %>
+          <li><%= cert.title %> - <a href="<%= cert.link %>" target="_blank">View</a></li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No certifications listed.</p>
+    <% } %>
+  </div>
+
+  <!-- Awards & Hobbies -->
+  <div class="box">
+    <h2>🏆 Awards & Hobbies</h2>
+    <% if (user.resumeExtractedData?.awardsAndHobbies?.length) { %>
+      <ul>
+        <% user.resumeExtractedData.awardsAndHobbies.forEach(item => { %>
+          <li><strong><%= item.title %></strong>: <%= item.description %>
+            <% if (item.link) { %>- <a href="<%= item.link %>" target="_blank">Link</a><% } %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No awards or hobbies listed.</p>
+    <% } %>
+  </div>
+
+  <!-- Platform Stats -->
+  <div class="box">
+    <h2>📊 Platform Stats</h2>
+    <p><strong>Total Points:</strong> <%= user.totalPoints || 0 %></p>
+    <p><strong>Level:</strong> <%= user.level || 1 %></p>
+    <p><strong>Streak:</strong> <%= user.streak || 0 %> days</p>
+  </div>
+
+<!-- Solved Questions -->
+<div class="box">
+  <h2>✅ Solved Questions</h2>
+  <% if (user.solvedQuestions?.length) { %>
+    <p>Total Solved: <%= user.solvedQuestions.length %></p>
+  <% } else { %>
+    <p>No questions solved yet.</p>
+  <% } %>
+  </div>
+
+  <!-- Profile Links -->
+  <div class="box">
+    <h2>🔗 Profile Links</h2>
+    <% const links = user.portfolioLinks || {}; %>
+    <p><strong>GitHub:</strong>
+      <% if (links.github) { %>
+        <a href="<%= links.github %>" target="_blank"><%= links.github %></a>
+      <% } else { %> N/A <% } %>
+    </p>
+    <p><strong>LinkedIn:</strong>
+      <% if (links.linkedin) { %>
+        <a href="<%= links.linkedin %>" target="_blank"><%= links.linkedin %></a>
+      <% } else { %> N/A <% } %>
+    </p>
+    <p><strong>Portfolio:</strong>
+      <% if (links.portfolio) { %>
+        <a href="<%= links.portfolio %>" target="_blank"><%= links.portfolio %></a>
+      <% } else { %> N/A <% } %>
+    </p>
+  </div>
+
+  <!-- Applied Jobs -->
+  <div class="box">
+    <h2>📄 Applied Jobs</h2>
+    <% if (!user.appliedJobs?.length) { %>
+      <p>No job applications found.</p>
+    <% } else { %>
+      <ul>
+        <% user.appliedJobs.forEach(app => { %>
+          <li>
+            <strong><%= app.jobId?.title || 'Deleted Job' %></strong> -
+            Status: <%= app.status || 'Pending' %> |
+            Applied on: <%= new Date(app.appliedAt).toLocaleDateString() %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+
+</body>
+</html>

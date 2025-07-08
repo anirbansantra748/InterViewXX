@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit General Round</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+      background: #ffffff;
+      padding: 2.5rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.2rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fdfdfd;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    fieldset {
+      border: 1px solid #ddd;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 12px;
+      color: #1976d2;
+    }
+
+    button {
+      background: linear-gradient(to right, #42a5f5, #478ed1);
+      color: white;
+      padding: 14px 28px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 3rem auto 0;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #1e88e5, #2962ff);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>✏️ Edit General Round</h2>
+
+    <form action="/rounds/general/edit/<%= round._id %>" method="POST">
+      <label>Title:</label>
+      <input type="text" name="title" value="<%= generalRound.title %>" required>
+
+      <label>Duration (minutes):</label>
+      <input type="number" name="timeLimit" value="<%= generalRound.timeLimit %>" required>
+
+      <label>Total Marks:</label>
+      <input type="number" name="totalMarks" value="<%= generalRound.totalMarks %>" required>
+
+      <label>Passing Marks:</label>
+      <input type="number" name="passingMarks" value="<%= generalRound.passingMarks %>" required>
+
+      <h3>📋 Questions</h3>
+
+      <% generalRound.questions.forEach((q, index) => { %>
+        <fieldset>
+          <legend>Question <%= index + 1 %></legend>
+
+          <label>Question Text:</label>
+          <input type="text" name="questions[<%= index %>][question]" value="<%= q.question %>" required>
+
+          <label>Options (comma-separated):</label>
+          <input type="text" name="questions[<%= index %>][options]" value="<%= q.options.join(', ') %>" required>
+
+          <label>Correct Answer:</label>
+          <input type="text" name="questions[<%= index %>][correctAnswer]" value="<%= q.correctAnswer %>" required>
+
+          <label>Explanation:</label>
+          <input type="text" name="questions[<%= index %>][explanation]" value="<%= q.explanation || '' %>">
+
+          <label>Difficulty:</label>
+          <select name="questions[<%= index %>][difficulty]" required>
+            <option value="Easy" <%= q.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+            <option value="Medium" <%= q.difficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="Hard" <%= q.difficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+          </select>
+
+          <label>Category:</label>
+          <select name="questions[<%= index %>][category]" required>
+            <option value="General Awareness" <%= q.category === 'General Awareness' ? 'selected' : '' %>>General Awareness</option>
+            <option value="Current Affairs" <%= q.category === 'Current Affairs' ? 'selected' : '' %>>Current Affairs</option>
+            <option value="Computer Basics" <%= q.category === 'Computer Basics' ? 'selected' : '' %>>Computer Basics</option>
+            <option value="Misc" <%= q.category === 'Misc' ? 'selected' : '' %>>Misc</option>
+          </select>
+        </fieldset>
+      <% }) %>
+
+      <button type="submit">💾 Update Round</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat with <%= otherUser?.username || 'Unknown' %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f1a; color: white;
+      display: flex; flex-direction: column; height: 100vh;
+    }
+
+    .chat-header {
+      padding: 1rem 1.5rem;
+      background: #1a1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2c2c44;
+    }
+    .chat-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #c9c9ff;
+    }
+    .chat-header .left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .chat-header .dot {
+      width: 10px;
+      height: 10px;
+      background: #34d399;
+      border-radius: 50%;
+    }
+
+    .chat-header .right {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .chat-header input[type="text"] {
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.6rem;
+      border: none;
+      background: #0f0f1f;
+      color: #fff;
+      font-size: 0.8rem;
+    }
+    .chat-header button {
+      padding: 0.45rem 0.8rem;
+      background: #6366f1;
+      border: none;
+      border-radius: 0.6rem;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .chat-header button:hover {
+      background: #7a7df8;
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .message {
+      max-width: 65%;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      border-radius: 1.2rem;
+      word-wrap: break-word;
+    }
+
+    .my-msg {
+      align-self: flex-end;
+      background: #6366f1;
+      color: white;
+      border-bottom-right-radius: 0;
+    }
+
+    .their-msg {
+      align-self: flex-start;
+      background: #2d2d4a;
+      color: #eee;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 1rem 1.5rem;
+      background: #1a1a2e;
+      border-top: 1px solid #2c2c44;
+    }
+
+    .chat-input input[type="text"] {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border-radius: 2rem;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      background: #0f0f1f;
+      color: white;
+    }
+
+    .chat-input button {
+      margin-left: 0.7rem;
+      background: #6366f1;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+    }
+
+    .chat-input button:hover {
+      background: #7a7df8;
+    }
+
+    @media screen and (max-width: 768px) {
+      .chat-header h2 { font-size: 1rem; }
+      .chat-input input { font-size: 0.85rem; }
+      .chat-input button { padding: 0.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 👤 Top Bar -->
+  <div class="chat-header">
+    <div class="left">
+      <div class="dot"></div>
+      <h2><%= otherUser?.username || 'Unknown' %></h2>
+    </div>
+
+    <div class="right">
+      <% if (currentUser.role === "recruiter") { %>
+        <form action="/video/create" method="GET">
+          <input type="hidden" name="roomId" value="<%= chat._id %>">
+          <button type="submit">📹 Create Room</button>
+        </form>
+      <% } else { %>
+        <form action="/video/join" method="GET" style="display: flex; gap: 0.5rem;">
+          <input type="text" name="roomId" placeholder="Room ID" required>
+          <button type="submit">Join</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- 💬 Messages -->
+  <div class="chat-body" id="chat-box">
+    <% if (chat?.messages?.length > 0) { %>
+      <% chat.messages.forEach(msg => { %>
+        <div class="message <%= msg.sender?._id.toString() === currentUser._id.toString() ? 'my-msg' : 'their-msg' %>">
+          <%= msg.content %>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p style="text-align: center; color: #888;">No messages yet.</p>
+    <% } %>
+  </div>
+
+  <!-- ✏️ Input -->
+  <form class="chat-input" action="/chats/send-message" method="POST">
+    <input type="hidden" name="chatId" value="<%= chat._id %>">
+    <input type="hidden" name="senderId" value="<%= currentUser._id %>">
+    <input type="hidden" name="receiverId" value="<%= otherUserId %>">
+    <input type="text" name="content" placeholder="Type a message..." required>
+    <button type="submit">Send</button>
+  </form>
+
+</body>
+</html>

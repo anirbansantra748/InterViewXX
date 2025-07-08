@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= round.title %> - Aptitude Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      margin: 0;
+      padding: 2rem;
+      color: #f1f1f1;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px;
+      max-width: 850px;
+      margin: auto;
+      padding: 3rem 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #ffffff;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #ff7675;
+      margin-bottom: 2rem;
+    }
+
+    .question-block {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 1.5rem;
+    }
+
+    .category-badge {
+      background: #3498db;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      display: inline-block;
+      margin-bottom: 0.3rem;
+    }
+
+    .difficulty-tag {
+      font-size: 0.8rem;
+      color: #bbb;
+      margin-left: 10px;
+    }
+
+    .question-text {
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 0.6rem 0 1rem;
+      line-height: 1.4;
+    }
+
+    .option {
+      background: rgba(255, 255, 255, 0.07);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 6px 0;
+      transition: background 0.2s ease;
+    }
+
+    .option:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .option input {
+      margin-right: 10px;
+      transform: scale(1.1);
+      accent-color: #00cec9;
+    }
+
+    small {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: #ddd;
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin-top: 2rem;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #00b4db, #3dd2aa);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 2rem 1rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      .question-text {
+        font-size: 0.95rem;
+      }
+
+      .timer {
+        font-size: 1rem;
+      }
+    }
+  </style>
+
+  <script>
+    let timeLeft = 300;
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      const form = document.getElementById("aptitudeForm");
+
+      const interval = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          alert("⏰ Time is up! Submitting automatically...");
+          form.submit();
+        }
+
+        timeLeft--;
+      }, 1000);
+    }
+
+    window.onload = startTimer;
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <h2><%= round.title %> - Aptitude Test</h2>
+    <p class="timer">⏳ Time Left: <span id="timer"></span></p>
+
+    <form id="aptitudeForm" method="POST" action="/rounds/submit-round/<%= round._id %>">
+      <% round.roundContent.questions.forEach((q, index) => { %>
+        <div class="question-block">
+          <div class="category-badge"><%= q.category %></div>
+          <span class="difficulty-tag">[<%= q.difficulty %>]</span>
+
+          <div class="question-text"><%= index + 1 %>. <%= q.question %></div>
+
+          <% q.options.forEach(opt => { %>
+            <div class="option">
+              <label>
+                <input type="radio" name="answers[<%= q._id %>]" value="<%= opt %>" required>
+                <%= opt %>
+              </label>
+            </div>
+          <% }) %>
+
+          <% if (q.explanation) { %>
+            <small><i>Note: <%= q.explanation %></i></small>
+          <% } %>
+        </div>
+      <% }) %>
+
+      <button type="submit">✅ Submit Answers</button>
+    </form>
+  </div>
+
+</body>
+</html>

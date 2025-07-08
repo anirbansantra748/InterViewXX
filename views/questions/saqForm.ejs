@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+<div class="min-h-screen bg-[#1e1e1e] text-white px-6 py-10 flex justify-center">
+  <form action="/questions/new/saq" method="POST" class="w-full max-w-2xl bg-[#2a2a2a] p-8 rounded-xl shadow-lg space-y-6">
+    <h1 class="text-3xl font-bold text-center mb-4">Add a New SAQ (Short Answer)</h1>
+
+    <!-- Question -->
+    <div>
+      <label class="block mb-2 text-sm font-medium">Question</label>
+      <textarea name="question" required rows="4" class="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    </div>
+
+    <!-- Expected Answer -->
+    <div>
+      <label class="block mb-2 text-sm font-medium">Answer (Expected)</label>
+      <textarea name="answer" required rows="3" class="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600 resize-none focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+    </div>
+
+    <!-- Tags -->
+    <div>
+      <label class="block mb-2 text-sm font-medium">Tags (comma separated)</label>
+      <input type="text" name="tags" placeholder="e.g., database,os,theory" class="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+    </div>
+
+    <!-- Explanation (optional) -->
+    <div>
+      <label class="block mb-2 text-sm font-medium">Explanation (optional)</label>
+      <textarea name="explanation" rows="2" class="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-white transition">
+        ✅ Submit SAQ
+      </button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

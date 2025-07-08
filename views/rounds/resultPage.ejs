@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= round.title %> - Result</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f0036, #3b0066);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 40px 35px;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .container.passed-glow {
+      box-shadow: 0 0 25px #00ffb760, 0 0 40px #9f7bff50;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .message {
+      font-size: 18px;
+      margin: 12px 0;
+      color: #ddd;
+    }
+
+    .highlight {
+      color: #9f7bff;
+      font-weight: bold;
+    }
+
+    .passed {
+      color: #00ffb7;
+      font-weight: bold;
+    }
+
+    .failed {
+      color: #ff4e6b;
+      font-weight: bold;
+    }
+
+    .btn {
+      margin-top: 30px;
+      display: inline-block;
+      background: #9f7bff;
+      color: white;
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(159, 123, 255, 0.5);
+    }
+
+    .btn:hover {
+      background: #b88cff;
+      transform: translateY(-2px);
+    }
+
+    .confetti {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 32px;
+      animation: pop 0.4s ease-in-out forwards;
+    }
+
+    @keyframes pop {
+      0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateX(-50%) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container <%= result.score >= passingMarks ? 'passed-glow' : '' %>">
+    <h1>🎯 Round Completed</h1>
+
+    <% if (roundType === 'DSA') { %>
+      <p class="message passed">✅ Your answers have been submitted for manual review.</p>
+      <p class="message">You'll receive your results once evaluated by the recruiter.</p>
+    <% } else { %>
+      <p class="message">Round Title: <span class="highlight"><%= round.title %></span></p>
+      <p class="message">Your Score: <span class="highlight"><%= result.score %></span> / <span class="highlight"><%= result.total %></span></p>
+      <p class="message">Passing Marks: <span class="highlight"><%= passingMarks %></span></p>
+
+      <% if (result.score >= passingMarks) { %>
+        <p class="message passed">✅ You have unlocked the next round.</p>
+      <% } else { %>
+        <p class="message failed">❌ You need to score at least <%= passingMarks %> to unlock the next round.</p>
+      <% } %>
+    <% } %>
+
+    <a href="/jobs/<%= jobId %>" class="btn">🔙 Back to Job Details</a>
+  </div>
+
+  <% if (result.score >= passingMarks) { %>
+    <div class="confetti">🎉 🎊 🎉 🎊 🎉 🎊</div>
+  <% } %>
+
+</body>
+</html>

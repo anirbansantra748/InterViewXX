@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Question</title>
+  <style>
+    /* GLOBAL RESET AND BOX FIX */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f0036, #3b0066);
+      color: #fff;
+      min-height: 100vh;
+      padding: 40px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .form-container {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      background: rgba(30, 30, 30, 0.9);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #9f7bff;
+      box-shadow: 0 0 0 2px rgba(159, 123, 255, 0.3);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .form-actions a,
+    .form-actions button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .form-actions a {
+      background-color: #444;
+      color: white;
+    }
+
+    .form-actions a:hover {
+      background-color: #666;
+    }
+
+    .form-actions button {
+      background-color: #9f7bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-actions button:hover {
+      background-color: #b88cff;
+    }
+  </style>
+</head>
+<body>
+
+  <form action="/questions/<%= question._id %>?_method=PUT" method="POST" class="form-container">
+    <h1>✏️ Edit Question</h1>
+
+    <!-- Question Text -->
+    <div>
+      <label>Question</label>
+      <textarea name="questionText" rows="3" required><%= question.questionText %></textarea>
+    </div>
+
+    <!-- Options (MCQ) -->
+    <% if (question.type === 'mcq') { %>
+      <% question.options.forEach((opt, i) => { %>
+        <div>
+          <label>Option <%= i + 1 %></label>
+          <input type="text" name="options[]" value="<%= opt %>" required />
+        </div>
+      <% }) %>
+
+      <div>
+        <label>Correct Option (must match exactly)</label>
+        <input type="text" name="correctAnswer" value="<%= question.correctAnswer %>" required />
+      </div>
+    <% } else { %>
+      <!-- SAQ Answer -->
+      <div>
+        <label>Answer</label>
+        <input type="text" name="correctAnswer" value="<%= question.correctAnswer %>" required />
+      </div>
+    <% } %>
+
+    <!-- Tags -->
+    <div>
+      <label>Tags (comma separated)</label>
+      <input type="text" name="tags" value="<%= question.tags.join(',') %>" />
+    </div>
+
+    <!-- Difficulty -->
+    <div>
+      <label>Difficulty</label>
+      <select name="difficulty">
+        <option value="easy" <%= question.difficulty === 'easy' ? 'selected' : '' %>>Easy</option>
+        <option value="medium" <%= question.difficulty === 'medium' ? 'selected' : '' %>>Medium</option>
+        <option value="hard" <%= question.difficulty === 'hard' ? 'selected' : '' %>>Hard</option>
+      </select>
+    </div>
+
+    <!-- Explanation -->
+    <div>
+      <label>Explanation (optional)</label>
+      <textarea name="explanation" rows="2"><%= question.explanation || '' %></textarea>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <a href="/questions/<%= question._id %>">← Cancel</a>
+      <button type="submit">💾 Save Changes</button>
+    </div>
+  </form>
+
+</body>
+</html>

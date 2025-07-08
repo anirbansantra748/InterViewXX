@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= round.title %> - MCQ Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: #0e0c1f;
+      color: #f4f4ff;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(160, 130, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 2.5rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 850px;
+      box-shadow: 0 0 18px rgba(127, 112, 255, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      color: #b47aff;
+      margin-bottom: 1.5rem;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 1rem;
+      color: #ff8585;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-block {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(160, 130, 255, 0.1);
+    }
+
+    .question-text {
+      font-weight: 600;
+      color: #ffd9fb;
+      margin-bottom: 10px;
+    }
+
+    .option {
+      margin: 6px 0;
+    }
+
+    label {
+      color: #d9d9ff;
+      font-size: 0.95rem;
+    }
+
+    input[type="radio"] {
+      accent-color: #836bff;
+      margin-right: 8px;
+    }
+
+    small {
+      display: block;
+      margin-top: 10px;
+      color: #a0a0ff;
+      font-size: 0.85rem;
+    }
+
+    button {
+      background: linear-gradient(to right, #6a5af9, #836bff);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      display: block;
+      margin: 2rem auto 0;
+      width: 100%;
+      box-shadow: 0 0 12px rgba(127, 112, 255, 0.3);
+      transition: 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #5b4dfc;
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    let timeLeft = 300; // seconds
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      const form = document.getElementById("roundForm");
+
+      const interval = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          alert("⏰ Time is up! Auto-submitting...");
+          form.submit();
+        }
+
+        timeLeft--;
+      }, 1000);
+    }
+
+    window.onload = startTimer;
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <h2><%= round.title %> (MCQ Round)</h2>
+    <p class="timer">⏳ Time Left: <span id="timer"></span></p>
+
+    <form id="roundForm" method="POST" action="/rounds/submit-round/<%= round._id %>">
+      <% if (round.roundContent && round.roundContent.questions && round.roundContent.questions.length > 0) { %>
+        <% round.roundContent.questions.forEach((q, index) => { %>
+          <div class="question-block">
+            <div class="question-text"><%= index + 1 %>. <%= q.questionText %></div>
+
+            <% q.options.forEach(opt => { %>
+              <div class="option">
+                <label>
+                  <input type="radio" name="answers[<%= q._id %>]" value="<%= opt.text %>" required>
+                  <%= opt.text %>
+                </label>
+              </div>
+            <% }) %>
+
+            <% if (q.explanation) { %>
+              <small><i>(Explanation: <%= q.explanation %>)</i></small>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No questions available in this round.</p>
+      <% } %>
+
+      <button type="submit">✅ Submit</button>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Tailwind CSS CDN with config enabled -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-purple': '#1f0036',
+            'vibrant-pink': '#3b0066',
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Optional: Add Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"
+</head>
+<body>
+
+<div class="min-h-screen bg-gradient-to-br from-[#1f0036] to-[#3b0066] text-white px-4 md:px-8 py-10">
+  <!-- Header & Filters -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+    <h1 class="text-4xl font-bold text-center md:text-left">📘 All Questions</h1>
+
+    <!-- Filter Form -->
+    <form action="/questions" method="GET" class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+      <input
+        type="text"
+        name="search"
+        placeholder="🔍 Search question..."
+        class="w-full md:w-64 px-4 py-2 rounded-lg bg-[#2e1a47] text-white border border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-gray-400"
+      />
+      <select
+        name="type"
+        class="w-full md:w-48 px-4 py-2 rounded-lg bg-[#2e1a47] text-white border border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">🧮 All Types</option>
+        <option value="mcq">MCQ</option>
+        <option value="saq">SAQ</option>
+      </select>
+      <select
+        name="tag"
+        class="w-full md:w-48 px-4 py-2 rounded-lg bg-[#2e1a47] text-white border border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-400"
+      >
+        <option value="">🏷️ All Tags</option>
+        <option value="coding">Coding</option>
+        <option value="math">Math</option>
+        <option value="aptitude">Aptitude</option>
+      </select>
+      <button
+        type="submit"
+        class="px-6 py-2 bg-gradient-to-tr from-violet-600 to-purple-500 hover:from-purple-600 hover:to-violet-700 rounded-lg text-white font-semibold shadow-md transition-all"
+      >
+        🔎 Apply
+      </button>
+    </form>
+  </div>
+
+  <% if (questions.length === 0) { %>
+    <p class="text-center text-gray-300 text-lg mt-10">No questions found. Try adjusting your filters.</p>
+  <% } else { %>
+    <!-- Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+      <% questions.forEach(q => { %>
+        <a href="/questions/<%= q._id %>" class="block transition-all hover:scale-[1.015]">
+          <div class="rounded-2xl p-5 shadow-lg border border-white/10 backdrop-blur-lg bg-white/5 hover:bg-white/10 transition-all duration-200">
+            <div class="flex justify-between items-center text-xs mb-3">
+              <span class="px-2 py-1 rounded-full text-white font-semibold
+                <% if (q.type === 'mcq') { %> bg-blue-600 <% } else { %> bg-green-600 <% } %>">
+                <%= q.type.toUpperCase() %>
+              </span>
+              <span class="text-gray-300"><%= new Date(q.createdAt).toLocaleDateString() %></span>
+            </div>
+
+            <h2 class="text-base font-semibold mb-2 text-white leading-snug">
+              <%= q.questionText.length > 100 ? q.questionText.slice(0, 100) + '...' : q.questionText %>
+            </h2>
+
+            <div class="flex flex-wrap gap-2 mt-3 text-xs">
+              <% q.tags.forEach(tag => { %>
+                <span class="bg-[#1f0036] border border-gray-600 px-2 py-1 rounded text-gray-300 hover:text-white hover:border-purple-400 transition">
+                  #<%= tag %>
+                </span>
+              <% }) %>
+            </div>
+
+            <div class="mt-4 text-xs text-gray-300 flex justify-between">
+              <span>🎯 Difficulty: <span class="capitalize text-white"><%= q.difficulty %></span></span>
+              <span>💠 Points: <%= q.points || 5 %></span>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+</body>
+</html>

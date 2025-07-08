@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+<div class="min-h-screen bg-gradient-to-br from-[#1f0036] to-[#3b0066] text-white px-4 md:px-6 py-10 flex justify-center">
+  <form action="/questions/new/mcq" method="POST" class="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-xl shadow-2xl space-y-6">
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-center mb-6 text-white">➕ Add a New MCQ</h1>
+
+    <!-- Question Number -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-gray-200">Question Number</label>
+      <input
+        type="number"
+        name="number"
+        min="1"
+        required
+        placeholder="Enter question number"
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder-gray-400"
+      />
+    </div>
+
+    <!-- Title -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-gray-200">Title</label>
+      <input
+        type="text"
+        name="title"
+        required
+        placeholder="Enter question title"
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+      />
+    </div>
+
+    <!-- Question -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-gray-200">Question</label>
+      <textarea
+        name="question"
+        rows="3"
+        required
+        placeholder="Type the full question here"
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-gray-600 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+      ></textarea>
+    </div>
+
+    <!-- Options -->
+    <% for (let i = 1; i <= 4; i++) { %>
+      <div>
+        <label class="block mb-1 text-sm font-semibold text-gray-200">Option <%= i %></label>
+        <input
+          type="text"
+          name="options[]"
+          required
+          placeholder="Option <%= i %>"
+          class="w-full p-3 rounded bg-[#2e1a47] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+        />
+      </div>
+    <% } %>
+
+    <!-- Correct Option -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-green-300">Correct Option Number (1-4)</label>
+      <input
+        type="number"
+        name="correctIndex"
+        min="1"
+        max="4"
+        required
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
+
+    <!-- Tags -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-purple-300">Tags (comma separated)</label>
+      <input
+        type="text"
+        name="tags"
+        placeholder="e.g., coding, aptitude, math"
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400"
+      />
+    </div>
+
+    <!-- Explanation -->
+    <div>
+      <label class="block mb-2 text-sm font-semibold text-yellow-300">Explanation (optional)</label>
+      <textarea
+        name="explanation"
+        rows="2"
+        placeholder="Add explanation or leave blank"
+        class="w-full p-3 rounded bg-[#2e1a47] text-white border border-yellow-600 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 placeholder-gray-400"
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button
+        type="submit"
+        class="px-6 py-3 bg-gradient-to-tr from-violet-600 to-purple-500 hover:from-purple-600 hover:to-violet-700 rounded-lg font-semibold text-white shadow-md transition-all duration-200"
+      >
+        ✅ Submit MCQ
+      </button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

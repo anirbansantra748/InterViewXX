@@ -1,0 +1,186 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+    font-family: 'Poppins', sans-serif;
+    padding: 40px 20px;
+    color: #fff;
+  }
+
+  .register-form {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+    border-radius: 16px;
+    display: grid;
+    gap: 18px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  h2, h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffc26f;
+    border-bottom: 1px solid #ffffff15;
+    padding-bottom: 5px;
+    margin-top: 25px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-size: 0.95rem;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #bbb;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  input[type="file"] {
+    background: none;
+  }
+
+  button {
+    background: #4a47a3;
+    padding: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    background: #6f6cc8;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  .section {
+    margin-top: 15px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .register-form {
+      padding: 20px;
+    }
+  }
+</style>
+
+<form class="register-form" action="/users/register" method="POST" enctype="multipart/form-data">
+  <h2>📝 Register New Account</h2>
+  <div class="grid-2">
+    <input type="text" name="username" placeholder="Username (Email)" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="text" name="fullName" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="date" name="dob">
+    <select name="gender">
+      <option value="">Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+    <input type="text" name="phone" placeholder="Phone Number">
+    <select name="role">
+      <option value="user" selected>User</option>
+      <option value="recruiter">Recruiter</option>
+    </select>
+    <input type="text" name="city" placeholder="City">
+    <input type="text" name="state" placeholder="State">
+    <input type="text" name="country" placeholder="Country">
+  </div>
+
+  <h3>🌐 Portfolio Links</h3>
+  <div class="grid-2">
+    <input type="text" name="github" placeholder="GitHub Profile">
+    <input type="text" name="linkedin" placeholder="LinkedIn Profile">
+    <input type="text" name="portfolio" placeholder="Portfolio Site">
+  </div>
+
+  <h3>🖼️ Uploads</h3>
+  <div class="grid-2">
+    <label>Profile Image:<input type="file" name="profileImage"></label>
+    <label>Resume File:<input type="file" name="resumeFile"></label>
+  </div>
+
+  <h3>📘 College Details</h3>
+  <div class="grid-2">
+    <input type="text" name="collegeName" placeholder="College Name">
+    <input type="text" name="degree" placeholder="Degree">
+    <input type="text" name="startYear" placeholder="Start Year">
+    <input type="text" name="endYear" placeholder="End Year">
+    <input type="text" name="cgpa" placeholder="CGPA">
+  </div>
+
+  <h3>💼 Skills</h3>
+  <input type="text" name="skills" placeholder="e.g. JavaScript, Node.js">
+
+  <h3>🧑‍💼 Experience</h3>
+  <div class="grid-2">
+    <input type="text" name="expCompany" placeholder="Company Name">
+    <input type="text" name="expPosition" placeholder="Position">
+    <input type="text" name="expDuration" placeholder="Duration">
+    <input type="text" name="expRole" placeholder="Job Role">
+    <input type="text" name="expStartDate" placeholder="Start Date (YYYY-MM-DD)">
+    <input type="text" name="expEndDate" placeholder="End Date (YYYY-MM-DD)">
+    <select name="expType">
+      <option>Internship</option>
+      <option>Full-time</option>
+    </select>
+    <select name="expMode">
+      <option>Remote</option>
+      <option>On-site</option>
+    </select>
+  </div>
+  <textarea name="expDescription" placeholder="Describe your responsibilities..."></textarea>
+
+  <h3>🚀 Projects</h3>
+  <div class="grid-2">
+    <input type="text" name="projTitle" placeholder="Project Title">
+    <input type="text" name="projTech" placeholder="Technologies (comma-separated)">
+    <input type="text" name="projGithub" placeholder="GitHub Link">
+    <input type="text" name="projLiveSite" placeholder="Live Site Link">
+  </div>
+  <textarea name="projDescription" placeholder="Project Description"></textarea>
+
+  <h3>🎓 Certifications</h3>
+  <div class="grid-2">
+    <input type="text" name="certTitle" placeholder="Certificate Title">
+    <input type="text" name="certLink" placeholder="Certificate Link">
+  </div>
+
+  <h3>🏅 Awards & Hobbies</h3>
+  <div class="grid-2">
+    <input type="text" name="awardTitle" placeholder="Award / Hobby Title">
+    <input type="text" name="awardLink" placeholder="Supporting Link">
+  </div>
+  <textarea name="awardDescription" placeholder="Tell us more..."></textarea>
+
+  <button type="submit">✨ Register Now</button>
+</form>

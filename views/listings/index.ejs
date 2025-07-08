@@ -1,0 +1,206 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background-color: #0e0c1f;
+    background-image: linear-gradient(to right, #1a1333, #121020);
+    color: #f0f0f0;
+    font-family: 'Poppins', sans-serif;
+    padding: 30px 30px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(110, 100, 255, 0.1);
+    backdrop-filter: blur(18px);
+  }
+
+  .search-bar form {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    color: #fff;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  .search-bar input::placeholder {
+    color: #bbb;
+  }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 35px;
+  }
+
+  .tag-btn {
+    padding: 8px 16px;
+    background: #7a5ffb;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+
+  .tag-btn:hover {
+    background: #9c7cff;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #d5caff;
+    border-left: 4px solid #a679ff;
+    padding-left: 12px;
+    margin-bottom: 16px;
+    margin-top: 40px;
+  }
+
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+
+  .question-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 20px;
+    transition: 0.3s ease;
+  }
+
+  .question-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(127, 112, 255, 0.2);
+  }
+
+  .question-card h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+
+  .question-card p {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 12px;
+  }
+
+  .question-card a {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+    color: #111;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s ease;
+  }
+
+  .question-card a:hover {
+    background: linear-gradient(to right, #c2ffd8, #465efb);
+    color: #000;
+  }
+
+  .hot-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+  }
+
+  .hot-question strong {
+    color: #fff;
+    font-size: 0.96rem;
+  }
+
+  .hot-question small {
+    color: #bbb;
+    font-size: 0.8rem;
+  }
+
+  .hot-question div:last-child {
+    color: #ff6d6d;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .search-bar input {
+      font-size: 0.9rem;
+    }
+
+    .question-card a {
+      width: 100%;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+    }
+  }
+</style>
+
+<div class="container">
+
+  <!-- 🔍 Search Bar -->
+  <div class="search-bar">
+    <form method="GET" action="/home">
+      <input type="text" name="search" placeholder="Search by title, tag, or difficulty..." value="<%= searchQuery %>">
+    </form>
+  </div>
+
+  <!-- 🎯 Filter Tags -->
+  <div class="tag-container">
+    <span class="tag-btn" onclick="location.href='/home?search=Aptitude'">Aptitude</span>
+    <span class="tag-btn" onclick="location.href='/home?search=DSA'">DSA</span>
+    <span class="tag-btn" onclick="location.href='/home?search=Amazon'">Company-wise</span>
+    <span class="tag-btn" onclick="location.href='/home?search=Trending'">Trending</span>
+    <span class="tag-btn" onclick="location.href='/home?search=Recent'">Recently Added</span>
+  </div>
+
+  <!-- 🧠 Top Questions -->
+  <div class="section-title">🧠 Top Questions</div>
+  <div class="question-grid">
+    <% allQuestions.forEach(q => { %>
+      <div class="question-card">
+        <h4><%= q.title %></h4>
+        <p>Difficulty: <%= q.difficulty %></p>
+        <a href="/questions/<%= q._id %>">Solve Now</a>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- 🔥 Hot Right Now -->
+  <div class="section-title">🔥 Hot Right Now</div>
+  <% hotQuestions.forEach(q => { %>
+    <div class="hot-question">
+      <div>
+        <strong><a href="/questions/<%= q._id %>"><%= q.title %></a></strong><br>
+        <small>Difficulty: <%= q.difficulty %></small>
+      </div>
+      <div>🔥 <%= q.likes %></div>
+    </div>
+  <% }) %>
+</div>

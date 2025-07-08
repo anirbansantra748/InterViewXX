@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= question.title %> | LetsTalk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#1f0036] to-[#3b0066] text-white px-6 py-12">
+
+  <!-- Back Button -->
+  <div class="mb-8">
+    <a href="/home" class="text-violet-400 hover:underline text-sm tracking-wide">← Back to All Questions</a>
+  </div>
+
+  <!-- Question Card -->
+  <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-2xl">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold mb-2 text-white"><%= question.title %></h1>
+        <p class="text-md text-gray-300 mb-2"><%= question.questionText %></p>
+        <p class="text-sm text-gray-400">
+          Type: <%= question.type.toUpperCase() %> |
+          Difficulty: <%= question.difficulty %> |
+          Points: <%= question.points %>
+        </p>
+      </div>
+      <span class="text-sm text-gray-500 mt-4 md:mt-0"><%= new Date(question.createdAt).toLocaleDateString() %></span>
+    </div>
+
+    <!-- Tags -->
+    <% if (question.tags.length > 0) { %>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <% question.tags.forEach(tag => { %>
+          <span class="bg-[#1e1e1e] border border-gray-600 px-3 py-1 text-xs rounded-full text-gray-300">#<%= tag %></span>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <!-- Answer Form -->
+    <form action="/questions/<%= question._id %>/submit" method="POST" class="space-y-6">
+      <% if (question.type === "mcq") { %>
+        <!-- MCQ Options -->
+        <div>
+          <h2 class="font-semibold text-lg mb-2">Choose the correct option:</h2>
+          <% question.options.forEach((opt, i) => { %>
+            <div class="mb-2">
+              <label class="inline-flex items-start cursor-pointer">
+                <input type="radio" name="userAnswer" value="<%= opt %>" class="form-radio accent-purple-500 mr-2 mt-1" required>
+                <span class="text-gray-200"><%= String.fromCharCode(65 + i) %>. <%= opt %></span>
+              </label>
+            </div>
+          <% }) %>
+        </div>
+      <% } else if (question.type === "saq") { %>
+        <!-- Short Answer -->
+        <div>
+          <h2 class="font-semibold text-lg mb-2">Your Answer:</h2>
+          <textarea
+            name="userAnswer"
+            rows="4"
+            required
+            class="w-full p-4 rounded-lg bg-[#1e1e1e] border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Type your answer here..."
+          ></textarea>
+        </div>
+      <% } %>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="bg-gradient-to-r from-purple-600 to-violet-500 hover:from-purple-700 hover:to-violet-600 text-white px-6 py-2 rounded-lg shadow-lg transition-all font-medium"
+      >
+        Submit Answer
+      </button>
+    </form>
+
+    <!-- Explanation -->
+    <% if (question.explanation) { %>
+      <div class="mt-10 border-t border-white/10 pt-6">
+        <h2 class="text-lg font-semibold text-yellow-400 mb-2">Explanation</h2>
+        <p class="text-yellow-300"><%= question.explanation %></p>
+      </div>
+    <% } %>
+
+    <!-- Likes & Creator -->
+    <div class="flex justify-between items-center text-sm text-gray-400 mt-8 border-t border-white/10 pt-4">
+      <span>Likes: <%= question.likes || 0 %></span>
+      <span>Created by: <%= question.createdBy.fullName %></span>
+    </div>
+
+    <!-- Admin Tools -->
+    <% if (isAdmin) { %>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="/questions/<%= question._id %>/edit"
+           class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium text-white shadow">
+          Edit
+        </a>
+
+        <form action="/questions/<%= question._id %>?_method=DELETE" method="POST">
+          <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-medium text-white shadow">
+            Delete
+          </button>
+        </form>
+
+        <form action="/questions/<%= question._id %>/like" method="POST">
+          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium text-white shadow">
+            Like
+          </button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+
+</body>
+</html>

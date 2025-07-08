@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add DSA Round</title>
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background-color: #0e0c1f;
+    color: #e0e0ff;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  form {
+    width: 100%;
+    max-width: 880px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(160, 130, 255, 0.15);
+    border-radius: 16px;
+    padding: 30px 28px;
+    box-shadow: 0 0 18px rgba(138, 130, 255, 0.1);
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    color: #b47aff;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    color: #a89bff;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    color: #cfcfff;
+    margin-top: 12px;
+    font-weight: 500;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(150, 130, 255, 0.15);
+    background-color: #1e1c33;
+    color: #f4f4ff;
+    font-size: 0.9rem;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #836bff;
+    box-shadow: 0 0 6px #836bff88;
+    outline: none;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .dsa-question {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(180, 122, 255, 0.1);
+  }
+
+  button {
+    margin-top: 24px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(to right, #6a5af9, #836bff);
+    box-shadow: 0 0 12px rgba(127, 112, 255, 0.3);
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+  }
+
+  button:hover {
+    background: #5b4dfc;
+    transform: scale(1.03);
+    box-shadow: 0 0 18px rgba(140, 120, 255, 0.4);
+  }
+
+  #add-question-btn {
+    background: linear-gradient(to right, #fc466b, #3f5efb);
+    margin-right: 12px;
+  }
+
+  @media (max-width: 600px) {
+    form {
+      padding: 20px 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <form action="/add-round/dsa/<%= jobId %>" method="POST">
+    <h2 style="text-align: center; color: #fff; margin-bottom: 2rem;">🧠 Add DSA Round</h2>
+
+    <label>Round Title:</label>
+    <input type="text" name="title" required>
+
+    <label>Duration (minutes):</label>
+    <input type="number" name="duration" required>
+
+    <label>Order:</label>
+    <input type="number" name="order" min="1" required>
+
+    <div id="question-container">
+      <div class="dsa-question">
+        <h4>DSA Question 1</h4>
+
+        <label>Title:</label>
+        <input type="text" name="questions[0][title]" required>
+
+        <label>Problem Statement:</label>
+        <textarea name="questions[0][problemStatement]" required></textarea>
+
+        <label>Input Format:</label>
+        <textarea name="questions[0][inputFormat]"></textarea>
+
+        <label>Output Format:</label>
+        <textarea name="questions[0][outputFormat]"></textarea>
+
+        <label>Constraints:</label>
+        <textarea name="questions[0][constraints]"></textarea>
+
+        <label>Sample Input:</label>
+        <textarea name="questions[0][sampleInput]"></textarea>
+
+        <label>Sample Output:</label>
+        <textarea name="questions[0][sampleOutput]"></textarea>
+
+        <label>Solution (for validation):</label>
+        <textarea name="questions[0][solution]" required></textarea>
+
+        <hr>
+      </div>
+    </div>
+
+    <button type="button" id="add-question-btn">➕ Add Another DSA Question</button>
+    <button type="submit">✅ Add DSA Round</button>
+  </form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let questionIndex = 1;
+
+    document.getElementById('add-question-btn').addEventListener('click', function () {
+      const container = document.getElementById('question-container');
+
+      const newQuestion = document.createElement('div');
+      newQuestion.classList.add('dsa-question');
+
+      newQuestion.innerHTML = `
+        <h4>DSA Question ${questionIndex + 1}</h4>
+
+        <label>Title:</label>
+        <input type="text" name="questions[${questionIndex}][title]" required>
+
+        <label>Problem Statement:</label>
+        <textarea name="questions[${questionIndex}][problemStatement]" required></textarea>
+
+        <label>Input Format:</label>
+        <textarea name="questions[${questionIndex}][inputFormat]"></textarea>
+
+        <label>Output Format:</label>
+        <textarea name="questions[${questionIndex}][outputFormat]"></textarea>
+
+        <label>Constraints:</label>
+        <textarea name="questions[${questionIndex}][constraints]"></textarea>
+
+        <label>Sample Input:</label>
+        <textarea name="questions[${questionIndex}][sampleInput]"></textarea>
+
+        <label>Sample Output:</label>
+        <textarea name="questions[${questionIndex}][sampleOutput]"></textarea>
+
+        <label>Solution (for validation):</label>
+        <textarea name="questions[${questionIndex}][solution]" required></textarea>
+      `;
+
+      container.appendChild(newQuestion);
+      questionIndex++;
+    });
+  });
+</script>
+
+
+</body>
+</html>

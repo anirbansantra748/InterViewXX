@@ -1,0 +1,108 @@
+
+
+<style>
+  body {
+    background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .glass-form {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.7s ease-out;
+  }
+
+  .glass-form h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffc26f;
+    margin-bottom: 25px;
+  }
+
+  .glass-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-size: 0.95rem;
+  }
+
+  .glass-form input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+  }
+
+  .glass-form input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a47a3;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .glass-form button:hover {
+    background-color: #6b66d6;
+  }
+
+  .glass-form a {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: #82cfff;
+    text-decoration: none;
+  }
+
+  .glass-form a:hover {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="glass-form">
+  <h2>🚪 Log In</h2>
+  <form action="/users/login" method="POST">
+    <label for="username">👤 Username:</label>
+    <input type="text" id="username" name="username" required />
+
+    <label for="password">🔒 Password:</label>
+    <input type="password" id="password" name="password" required />
+
+    <button type="submit">Log In</button>
+
+    <a href="/users/register">📝 Don't have an account? Sign Up</a>
+  </form>
+</div>

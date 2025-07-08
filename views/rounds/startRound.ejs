@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= round.title %> - Start Round</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        background: #fff;
+        max-width: 800px;
+        margin: auto;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .timer {
+        text-align: center;
+        font-size: 18px;
+        color: #d9534f;
+        margin-bottom: 20px;
+      }
+
+      .question-block {
+        margin-bottom: 25px;
+      }
+
+      .question-text {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .option {
+        margin: 5px 0;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto 0;
+      }
+    </style>
+
+    <script>
+      let timeLeft = 120;
+
+      function startTimer() {
+        const timerEl = document.getElementById("timer");
+        const form = document.getElementById("roundForm");
+
+        const interval = setInterval(() => {
+          let minutes = Math.floor(timeLeft / 60);
+          let seconds = timeLeft % 60;
+
+          timerEl.textContent = `${minutes}:${
+            seconds < 10 ? "0" : ""
+          }${seconds}`;
+
+          if (timeLeft <= 0) {
+            clearInterval(interval);
+            alert("⏰ Time is up! Auto-submitting...");
+            form.submit();
+          }
+
+          timeLeft--;
+        }, 1000);
+      }
+
+      window.onload = startTimer;
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h2><%= round.title %></h2>
+      <p class="timer">⏳ Time Left: <span id="timer"></span></p>
+
+      <form
+        id="roundForm"
+        method="POST"
+        action="/submit-round/<%= round._id %>"
+      >
+        <% round.roundContent.questions.forEach((q, index) => { %>
+        <div class="question-block">
+          <div class="question-text">
+            <%= index + 1 %>. <%= q.questionText %>
+          </div>
+
+          <% q.options.forEach((opt, idx) => { %>
+          <div class="option">
+            <label>
+              <input
+                type="radio"
+                name="answers[<%= q._id %>]"
+                value="<%= opt.text %>"
+                required
+              />
+              <%= opt.text %>
+            </label>
+          </div>
+          <% }) %>
+        </div>
+        <% }) %>
+
+        <button type="submit">✅ Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

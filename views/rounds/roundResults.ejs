@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= round.title %> - Results</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #2b2a41, #1d1b30);
+      margin: 0;
+      padding: 50px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #e0dcff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    th {
+      background: rgba(98, 75, 170, 0.4);
+      color: #fff;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    td {
+      color: #e0e0e0;
+    }
+
+    .qualified {
+      color: #6aff95;
+      font-weight: bold;
+    }
+
+    .not-qualified {
+      color: #ff7b7b;
+      font-weight: bold;
+    }
+
+    .action-btns a {
+      margin-right: 12px;
+      text-decoration: none;
+      color: #b097ff;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .action-btns a:hover {
+      color: #e8d3ff;
+      text-decoration: underline;
+    }
+
+    .no-result {
+      text-align: center;
+      font-size: 16px;
+      color: #ccc;
+      padding: 25px 0;
+    }
+
+    /* Scrollbar for overflow */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(176, 136, 255, 0.4);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📊 Results - <%= round.title %> (<%= jobTitle %>)</h2>
+
+    <% if (results.length === 0) { %>
+      <div class="no-result">No users have attempted this round yet.</div>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach((r, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= r.user?.fullName || 'N/A' %></td>
+              <td><%= r.user?.email || 'N/A' %></td>
+              <td class="<%= r.qualified ? 'qualified' : 'not-qualified' %>">
+                <%= r.qualified ? '✅ Passed' : '❌ Failed' %>
+              </td>
+              <td class="action-btns">
+                <a href="/users/<%= r.user?._id %>/profile" target="_blank">👤 Profile</a>
+                <a href="/chats/chatbox/<%= r.user?._id %>">💬 Chat</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</body>
+</html>

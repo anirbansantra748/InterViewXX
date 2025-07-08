@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add MCQ Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      background-color: #0e0c1f;
+      color: #f1f1f1;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    form {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(100, 149, 255, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 0 18px rgba(100, 149, 255, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      color: #79aaff;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      display: block;
+      color: #cce3ff;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      border: 1px solid rgba(100, 149, 255, 0.2);
+      border-radius: 8px;
+      background: #1e1c33;
+      color: #f4f4ff;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    fieldset {
+      border: 1px solid rgba(130, 180, 255, 0.2);
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    legend {
+      color: #98c1ff;
+      font-weight: bold;
+      padding: 0 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: linear-gradient(to right, #3f87ff, #6bb9ff);
+      color: white;
+      box-shadow: 0 0 12px rgba(127, 180, 255, 0.3);
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #529dff;
+      transform: scale(1.03);
+    }
+
+    #addQuestionBtn {
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 1.5rem;
+      }
+
+      button {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <form id="mcqForm" action="/add-round/mcq/<%= job._id %>" method="POST">
+    <h2>Add MCQ Round for Job: <%= job.title %></h2>
+
+    <label>Title:</label>
+    <input type="text" name="title" placeholder="MCQ Round 1" required>
+
+    <label>Order:</label>
+    <input type="number" name="order" min="1" required>
+
+    <label>Duration (minutes):</label>
+    <input type="number" name="duration" min="1" required>
+
+    <div id="questions-container">
+      <!-- Questions will be added dynamically -->
+    </div>
+
+    <button type="button" id="addQuestionBtn">➕ Add Another MCQ</button>
+    <button type="submit">✅ Submit MCQ Round</button>
+  </form>
+
+  <script>
+    let questionIndex = 0;
+
+    function createQuestionBlock(index) {
+      return `
+        <div class="question-block">
+          <fieldset>
+            <legend>MCQ #${index + 1}</legend>
+
+            <label>Question:</label>
+            <input type="text" name="questions[${index}][questionText]" required>
+
+            <label>Options (comma separated):</label>
+            <input type="text" name="questions[${index}][options]" placeholder="Option1, Option2, ..." required>
+
+            <label>Correct Answer:</label>
+            <input type="text" name="questions[${index}][correctAnswer]" required>
+
+            <label>Explanation (optional):</label>
+            <input type="text" name="questions[${index}][explanation]">
+
+            <label>Difficulty:</label>
+            <select name="questions[${index}][difficulty]">
+              <option value="Easy">Easy</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+
+            <label>Tags (comma separated):</label>
+            <input type="text" name="questions[${index}][tags]">
+          </fieldset>
+        </div>`;
+    }
+
+    function addQuestion() {
+      const container = document.getElementById('questions-container');
+      const newQuestionHTML = createQuestionBlock(questionIndex);
+      container.insertAdjacentHTML('beforeend', newQuestionHTML);
+      questionIndex++;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      addQuestion(); // Load first question
+      document.getElementById('addQuestionBtn').addEventListener('click', addQuestion);
+    });
+  </script>
+</body>
+</html>

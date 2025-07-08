@@ -1,0 +1,220 @@
+<% layout("/layouts/boilerplate") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Jobs</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #302b63, #24243e);
+      color: #e0e0e0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: #ffffff;
+    }
+
+    .filter-bar {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      padding: 0.8rem 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .filter-bar button {
+      padding: 0.8rem 1.4rem;
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      color: #fff;
+      font-weight: 500;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .filter-bar button:hover {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #cfcfcf;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 6px;
+    }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .job-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .job-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .job-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .job-meta {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #cfcfcf;
+    }
+
+    .job-meta strong {
+      color: #ffffff;
+      font-weight: 500;
+      display: inline-block;
+      min-width: 90px;
+    }
+
+    .job-footer {
+      margin-top: 1.2rem;
+    }
+
+    .view-btn {
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      color: #1a1a1a;
+      font-weight: 500;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-block;
+      transition: background 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background: linear-gradient(to right, #d4fc79, #96e6a1);
+      color: #000;
+    }
+
+    .no-jobs {
+      text-align: center;
+      font-size: 1rem;
+      color: #aaa;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="filter-bar">
+      <form method="GET" action="/jobs" style="display: contents;">
+        <input type="text" name="search" placeholder="Search by title/company/location" value="<%= query?.search || '' %>">
+        <input type="text" name="skills" placeholder="Skills (comma-separated)" value="<%= query?.skills || '' %>">
+
+        <select name="jobType">
+          <option value="">All Types</option>
+          <option value="Internship" <%= query.jobType === "Internship" ? 'selected' : '' %>>Internship</option>
+          <option value="Full-time" <%= query.jobType === "Full-time" ? 'selected' : '' %>>Full-time</option>
+        </select>
+
+        <select name="mode">
+          <option value="">All Modes</option>
+          <option value="Remote" <%= query.mode === "Remote" ? 'selected' : '' %>>Remote</option>
+          <option value="On-site" <%= query.mode === "On-site" ? 'selected' : '' %>>On-site</option>
+        </select>
+
+        <button type="submit">Filter</button>
+      </form>
+    </div>
+
+    <% if (user?.resumeExtractedData?.skills?.length && recommendedJobs?.length) { %>
+      <div class="section-title">Recommended for You</div>
+      <div class="job-grid">
+        <% recommendedJobs.forEach(job => { %>
+          <div class="job-card">
+            <div class="job-title"><%= job.title %></div>
+            <div class="job-meta"><strong>Company:</strong> <%= job.company %></div>
+            <div class="job-meta"><strong>Location:</strong> <%= job.location %></div>
+            <div class="job-meta"><strong>Type:</strong> <%= job.jobType %></div>
+            <div class="job-meta"><strong>Mode:</strong> <%= job.mode %></div>
+            <div class="job-meta"><strong>Deadline:</strong> <%= job.deadlineDate || 'N/A' %></div>
+            <div class="job-footer">
+              <a href="/jobs/<%= job._id %>" class="view-btn">View Details</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <br><br>
+    <div class="section-title">All Jobs</div>
+
+    <% if (jobs.length === 0) { %>
+      <div class="no-jobs">No jobs available with the current filters.</div>
+    <% } else { %>
+      <div class="job-grid">
+        <% jobs.forEach(job => { %>
+          <div class="job-card">
+            <div class="job-title"><%= job.title %></div>
+            <div class="job-meta"><strong>Company:</strong> <%= job.company %></div>
+            <div class="job-meta"><strong>Location:</strong> <%= job.location %></div>
+            <div class="job-meta"><strong>Type:</strong> <%= job.jobType %></div>
+            <div class="job-meta"><strong>Mode:</strong> <%= job.mode %></div>
+            <div class="job-meta"><strong>Deadline:</strong> <%= job.deadlineDate || 'N/A' %></div>
+            <div class="job-footer">
+              <a href="/jobs/<%= job._id %>" class="view-btn">View Details</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>
