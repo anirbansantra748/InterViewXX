@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= error.status || 500 %> | InterViewX Error</title>
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Custom Style -->
+  <style>
+    body {
+      background: radial-gradient(ellipse at top, #1e1b4b, #111122);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .glow {
+      background: linear-gradient(to right, #d946ef, #7c3aed, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 10px #7c3aed; }
+      50% { text-shadow: 0 0 20px #d946ef; }
+    }
+
+    .bounceIn {
+      animation: bounceIn 1s ease;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center px-6 py-20">
+
+  <div class="text-center max-w-2xl bounceIn">
+    <!-- Status Code -->
+    <div class="text-[120px] font-black glow tracking-tight leading-none">
+      <%= error.status || 500 %>
+    </div>
+
+    <!-- Message -->
+    <h1 class="text-4xl md:text-5xl font-bold mt-2 text-gray-200">
+      <%= error.status === 404 ? "Page Lost in Cyberspace 🛰️" : "Server Had a Meltdown 🔥" %>
+    </h1>
+
+    <!-- Subtext -->
+    <p class="mt-4 text-gray-400 text-lg max-w-lg mx-auto">
+      <%= error.message || "Something went wrong, but not your ambition. Regroup. Retry. Rule." %>
+    </p>
+
+    <!-- Buttons -->
+    <div class="mt-8 flex justify-center flex-wrap gap-4">
+      <a href="/home" class="px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-semibold shadow-lg hover:scale-105 transition-all duration-300">
+        🏠 Return Home
+      </a>
+      <a href="mailto:anirbansantra748@gmail.com" class="px-6 py-3 rounded-full border-2 border-purple-500 text-purple-300 hover:bg-purple-600 hover:text-white transition-all duration-300 font-medium">
+        ⚙️ Contact Dev
+      </a>
+    </div>
+
+    <!-- Terminal Vibe Footer -->
+    <div class="mt-12 text-sm text-gray-500 italic">
+      <i class="fas fa-code text-purple-400 mr-1"></i>
+      InterViewX says: <span class="text-purple-400">"<%= error.status === 404 ? "That route went rogue." : "Oops. I tripped on recursion." %>"</span>
+    </div>
+  </div>
+
+</body>
+</html>

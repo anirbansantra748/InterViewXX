@@ -12,6 +12,8 @@ const helmet = require('helmet');
 const http = require('http');
 const { Server } = require('socket.io');
 
+const ExpressError = require('./utils/ExpressError');
+
 // Models
 const User = require('./models/UserSchema');
 
@@ -27,7 +29,7 @@ const io = new Server(server, {
 });
 const port = process.env.PORT || 3000;
 
-// MongoDB Connection
+// Connect to MongoDB
 mongoose.connect(mongoUrl)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
@@ -44,17 +46,33 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(helmet());
 
-// Mongo Session Store
+// Helmet CSP
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: [
+      "'self'",
+      "https://cdn.tailwindcss.com",
+      "https://unpkg.com",
+      "'unsafe-inline'",
+    ],
+    styleSrc: [
+      "'self'",
+      "https://fonts.googleapis.com",
+      "'unsafe-inline'",
+    ],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    imgSrc: ["'self'", "https://img.freepik.com", "data:"],
+  },
+}));
+
+// Session store
 const store = MongoStore.create({
   mongoUrl,
-  crypto: {
-    secret: process.env.SESSION_SECRET || 'AnirbanOpi1234'
-  },
+  crypto: { secret: process.env.SESSION_SECRET || 'AnirbanOpi1234' },
   touchAfter: 24 * 3600,
 });
-store.on('error', (err) => {
-  console.error("❌ MongoStore Error:", err);
-});
+store.on('error', err => console.error("❌ MongoStore Error:", err));
 
 app.use(session({
   store,
@@ -67,36 +85,14 @@ app.use(session({
   }
 }));
 
-// Helmet CSP (allow inline styles/scripts only from safe sources)
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://cdn.tailwindcss.com",
-        "https://unpkg.com",
-        "'unsafe-inline'",
-      ],
-      styleSrc: [
-        "'self'",
-        "https://fonts.googleapis.com",
-        "'unsafe-inline'",
-      ],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "https://img.freepik.com", "data:"],
-    },
-  })
-);
-
-// Passport Auth Setup
+// Passport Config
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Add currentUser to all templates
+// Set user to all views
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
@@ -116,10 +112,11 @@ const aptiRoutes = require('./routes/aptiRoutes');
 const generalRoutes = require('./routes/generalRoutes');
 const chatRoutes = require('./routes/chatoutes');
 const videoRoutes = require('./routes/videoRoutes');
-const questionRoutes = require('./routes/questionRoutes')
+const questionRoutes = require('./routes/questionRoutes');
 
 app.use('/', indexRoutes);
 app.use('/users', userRoutes);
+app.use('/jobsearch', jobSearchRoutes);
 app.use('/recruiter', recruiterRoutes);
 app.use('/jobs', jobRoutes);
 app.use('/rounds', roundRoutes);
@@ -132,19 +129,30 @@ app.use('/chats', chatRoutes);
 app.use('/video', videoRoutes);
 app.use('/questions', questionRoutes);
 
-// 404 Page
+// 404 Catch-All
 app.use((req, res, next) => {
-  res.status(404).render('error', { error: { status: 404, message: "Page Not Found" } });
+  res.status(404).render('error', {
+    error: {
+      status: 404,
+      message: "Page Not Found 🚫"
+    }
+  });
 });
 
-// General Error Handler
+// 🔥 Global Error Handler
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Something went wrong" } = err;
-  res.status(status).render('error', { error: { status, message } });
+  const { status = 500, message = "Internal Server Error 💥" } = err;
+  console.error("🔥 ERROR:", err.stack || err);
+  res.status(status).render('error', {
+    error: {
+      status,
+      message,
+      stack: process.env.NODE_ENV !== 'production' ? err.stack : null,
+    }
+  });
 });
 
-
-// 🧠 WebRTC Signaling via Socket.IO
+// WebRTC + Socket.IO
 io.on('connection', (socket) => {
   console.log(`🔌 User connected: ${socket.id}`);
 
