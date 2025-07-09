@@ -172,6 +172,8 @@ exports.submitRound = async (req, res) => {
       return res.status(500).send('Invalid round content');
     }
 
+    const user = req.user
+
     // ✅ MCQ, Grammar, Aptitude Scoring
     if (['MCQRound', 'GrammarRound', 'AptitudeRound'].includes(roundType)) {
       for (const q of roundContent.questions) {
@@ -281,6 +283,144 @@ Does the above code solve the given problem? Answer only 'Yes' or 'No' and a bri
     return res.status(500).send("Internal Server Error");
   }
 };
+
+// exports.submitRound = async (req, res) => {
+//   try {
+//     const { roundId } = req.params;
+//     const userId = req.user._id;
+//     const { answers } = req.body;
+
+//     console.log("▶️ Received roundId:", roundId);
+//     console.log("▶️ User ID:", userId);
+
+//     const round = await Round.findById(roundId).populate('roundContent');
+//     if (!round) {
+//       console.log("❌ Round not found in DB.");
+//       return res.status(404).send('Round not found');
+//     }
+
+//     const roundContent = round.roundContent;
+//     const roundType = round.roundContentType;
+//     let score = 0;
+
+//     if (!roundContent || !Array.isArray(roundContent.questions)) {
+//       console.log("❌ Round content is malformed or missing questions.");
+//       return res.status(500).send('Invalid round content');
+//     }
+
+//     // ✅ Score MCQ/Grammar/Aptitude rounds
+//     if (['MCQRound', 'GrammarRound', 'AptitudeRound'].includes(roundType)) {
+//       for (const q of roundContent.questions) {
+//         const userAns = answers[q._id];
+//         const correctAns = q.correctAnswer || q.options?.find(opt => opt.isCorrect)?.text;
+//         if (userAns && userAns.trim() === correctAns?.trim()) score++;
+//       }
+//     }
+
+//     // ✅ Score DSA round using Gemini API
+//     if (roundType === 'DSARound') {
+//       for (const q of roundContent.questions) {
+//         const userCode = answers[q._id];
+//         if (!userCode?.trim()) continue;
+
+//         const prompt = `
+// ### Problem:
+// ${q.problemStatement}
+
+// ### Input Format:
+// ${q.inputFormat || 'N/A'}
+
+// ### Output Format:
+// ${q.outputFormat || 'N/A'}
+
+// ### Constraints:
+// ${q.constraints || 'N/A'}
+
+// ### Sample Input:
+// ${q.sampleInput || 'N/A'}
+
+// ### Sample Output:
+// ${q.sampleOutput || 'N/A'}
+
+// ### User Code:
+// ${userCode}
+
+// ### Expected Output Logic:
+// ${q.solution}
+
+// ### Evaluation Prompt:
+// Does the above code solve the given problem? Answer only 'Yes' or 'No' and a brief explanation.
+//         `.trim();
+
+//         try {
+//           const geminiRes = await axios.post(GEMINI_API_URL, {
+//             contents: [{ role: 'user', parts: [{ text: prompt }] }]
+//           }, {
+//             headers: { 'Content-Type': 'application/json' }
+//           });
+
+//           const aiReply = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text?.toLowerCase() || '';
+//           console.log(`🧠 AI reply for question "${q.title}":`, aiReply);
+//           if (aiReply.includes('yes')) score++;
+//         } catch (err) {
+//           console.error("❌ Gemini API Error:", err.response?.status || err.code, err.response?.data || err.message);
+//         }
+//       }
+//     }
+
+//     // ✅ Check pass/fail
+//     const passingMarks = roundContent.passingMarks || roundContent.totalMarks || 0;
+//     const passed = score >= passingMarks;
+
+//     // ✅ Clean and update isqualify array
+//     round.isqualify = round.isqualify.filter(entry => entry.user);
+//     const existingIndex = round.isqualify.findIndex(entry => entry.user?.toString() === userId.toString());
+
+//     if (existingIndex !== -1) {
+//       round.isqualify[existingIndex].qualified = passed;
+//     } else {
+//       round.isqualify.push({ user: userId, qualified: passed });
+//     }
+
+//     await round.save();
+//     console.log("✅ Current round qualification saved.");
+
+//     // ✅ Unlock next round (if passed)
+//     if (passed) {
+//       const job = await Job.findById(round.job).populate('rounds');
+//       if (job?.rounds?.length > 0) {
+//         const next = job.rounds.find(r => r.order === round.order + 1);
+//         if (next) {
+//           const nextRound = await Round.findById(next._id);
+//           if (nextRound) {
+//             nextRound.job = job._id; // ✅ Extra safety (in case somehow missing)
+//             nextRound.isqualify = nextRound.isqualify.filter(entry => entry.user);
+//             const alreadyAdded = nextRound.isqualify.some(entry => entry.user?.toString() === userId.toString());
+//             if (!alreadyAdded) {
+//               nextRound.isqualify.push({ user: userId, qualified: false });
+//               await nextRound.save();
+//               console.log("🔓 Next round unlocked.");
+//             }
+//           }
+//         }
+//       }
+//     }
+
+//     // ✅ Render result page
+//     return res.render('rounds/result', {
+//       round,
+//       score,
+//       total: roundContent.questions.length,
+//       passingMarks,
+//       isPassed: passed,
+//       jobId: round.job
+//     });
+
+//   } catch (err) {
+//     console.error("❌ Submission error:", err.message);
+//     return res.status(500).send("Internal Server Error");
+//   }
+// };
 
 exports.getSelectRound = async (req, res) => {
   const jobId = req.params.jobId;

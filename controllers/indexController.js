@@ -99,3 +99,7 @@ module.exports.addDummyQuestion = async (req, res) => {
     res.status(500).send("❌ Failed to insert dummy user/question.");
   }
 };
+
+module.exports.aboutpage = async(req,res) =>{
+  res.render("listings/about.ejs");
+}

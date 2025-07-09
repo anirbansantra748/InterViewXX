@@ -122,7 +122,7 @@ router.post(
 router.get("/profile", isLoggedIn, userController.getProfile);
 router.get("/logout", isLoggedIn, userController.logoutUser);
 
-router.get('/:userId/profile', userController.getUserProfileById);
+router.get('/:userId/profile',isLoggedIn, userController.getUserProfileById);
 
 
 module.exports = router;

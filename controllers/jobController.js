@@ -365,3 +365,22 @@ exports.searchJobs = async (req, res) => {
     return res.status(500).send("Something went wrong while searching jobs.");
   }
 };
+
+// controllers/jobController.js
+exports.myJobs = async (req, res) => {
+  try {
+    const recruiterId = req.user?._id;
+
+    const jobs = await Job.find({ createdBy: recruiterId }).sort({ datePosted: -1 });
+
+    res.render('jobs/myjobs', {
+      jobs,
+      user: req.user
+    });
+
+  } catch (err) {
+    console.error("❌ Error fetching recruiter jobs:", err.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+

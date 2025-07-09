@@ -3,6 +3,7 @@ const Message = require("../models/MessageSchema");
 const User = require("../models/UserSchema");
 
 exports.showChatUserList = async (req, res) => {
+  console.log("chat")
   const currentUser = req.user;
   console.log("Current User:", currentUser);
 
@@ -79,20 +80,29 @@ exports.sendMessage = async (req, res) => {
 };
 
 exports.chatDashboard = async (req, res) => {
+  console.log("🟢 Reached chatDashboard controller");
+
   const currentUser = req.user;
   const selectedUserId = req.params.otherUserId;
 
   try {
-    // All chats where currentUser is a participant
+    console.log("👤 Current User:", currentUser?._id);
+    if (selectedUserId) {
+      console.log("💬 Selected User ID from params:", selectedUserId);
+    }
+
+    // Find all chats involving currentUser
     const chats = await Chat.find({
       participants: currentUser._id
     })
-    .populate('participants', 'username') // populate usernames
-    .populate({
-      path: 'messages',
-      populate: { path: 'sender', select: 'username' }
-    })
-    .sort({ lastUpdated: -1 });
+      .populate('participants', 'username')
+      .populate({
+        path: 'messages',
+        populate: { path: 'sender', select: 'username' }
+      })
+      .sort({ lastUpdated: -1 });
+
+    console.log("📦 Total chats found:", chats.length);
 
     let selectedChat = null;
     let otherUser = null;
@@ -103,14 +113,18 @@ exports.chatDashboard = async (req, res) => {
       );
 
       if (!selectedChat) {
+        console.log("⚠️ No existing chat found. Creating new chat...");
         selectedChat = new Chat({
           participants: [currentUser._id, selectedUserId],
           messages: []
         });
+
         await selectedChat.save();
+        console.log("✅ New chat created:", selectedChat._id);
       }
 
       otherUser = await User.findById(selectedUserId).select("username");
+      console.log("👥 Other user:", otherUser);
     }
 
     res.render("chats/chatDashboard", {
@@ -120,8 +134,12 @@ exports.chatDashboard = async (req, res) => {
       otherUser,
       otherUserId: selectedUserId || null,
     });
+
   } catch (err) {
-    console.error("❌ Error in chatDashboard:", err);
+    console.error("❌ Error in chatDashboard controller:");
+    console.error("🔍 Error message:", err.message);
+    console.error("🧵 Stack trace:", err.stack);
     res.status(500).send("Server error");
   }
 };
+

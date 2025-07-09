@@ -153,6 +153,26 @@
 <body>
   <div class="container">
 
+    <!-- 🔧 Action Buttons -->
+    <div class="flex justify-between items-center mb-5 flex-wrap gap-3">
+      <h1>Browse Jobs</h1>
+
+      <div class="flex gap-3">
+        <% if (user) { %>
+          <a href="/jobs/my-jobs" class="view-btn">
+            📁 My Jobs
+          </a>
+        <% } %>
+
+        <% if (user && user.role === 'recruiter') { %>
+          <a href="/jobs/create" class="view-btn">
+            ➕🧾 Add Job
+          </a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- 🔍 Filter Bar -->
     <div class="filter-bar">
       <form method="GET" action="/jobs" style="display: contents;">
         <input type="text" name="search" placeholder="Search by title/company/location" value="<%= query?.search || '' %>">
@@ -174,8 +194,9 @@
       </form>
     </div>
 
+    <!-- 🎯 Recommended Jobs -->
     <% if (user?.resumeExtractedData?.skills?.length && recommendedJobs?.length) { %>
-      <div class="section-title">Recommended for You</div>
+      <div class="section-title">🎯 Recommended for You</div>
       <div class="job-grid">
         <% recommendedJobs.forEach(job => { %>
           <div class="job-card">
@@ -186,7 +207,7 @@
             <div class="job-meta"><strong>Mode:</strong> <%= job.mode %></div>
             <div class="job-meta"><strong>Deadline:</strong> <%= job.deadlineDate || 'N/A' %></div>
             <div class="job-footer">
-              <a href="/jobs/<%= job._id %>" class="view-btn">View Details</a>
+              <a href="/jobs/<%= job._id %>" class="view-btn">🔎 View Details</a>
             </div>
           </div>
         <% }) %>
@@ -194,7 +215,7 @@
     <% } %>
 
     <br><br>
-    <div class="section-title">All Jobs</div>
+    <div class="section-title">🗂 All Jobs</div>
 
     <% if (jobs.length === 0) { %>
       <div class="no-jobs">No jobs available with the current filters.</div>
@@ -209,7 +230,7 @@
             <div class="job-meta"><strong>Mode:</strong> <%= job.mode %></div>
             <div class="job-meta"><strong>Deadline:</strong> <%= job.deadlineDate || 'N/A' %></div>
             <div class="job-footer">
-              <a href="/jobs/<%= job._id %>" class="view-btn">View Details</a>
+              <a href="/jobs/<%= job._id %>" class="view-btn">🔎 View Details</a>
             </div>
           </div>
         <% }) %>
@@ -217,4 +238,5 @@
     <% } %>
   </div>
 </body>
+
 </html>

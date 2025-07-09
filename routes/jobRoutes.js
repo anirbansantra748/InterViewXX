@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const jobController = require('../controllers/jobController');
-const isAdmin = require('../middlewares/isAdmin');
+const {isAdmin} = require('../middlewares/isAdmin');
+const {isLoggedIn} = require('../middlewares/isLoggedin')
 
-
-router.get('/create',jobController.createJobForm);
+router.get('/create',isLoggedIn,jobController.createJobForm);
+router.get('/my-jobs', isLoggedIn, jobController.myJobs);
 
 // Read
 router.get('/', jobController.allJobs);
-router.get('/:id', jobController.jobDtails);
+router.get('/:id',isLoggedIn, jobController.jobDtails);
 
 // Create
-router.post('/create', jobController.createJob);
+router.post('/create',isLoggedIn, jobController.createJob);
 
 // Update
-router.get('/edit/:id', jobController.editJobForm);
-router.post('/edit/:id', jobController.updateJob);
+router.get('/edit/:id',isLoggedIn,isAdmin, jobController.editJobForm);
+router.post('/edit/:id',isLoggedIn,isAdmin, jobController.updateJob);
 
 // Delete
-router.post('/delete/:id', jobController.deleteJob);
+router.post('/delete/:id',isLoggedIn,isAdmin, jobController.deleteJob);
 
 router.get('/search', jobController.searchJobs);
 

@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About | InterViewX</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-950 text-white">
+
+  <!-- Hero Section -->
+  <section class="w-full h-[60vh] bg-gradient-to-br from-purple-700 via-violet-800 to-indigo-900 flex items-center justify-center text-center shadow-lg">
+    <div class="px-6">
+      <h1 class="text-5xl font-bold text-white drop-shadow-xl">About <span class="text-violet-300">InterViewX</span></h1>
+      <p class="mt-4 text-lg text-violet-100 max-w-2xl mx-auto">Your personalized coding platform for practice, growth, and interview prep — crafted with love, logic, and lots of debugging.</p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="py-20 px-6 md:px-24 bg-gray-900">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-3xl font-bold text-violet-400 mb-6">👨‍💻 Our Journey</h2>
+      <p class="text-lg text-gray-300 leading-relaxed">
+        <strong class="text-white">InterViewX</strong> was founded by <span class="text-violet-300 font-semibold">Anirban Santra</span>, a passionate full-stack developer who once struggled with interview prep — just like you.
+        <br><br>
+        He built InterViewX to make coding accessible, intuitive, and exciting — whether you're cracking your first interview or just improving your logic.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 bg-gray-950 px-6 md:px-24">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-violet-400 text-center mb-12">🚀 Why InterViewX?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="bg-gradient-to-tr from-violet-800 to-indigo-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <h3 class="text-xl font-semibold mb-2 text-white">💡 Real Interview Problems</h3>
+          <p class="text-violet-100">Practice coding challenges curated from actual tech interviews and contests.</p>
+        </div>
+        <div class="bg-gradient-to-tr from-violet-800 to-indigo-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <h3 class="text-xl font-semibold mb-2 text-white">🎯 Built By Developers</h3>
+          <p class="text-violet-100">No marketing fluff — just clean UI, functional tools, and community support.</p>
+        </div>
+        <div class="bg-gradient-to-tr from-violet-800 to-indigo-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <h3 class="text-xl font-semibold mb-2 text-white">🌐 Learn. Connect. Grow.</h3>
+          <p class="text-violet-100">Join a growing ecosystem of devs building cool stuff and helping each other.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call To Action -->
+  <section class="py-20 bg-gradient-to-br from-indigo-800 via-purple-800 to-gray-900 px-6 md:px-24">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Ready to Ace Your Interviews?</h2>
+      <p class="mt-4 text-violet-100">Join InterViewX today and unlock your full coding potential — one problem at a time.</p>
+      <a href="/register" class="mt-6 inline-block bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-full text-sm font-semibold transition-all">🚀 Get Started</a>
+    </div>
+  </section>
+
+</body>
+</html>

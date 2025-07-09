@@ -9,4 +9,6 @@ router.get("/third",indexController.thirdRound)
 
 router.get('/add-dummy', indexController.addDummyQuestion);
 
+router.get('/about', indexController.aboutpage);
+
 module.exports = router;
