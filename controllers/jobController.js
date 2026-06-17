@@ -30,24 +30,28 @@ exports.allJobs = async (req, res) => {
 
     const jobs = await Job.find(filterQuery).sort({ createdAt: -1 });
 
-    // Recommended Jobs by user skills
-    const user = await User.findById(req.user?._id);
+    // Recommended Jobs by user skills — only query if user is logged in
+    let user = null;
     let recommendedJobs = [];
 
-    if (user?.resumeExtractedData?.skills?.length) {
-      const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (req.user?._id) {
+      user = await User.findById(req.user._id).catch(() => null);
 
-      const skillRegexes = user.resumeExtractedData.skills.map(skill =>
-        new RegExp(escapeRegex(skill), 'i')
-      );
+      if (user?.resumeExtractedData?.skills?.length) {
+        const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-      recommendedJobs = await Job.find({
-        $or: [
-          { title: { $in: skillRegexes } },
-          { description: { $in: skillRegexes } },
-          { skills: { $in: skillRegexes } }
-        ]
-      }).limit(10);
+        const skillRegexes = user.resumeExtractedData.skills.map(skill =>
+          new RegExp(escapeRegex(skill), 'i')
+        );
+
+        recommendedJobs = await Job.find({
+          $or: [
+            { title: { $in: skillRegexes } },
+            { description: { $in: skillRegexes } },
+            { skills: { $in: skillRegexes } }
+          ]
+        }).limit(10);
+      }
     }
 
     res.render('jobs/jobs', {
@@ -335,22 +339,26 @@ exports.searchJobs = async (req, res) => {
 
     const jobs = await Job.find(filterQuery).sort({ createdAt: -1 });
 
-    // 👤 Auto recommendations from user's extracted resume skills
-    const user = await User.findById(req.user?._id);
+    // 👤 Auto recommendations from user's extracted resume skills — only if logged in
+    let user = null;
     let recommendedJobs = [];
 
-    if (user?.resumeExtractedData?.skills?.length) {
-      const skillRegexes = user.resumeExtractedData.skills.map(skill =>
-        new RegExp(escapeRegex(skill), 'i')
-      );
+    if (req.user?._id) {
+      user = await User.findById(req.user._id).catch(() => null);
 
-      recommendedJobs = await Job.find({
-        $or: [
-          { title: { $in: skillRegexes } },
-          { description: { $in: skillRegexes } },
-          { skills: { $in: skillRegexes } }
-        ]
-      }).limit(10);
+      if (user?.resumeExtractedData?.skills?.length) {
+        const skillRegexes = user.resumeExtractedData.skills.map(skill =>
+          new RegExp(escapeRegex(skill), 'i')
+        );
+
+        recommendedJobs = await Job.find({
+          $or: [
+            { title: { $in: skillRegexes } },
+            { description: { $in: skillRegexes } },
+            { skills: { $in: skillRegexes } }
+          ]
+        }).limit(10);
+      }
     }
 
     return res.render('jobs/jobs', {

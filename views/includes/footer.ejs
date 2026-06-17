@@ -1,261 +1,344 @@
-<footer class="footer-modern">
+<footer class="footer-stratos">
+  <!-- Top rule -->
+  <div class="footer-top-rule"></div>
+
   <div class="container">
     <div class="footer-grid">
-      
-      <!-- Brand Section -->
-      <div class="footer-brand">
-        <h3 class="brand-name">
-          <span class="brand-icon">⚡</span>
-          InterViewXX
-        </h3>
-        <p class="brand-description">
-          Master your interview skills with curated questions from top companies. Built with ❤️ by Anirban Santra.
+
+      <!-- Brand col -->
+      <div class="footer-brand-col">
+        <div class="footer-brand-mark">
+          <div class="footer-orb">IX</div>
+          <div>
+            <div class="footer-brand-name">InterViewXX</div>
+            <div class="footer-brand-tagline">RECRUITMENT PLATFORM · v2.0</div>
+          </div>
+        </div>
+        <p class="footer-brand-desc">
+          A full-stack recruitment platform with real-time video interviews, collaborative coding, semantic search, and AI-powered round management. Built by Anirban Santra.
         </p>
-        <div class="social-links">
-          <a href="https://www.linkedin.com/in/anirban-santra" target="_blank" class="social-link" aria-label="LinkedIn">
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/in/anirban-santra" target="_blank" class="social-pill" aria-label="LinkedIn">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="https://github.com/anirbansantra" target="_blank" class="social-link" aria-label="GitHub">
+          <a href="https://github.com/anirbansantra748" target="_blank" class="social-pill" aria-label="GitHub">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://www.instagram.com/anirban4555" target="_blank" class="social-link" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="mailto:anirbansantra748@gmail.com" class="social-link" aria-label="Email">
+          <a href="mailto:anirbansantra748@gmail.com" class="social-pill" aria-label="Email">
             <i class="fa-solid fa-envelope"></i>
           </a>
         </div>
       </div>
 
-      <!-- Quick Links -->
-      <div class="footer-section">
-        <h4 class="footer-heading">Quick Links</h4>
+      <!-- Platform links -->
+      <div class="footer-col">
+        <div class="footer-col-label">Platform</div>
         <ul class="footer-links">
-          <li><a href="/home"><i class="fa-solid fa-home"></i> Home</a></li>
-          <li><a href="/questions/list"><i class="fa-solid fa-question-circle"></i> Questions</a></li>
-          <li><a href="/jobs"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
-          <li><a href="/about"><i class="fa-solid fa-info-circle"></i> About</a></li>
+          <li><a href="/home"><i class="fa-solid fa-house-chimney"></i> Home</a></li>
+          <li><a href="/questions/list"><i class="fa-solid fa-code"></i> Questions</a></li>
+          <li><a href="/jobs"><i class="fa-solid fa-briefcase"></i> Job Board</a></li>
+          <li><a href="/recruiter/register"><i class="fa-solid fa-building"></i> Post Jobs</a></li>
         </ul>
       </div>
 
-      <!-- Resources -->
-      <div class="footer-section">
-        <h4 class="footer-heading">Resources</h4>
+      <!-- Account links -->
+      <div class="footer-col">
+        <div class="footer-col-label">Account</div>
         <ul class="footer-links">
-          <li><a href="/"><i class="fa-solid fa-book"></i> Interview Prep</a></li>
-          <li><a href="/"><i class="fa-solid fa-code"></i> Practice Problems</a></li>
-          <li><a href="/"><i class="fa-solid fa-users"></i> Community</a></li>
-          <li><a href="/"><i class="fa-solid fa-chart-line"></i> Progress Tracker</a></li>
+          <li><a href="/users/register"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+          <li><a href="/users/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a></li>
+          <li><a href="/users/profile"><i class="fa-solid fa-circle-user"></i> Profile</a></li>
         </ul>
       </div>
 
-      <!-- Contact -->
-      <div class="footer-section">
-        <h4 class="footer-heading">Contact</h4>
-        <ul class="footer-contact">
-          <li>
-            <i class="fa-solid fa-location-dot"></i>
-            <span>Hooghly, West Bengal, 712124</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-envelope"></i>
-            <span>anirbansantra748@gmail.com</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-phone"></i>
-            <span>+91 79800 15159</span>
-          </li>
-        </ul>
+      <!-- System info -->
+      <div class="footer-col">
+        <div class="footer-col-label">System</div>
+        <div class="footer-sys-card">
+          <div class="sys-row">
+            <span class="sys-key">Stack</span>
+            <span class="sys-val">Node · Express · MongoDB</span>
+          </div>
+          <div class="sys-row">
+            <span class="sys-key">Realtime</span>
+            <span class="sys-val">Socket.IO · WebRTC</span>
+          </div>
+          <div class="sys-row">
+            <span class="sys-key">Search</span>
+            <span class="sys-val">Pinecone · Xenova</span>
+          </div>
+          <div class="sys-row">
+            <span class="sys-key">Auth</span>
+            <span class="sys-val">Passport.js</span>
+          </div>
+          <div class="sys-row">
+            <span class="sys-key">Status</span>
+            <span class="sys-val sys-live"><span class="sys-dot"></span>Operational</span>
+          </div>
+        </div>
       </div>
 
     </div>
 
-    <!-- Footer Bottom -->
+    <!-- Bottom bar -->
     <div class="footer-bottom">
-      <p class="copyright">
-        © <%= new Date().getFullYear() %> <strong>InterViewXX</strong>. All rights reserved.
-      </p>
-      <div class="footer-bottom-links">
-        <a href="/">Privacy Policy</a>
-        <span>•</span>
-        <a href="/">Terms of Service</a>
-      </div>
+      <span class="footer-copy">© <%= new Date().getFullYear() %> <strong>InterViewXX</strong> · All rights reserved</span>
+      <span class="footer-coords">SYS_V2.0 · Kolkata, India</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .footer-modern {
-    background: var(--bg-primary);
-    border-top: 1px solid var(--glass-border);
-    padding: var(--spacing-3xl) 0 var(--spacing-lg);
-    margin-top: var(--spacing-3xl);
-  }
+/* ===============================================
+   FOOTER — STRATOS EDITION
+   =============================================== */
+.footer-stratos {
+  background: rgba(4, 3, 10, 0.9);
+  margin-top: 80px;
+  padding: 60px 0 28px;
+  position: relative;
+}
 
+.footer-top-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(122,95,251,0.3) 30%, rgba(244,114,182,0.2) 70%, transparent 100%);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.4fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+/* Brand column */
+.footer-brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.footer-orb {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7a5ffb, #c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 16px rgba(122,95,251,0.3);
+  flex-shrink: 0;
+}
+
+.footer-brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.footer-brand-tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.footer-brand-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 8px;
+}
+
+.social-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.social-pill:hover {
+  background: rgba(122,95,251,0.15);
+  border-color: rgba(122,95,251,0.4);
+  color: #9c7cff;
+  transform: translateY(-2px);
+}
+
+/* Link columns */
+.footer-col-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-links a {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.footer-links a i {
+  font-size: 11px;
+  color: rgba(122,95,251,0.5);
+  width: 14px;
+}
+
+.footer-links a:hover {
+  color: rgba(255,255,255,0.8);
+  transform: translateX(3px);
+}
+
+.footer-links a:hover i {
+  color: #9c7cff;
+}
+
+/* System info card */
+.footer-sys-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sys-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 8px;
+}
+
+.sys-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sys-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  text-align: right;
+}
+
+.sys-live {
+  color: #34d399 !important;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sys-dot {
+  width: 5px;
+  height: 5px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Bottom bar */
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+.footer-copy strong {
+  color: rgba(155,120,255,0.6);
+}
+
+.footer-coords {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
   .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: var(--spacing-2xl);
-    margin-bottom: var(--spacing-2xl);
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
   }
-
-  .footer-brand .brand-name {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    font-family: var(--font-secondary);
-    margin-bottom: var(--spacing-md);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+  .footer-brand-col {
+    grid-column: 1 / -1;
   }
+}
 
-  .footer-brand .brand-icon {
-    font-size: var(--text-3xl);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
-
-  .brand-description {
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .social-links {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-
-  .social-link {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    font-size: var(--text-lg);
-    transition: var(--transition-base);
-  }
-
-  .social-link:hover {
-    background: var(--purple-primary);
-    color: var(--text-primary);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-purple);
-  }
-
-  .footer-heading {
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .footer-links {
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer-links li {
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .footer-links a {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    transition: var(--transition-base);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-
-  .footer-links a:hover {
-    color: var(--purple-light);
-    transform: translateX(4px);
-  }
-
-  .footer-contact {
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer-contact li {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-  }
-
-  .footer-contact li i {
-    color: var(--purple-light);
-    margin-top: 2px;
-  }
-
   .footer-bottom {
-    padding-top: var(--spacing-xl);
-    border-top: 1px solid var(--glass-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
-
-  .copyright {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    margin: 0;
-  }
-
-  .copyright strong {
-    color: var(--purple-light);
-  }
-
-  .footer-bottom-links {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    font-size: var(--text-sm);
-  }
-
-  .footer-bottom-links a {
-    color: var(--text-muted);
-    transition: var(--transition-base);
-  }
-
-  .footer-bottom-links a:hover {
-    color: var(--purple-light);
-  }
-
-  .footer-bottom-links span {
-    color: var(--glass-border);
-  }
-
-  @media (max-width: 992px) {
-    .footer-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .footer-brand {
-      grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .footer-bottom {
-      flex-direction: column;
-      text-align: center;
-    }
-  }
+}
 </style>

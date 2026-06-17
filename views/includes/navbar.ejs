@@ -1,202 +1,279 @@
 <nav class="navbar-modern">
   <div class="container">
     <div class="navbar-content">
-      <!-- Brand Logo -->
+
+      <!-- Brand -->
       <div class="navbar-brand">
         <a href="/home" class="brand-link">
-          <span class="brand-icon">⚡</span>
-          <span class="brand-text">InterViewXX</span>
+          <div class="brand-orb">
+            <span class="brand-orb-inner">IX</span>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-name">InterViewXX</span>
+            <span class="brand-sub">RECRUITMENT PLATFORM</span>
+          </div>
         </a>
       </div>
 
       <!-- Navigation Links -->
-      <div class="navbar-links">
+      <div class="navbar-links" id="navbarLinks">
         <a href="/home" class="nav-link">
-          <i class="fa-solid fa-home"></i>
+          <i class="fa-solid fa-house-chimney nav-link-icon"></i>
           <span>Home</span>
         </a>
         <a href="/jobs" class="nav-link">
-          <i class="fa-solid fa-briefcase"></i>
+          <i class="fa-solid fa-briefcase nav-link-icon"></i>
           <span>Jobs</span>
         </a>
         <a href="/questions/list" class="nav-link">
-          <i class="fa-solid fa-question-circle"></i>
+          <i class="fa-solid fa-code nav-link-icon"></i>
           <span>Questions</span>
         </a>
         <a href="/recruiter/register" class="nav-link">
-          <i class="fa-solid fa-building"></i>
-          <span>Recruiters</span>
+          <i class="fa-solid fa-building nav-link-icon"></i>
+          <span>Recruiter</span>
         </a>
 
         <% if (user) { %>
-          <!-- Chats Button -->
           <a href="/chats/chatbox/<%= user._id %>" class="nav-link nav-link-special">
-            <i class="fa-solid fa-comments"></i>
+            <i class="fa-solid fa-comment-dots nav-link-icon"></i>
             <span>Chats</span>
           </a>
 
-          <!-- Profile -->
-          <a href="/users/profile" class="nav-link nav-link-profile">
-            <i class="fa-solid fa-user-circle"></i>
+          <a href="/users/profile" class="nav-link-profile-pill">
+            <span class="profile-avatar"><%= (user.username || 'U')[0].toUpperCase() %></span>
             <span><%= user.username || 'Profile' %></span>
           </a>
 
-          <!-- Logout -->
           <a href="/users/logout" class="btn btn-sm btn-outline">
-            <i class="fa-solid fa-sign-out-alt"></i>
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
             Logout
           </a>
         <% } else { %>
-          <!-- Guest Links -->
-          <a href="/users/login" class="btn btn-sm btn-secondary">
-            <i class="fa-solid fa-sign-in-alt"></i>
-            Login
-          </a>
-          <a href="/users/register" class="btn btn-sm btn-primary">
-            <i class="fa-solid fa-user-plus"></i>
-            Register
-          </a>
+          <a href="/users/login" class="btn btn-sm btn-secondary">Login</a>
+          <a href="/users/register" class="btn btn-sm btn-primary">Get Started</a>
         <% } %>
       </div>
 
-      <!-- Mobile Menu Toggle -->
-      <button class="mobile-menu-toggle" id="mobileMenuToggle">
+      <!-- Mobile Toggle -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
         <i class="fa-solid fa-bars"></i>
       </button>
+
     </div>
   </div>
 </nav>
 
 <style>
-/* Navbar Modern Styles */
+/* ===============================================
+   NAVBAR — STRATOS EDITION
+   =============================================== */
 .navbar-modern {
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background: var(--glass-bg);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-md);
+  background: rgba(8, 7, 15, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .navbar-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) 0;
-  gap: var(--spacing-lg);
+  height: 68px;
+  gap: 24px;
 }
 
-.navbar-brand {
-  flex-shrink: 0;
-}
-
+/* Brand */
 .brand-link {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 12px;
   text-decoration: none;
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  font-family: var(--font-secondary);
-  color: var(--text-primary);
-  transition: var(--transition-base);
+  transition: opacity 0.2s ease;
 }
 
-.brand-link:hover {
-  transform: scale(1.05);
+.brand-link:hover { opacity: 0.8; }
+
+.brand-orb {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7a5ffb, #c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(122, 95, 251, 0.4);
 }
 
-.brand-icon {
-  font-size: var(--text-3xl);
-  filter: drop-shadow(0 0 10px var(--purple-primary));
+.brand-orb-inner {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.05em;
 }
 
-.brand-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.brand-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 3px;
 }
 
+.brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Nav links */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: 4px;
   flex-wrap: wrap;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--text-secondary);
+  gap: 6px;
+  padding: 7px 13px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: var(--transition-base);
+  border-radius: 8px;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
-  background: var(--glass-bg-hover);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.nav-link i {
-  font-size: var(--text-base);
+.nav-link-icon {
+  font-size: 12px;
+  opacity: 0.7;
 }
 
+/* Special chats link */
 .nav-link-special {
-  background: rgba(122, 95, 251, 0.2);
-  color: var(--purple-light);
-  border: 1px solid var(--purple-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #9c7cff;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid rgba(122, 95, 251, 0.25);
+  background: rgba(122, 95, 251, 0.08);
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-link-special:hover {
-  background: var(--purple-primary);
-  color: var(--text-primary);
+  background: rgba(122, 95, 251, 0.18);
+  border-color: rgba(122, 95, 251, 0.5);
+  color: #c4b5fd;
 }
 
-.nav-link-profile {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+/* Profile pill */
+.nav-link-profile-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
+.nav-link-profile-pill:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.profile-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7a5ffb, #f472b6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  flex-shrink: 0;
+}
+
+/* Mobile toggle */
 .mobile-menu-toggle {
   display: none;
-  padding: var(--spacing-sm);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: var(--text-xl);
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 15px;
   cursor: pointer;
-  transition: var(--transition-base);
+  transition: all 0.2s ease;
 }
 
 .mobile-menu-toggle:hover {
-  background: var(--purple-primary);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 992px) {
   .navbar-links {
     position: fixed;
-    top: 70px;
+    top: 68px;
     left: 0;
     right: 0;
     flex-direction: column;
     align-items: stretch;
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--glass-border);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-100%);
+    gap: 4px;
+    background: rgba(8, 7, 15, 0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    transform: translateY(-110%);
     opacity: 0;
-    transition: var(--transition-base);
+    transition: all 0.3s ease;
     pointer-events: none;
   }
 
@@ -206,45 +283,59 @@
     pointer-events: all;
   }
 
-  .nav-link {
-    justify-content: center;
-    padding: var(--spacing-md);
+  .nav-link, .nav-link-special, .nav-link-profile-pill {
+    justify-content: flex-start;
+    padding: 12px 16px;
+    border-radius: 10px;
   }
 
   .mobile-menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
+  .brand-sub { display: none; }
 }
 
-@media (max-width: 768px) {
-  .brand-text {
-    font-size: var(--text-xl);
-  }
-  
-  .nav-link span {
-    display: inline;
-  }
+@media (max-width: 480px) {
+  .brand-name { font-size: 13px; }
 }
 </style>
 
 <script>
-// Mobile Menu Toggle
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const toggle = document.getElementById('mobileMenuToggle');
-  const menu = document.querySelector('.navbar-links');
-  
+  const menu = document.getElementById('navbarLinks');
+
   if (toggle && menu) {
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function () {
       menu.classList.toggle('active');
       const icon = toggle.querySelector('i');
       if (menu.classList.contains('active')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
+        icon.classList.replace('fa-bars', 'fa-xmark');
       } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
+        icon.classList.replace('fa-xmark', 'fa-bars');
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('active');
+        const icon = toggle.querySelector('i');
+        icon.classList.replace('fa-xmark', 'fa-bars');
       }
     });
   }
+
+  // Highlight active nav link based on current path
+  const path = window.location.pathname;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.getAttribute('href') === path || (path.startsWith(link.getAttribute('href')) && link.getAttribute('href') !== '/home')) {
+      link.style.color = '#fff';
+      link.style.background = 'rgba(255,255,255,0.06)';
+    }
+  });
 });
 </script>
