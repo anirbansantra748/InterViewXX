@@ -1,139 +1,127 @@
+# InterViewXX
+
+A full-stack recruitment platform that handles the entire hiring process in one place — job postings, candidate applications, coding rounds, aptitude tests, real-time chat, and video interviews.
+
+**[Live Demo](https://your-interviewxx-link.com)** · **[Demo Video](https://youtube.com/your-video-link)** · **[GitHub](https://github.com/anirbansantra748/InterViewXX)**
 
 ---
 
-# All-in-One Recruitment Platform
+## What it does
 
-A **multi-role hiring and recruitment platform** that streamlines the complete hiring process — from job posting to candidate assessment and interviews — all in one place. Built for scalability, real-time communication, and smooth user experience.
+### For Recruiters
+- Post and manage job listings with custom requirements
+- View all applicants on a dashboard, shortlist candidates, track progress
+- Create multi-round hiring pipelines (MCQ → DSA → Aptitude → General → Interview)
+- Chat with candidates directly through the platform
 
-## 🚀 Features
+### For Candidates
+- Browse and apply for jobs with profile data and uploaded resume (PDF)
+- Complete assigned rounds: MCQ, DSA coding, aptitude, grammar, general knowledge
+- Get AI-powered resume analysis and feedback
+- Join real-time video interviews directly in the browser
 
-### **For Recruiters & Employers**
-
-* **Job Management:** Post, update, and manage job listings with detailed requirements.
-* **Recruiter Dashboards:** View applicants, shortlist candidates, and track hiring progress.
-* **AI Job Recommendations:** Get AI-powered candidate matching based on job descriptions.
-
-### **For Candidates**
-
-* **Easy Applications:** Apply directly for jobs with profile data and uploaded resumes.
-* **Coding & Aptitude Rounds:** Integrated problem-solving environment with automatic evaluation.
-* **Video Interviews:** Real-time video calls powered by Socket.IO.
-
-### **Real-Time Collaboration**
-
-* **Live Chat:** Instant messaging between recruiters and candidates.
-* **Collaborative Whiteboard:** Visual problem-solving during interviews.
+### Platform features
+- AI job-to-candidate matching (Gemini + Pinecone vector search)
+- Live chat between recruiters and candidates (Socket.IO)
+- WebRTC video calls — no third-party service needed
+- Collaborative whiteboard during interviews
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
-**Frontend:**
-
-* EJS Templates
-* Tailwind CSS
-* JavaScript
-
-**Backend:**
-
-* Node.js
-* Express.js
-* MongoDB
-* Socket.IO
-
-**Others:**
-
-* OpenAI API (AI Job Recommendations)
-* Cloudinary (File Storage)
-* GitHub Actions (CI/CD)
+| Layer | What's used |
+|-------|-------------|
+| Frontend | EJS templates, Tailwind CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB (Mongoose) |
+| Auth | Passport.js (local strategy), session-based |
+| Real-time | Socket.IO, WebRTC |
+| AI | Google Gemini API |
+| Vector Search | Pinecone + Xenova Transformers (local embeddings) |
+| File Storage | Cloudinary |
+| Session Store | connect-mongo |
+| CI/CD | GitHub Actions |
 
 ---
 
-## 📂 Project Structure
+## Routes / Modules
 
-```
-All-in-One-Recruitment-Platform/
-│
-├── /public/           # Static assets (CSS, JS, images)
-├── /views/            # EJS templates for UI
-├── /routes/           # Express route handlers
-├── /controllers/      # Business logic
-├── /models/           # Mongoose schemas
-├── /utils/            # Helper functions
-├── app.js             # Entry point
-└── package.json
-```
+| Route | What it handles |
+|-------|----------------|
+| `/` | Home, landing |
+| `/users` | Signup, login, profile |
+| `/recruiter` | Recruiter dashboard, job management |
+| `/jobs` | Job listings, applications |
+| `/rounds` | Round creation and management |
+| `/add-round/mcq` | MCQ round builder |
+| `/add-round/dsa` | DSA coding round |
+| `/add-round/aptitude` | Aptitude test round |
+| `/add-round/grammar` | Grammar round |
+| `/add-round/general` | General knowledge round |
+| `/questions` | Question bank |
+| `/chats` | Real-time messaging |
+| `/video` | Video call rooms (WebRTC) |
+| `/api/resume` | AI resume analysis endpoint |
+| `/jobsearch` | AI-powered job search |
 
 ---
 
-## ⚡ Installation & Setup
-
-1. **Clone the repository**
+## Running locally
 
 ```bash
-git clone https://github.com/your-username/All-in-One-Recruitment-Platform.git
-cd All-in-One-Recruitment-Platform
-```
-
-2. **Install dependencies**
-
-```bash
+git clone https://github.com/anirbansantra748/InterViewXX.git
+cd InterViewXX
 npm install
 ```
 
-3. **Set up environment variables** in `.env`
+Create a `.env` file:
 
-```
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-OPENAI_API_KEY=your_openai_key
+```env
+PORT=3000
+MONGO_URL=mongodb://127.0.0.1:27017/InterviewApp
+SESSION_SECRET=your_secret_here
+GEMINI_API_KEY=your_gemini_key
+PINECONE_API_KEY=your_pinecone_key
 CLOUDINARY_NAME=your_cloudinary_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-4. **Run the application**
-
 ```bash
-npm start
+npm run dev   # starts with nodemon on http://localhost:3000
 ```
 
 ---
 
-## 📸 Screenshots
+## Project structure
 
-| Recruiter Dashboard                        | Candidate Coding Test              |
-| ------------------------------------------ | ---------------------------------- |
-| ![Recruiter Dashboard](link-to-screenshot) | ![Coding Test](link-to-screenshot) |
-
----
-
-## 🌟 Key Highlights
-
-* End-to-end recruitment process in a single platform.
-* Real-time communication for smooth interviews.
-* AI-powered features for better hiring decisions.
-* Modular architecture for easy scalability.
-
----
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
+```
+InterViewXX/
+├── views/          # EJS templates (organized by feature)
+│   ├── jobs/
+│   ├── recruiter/
+│   ├── rounds/
+│   ├── users/
+│   ├── chats/
+│   └── questions/
+├── routes/         # Route handlers (one file per feature)
+├── controllers/    # Business logic
+├── models/         # Mongoose schemas
+├── middlewares/    # Auth, error handling
+├── utils/          # Helper functions
+├── public/         # Static assets
+└── app.js          # Entry point
+```
 
 ---
 
-## 📬 Contact
+## How AI is used
 
-**Anirban Santra**
-📧 [anirbansantra748@gmail.com](mailto:anirbansantra748@gmail.com)
-🔗 [Portfolio](https://powerful-raven.static.domains/)
+- **Resume analysis** — Gemini reads the candidate's uploaded PDF resume and gives structured feedback
+- **Job matching** — Resumes and job descriptions are embedded using Xenova Transformers locally, then stored and searched in Pinecone to surface the best candidate-job matches
+- **Job search** — Semantic search over job listings powered by the same embedding pipeline
 
 ---
 
+Made by [Anirban Santra](https://powerful-raven.static.domains/)
