@@ -40,9 +40,12 @@ exports.allJobs = async (req, res) => {
       if (user?.resumeExtractedData?.skills?.length) {
         const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        const skillRegexes = user.resumeExtractedData.skills.map(skill =>
-          new RegExp(escapeRegex(skill), 'i')
-        );
+        const skillRegexes = user.resumeExtractedData.skills
+          .map(skill => {
+            const skillName = (skill && typeof skill === 'object') ? skill.name : skill;
+            return (skillName && typeof skillName === 'string') ? new RegExp(escapeRegex(skillName), 'i') : null;
+          })
+          .filter(Boolean);
 
         recommendedJobs = await Job.find({
           $or: [
@@ -347,9 +350,12 @@ exports.searchJobs = async (req, res) => {
       user = await User.findById(req.user._id).catch(() => null);
 
       if (user?.resumeExtractedData?.skills?.length) {
-        const skillRegexes = user.resumeExtractedData.skills.map(skill =>
-          new RegExp(escapeRegex(skill), 'i')
-        );
+        const skillRegexes = user.resumeExtractedData.skills
+          .map(skill => {
+            const skillName = (skill && typeof skill === 'object') ? skill.name : skill;
+            return (skillName && typeof skillName === 'string') ? new RegExp(escapeRegex(skillName), 'i') : null;
+          })
+          .filter(Boolean);
 
         recommendedJobs = await Job.find({
           $or: [
