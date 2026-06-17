@@ -1,253 +1,500 @@
 <% layout("/layouts/boilerplate") %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title><%= user.fullName %>'s Profile</title>
-  <style>
-    :root {
-      --primary: #6366f1;
-      --secondary: #c084fc;
-      --text-light: #e0e0e0;
-      --bg-dark: #0f0c29;
-      --bg-glass: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
+
+<style>
+  .profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+
+  .profile-hero {
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-3xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .profile-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 15s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .profile-hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .profile-avatar {
+    font-size: 6rem;
+    margin-bottom: var(--spacing-lg);
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .profile-name {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .profile-email {
+    color: rgba(17, 17, 17, 0.7);
+    font-size: var(--text-lg);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .profile-badges {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .profile-badge {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--text-dark);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .profile-badge.admin {
+    background: #fbbf24;
+    color: #000;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .stat-card-profile {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-base);
+  }
+
+  .stat-card-profile:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-purple);
+    border-color: var(--purple-primary);
+  }
+
+  .stat-icon {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .stat-number {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .stat-label {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .profile-section {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--purple-primary);
+  }
+
+  .section-icon {
+    font-size: var(--text-2xl);
+  }
+
+  .section-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .info-row:last-child {
+    border-bottom: none;
+  }
+
+  .info-label {
+    color: var(--text-muted);
+    font-weight: var(--font-medium);
+  }
+
+  .info-value {
+    color: var(--text-primary);
+    text-align: right;
+  }
+
+  .link-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--glass-bg-hover);
+    border-radius: var(--radius-md);
+    transition: var(--transition-base);
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .link-item:hover {
+    background: var(--purple-primary);
+    transform: translateX(8px);
+  }
+
+  .link-icon {
+    font-size: var(--text-xl);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .skill-tag {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--purple-primary);
+    color: var(--text-primary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+  }
+
+  .experience-item,
+  .project-item {
+    padding: var(--spacing-md);
+    background: var(--glass-bg-hover);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 3px solid var(--purple-primary);
+  }
+
+  .item-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .item-meta {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .item-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .empty-state-small {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
     }
+  }
+</style>
 
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: linear-gradient(145deg, var(--bg-dark), #1e1b4b, #2d1e6b);
-      color: var(--text-light);
-      padding: 2rem;
-    }
+<div class="profile-container">
+  <!-- Hero Section -->
+  <div class="profile-hero">
+    <div class="profile-hero-content">
+      <div class="profile-avatar">🧑‍🎓</div>
+      <h1 class="profile-name"><%= user.fullName %></h1>
+      <p class="profile-email"><%= user.email %></p>
+      <p class="profile-email">@<%= user.username %></p>
+      <div class="profile-badges">
+        <span class="profile-badge">
+          <i class="fa-solid fa-user"></i>
+          <%= user.role.toUpperCase() %>
+        </span>
+        <% if (user.isAdmin) { %>
+          <span class="profile-badge admin">
+            <i class="fa-solid fa-crown"></i>
+            ADMIN
+          </span>
+        <% } %>
+      </div>
+    </div>
+  </div>
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
+  <!-- AI Resume Upload Component -->
+  <%- include('./resume-upload-component') %>
 
-    .glass {
-      background: var(--bg-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 1rem;
-      border: 1px solid var(--glass-border);
-      padding: 1.5rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-      flex: 1;
-      min-width: 320px;
-    }
+  <!-- Quick Stats -->
+  <div class="stats-grid">
+    <div class="stat-card-profile">
+      <div class="stat-icon">📊</div>
+      <div class="stat-number"><%= user.level || 1 %></div>
+      <div class="stat-label">Level</div>
+    </div>
+    <div class="stat-card-profile">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-number"><%= user.totalPoints || 0 %></div>
+      <div class="stat-label">Total Points</div>
+    </div>
+    <div class="stat-card-profile">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-number"><%= user.streak || 0 %></div>
+      <div class="stat-label">Day Streak</div>
+    </div>
+    <div class="stat-card-profile">
+      <div class="stat-icon">✅</div>
+      <div class="stat-number"><%= user.appliedJobs?.length || 0 %></div>
+      <div class="stat-label">Applied Jobs</div>
+    </div>
+  </div>
 
-    .glass:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s ease;
-    }
+  <!-- Profile Sections Grid -->
+  <div class="profile-grid">
+    
+    <!-- Portfolio Links -->
+    <div class="profile-section">
+      <div class="section-header">
+        <span class="section-icon">🌐</span>
+        <h3 class="section-title">Portfolio & Links</h3>
+      </div>
+      <div class="link-list">
+        <% if (user.portfolioLinks?.github) { %>
+          <a href="<%= user.portfolioLinks.github %>" class="link-item" target="_blank">
+            <i class="fab fa-github link-icon"></i>
+            <span>GitHub Profile</span>
+          </a>
+        <% } %>
+        <% if (user.portfolioLinks?.linkedin) { %>
+          <a href="<%= user.portfolioLinks.linkedin %>" class="link-item" target="_blank">
+            <i class="fab fa-linkedin link-icon"></i>
+            <span>LinkedIn Profile</span>
+          </a>
+        <% } %>
+        <% if (user.portfolioLinks?.portfolio) { %>
+          <a href="<%= user.portfolioLinks.portfolio %>" class="link-item" target="_blank">
+            <i class="fa-solid fa-globe link-icon"></i>
+            <span>Portfolio Website</span>
+          </a>
+        <% } %>
+        <% if (!user.portfolioLinks?.github && !user.portfolioLinks?.linkedin && !user.portfolioLinks?.portfolio) { %>
+          <div class="empty-state-small">
+            <p>No portfolio links added yet</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
 
-    .emoji-avatar {
-      font-size: 5rem;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+    <!-- Basic Info -->
+    <div class="profile-section">
+      <div class="section-header">
+        <span class="section-icon">👤</span>
+        <h3 class="section-title">Basic Information</h3>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Date of Birth</span>
+        <span class="info-value"><%= user.dob ? new Date(user.dob).toLocaleDateString() : 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Gender</span>
+        <span class="info-value"><%= user.gender || 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone</span>
+        <span class="info-value"><%= user.phone || 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Location</span>
+        <span class="info-value">
+          <%= [user.location?.city, user.location?.state, user.location?.country].filter(Boolean).join(', ') || 'N/A' %>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Last Solved</span>
+        <span class="info-value"><%= user.lastSolvedDate ? new Date(user.lastSolvedDate).toLocaleDateString() : 'N/A' %></span>
+      </div>
+    </div>
 
-    h2 {
-      text-align: center;
-      margin: 0.2rem 0;
-    }
+    <!-- College Info -->
+    <% const college = user.resumeExtractedData?.collegeDetails || {}; %>
+    <div class="profile-section">
+      <div class="section-header">
+        <span class="section-icon">🎓</span>
+        <h3 class="section-title">Education</h3>
+      </div>
+      <div class="info-row">
+        <span class="info-label">College</span>
+        <span class="info-value"><%= college.collegeName || 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Degree</span>
+        <span class="info-value"><%= college.degree || 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Duration</span>
+        <span class="info-value"><%= college.startYear || 'N/A' %> - <%= college.endYear || 'N/A' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">CGPA</span>
+        <span class="info-value"><%= college.cgpa || 'N/A' %></span>
+      </div>
+    </div>
 
-    .email,
-    .username {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-    .roles {
-      text-align: center;
-      margin-top: 0.5rem;
-    }
-
-    .badge {
-      display: inline-block;
-      background: var(--secondary);
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin: 0.2rem;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: #fff;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 0.3rem;
-    }
-
-    p, li {
-      line-height: 1.5;
-    }
-
-    ul {
-      list-style-type: disc;
-      padding-left: 1.5rem;
-    }
-
-    strong {
-      color: var(--secondary);
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-
-  <!-- Profile Summary -->
-  <div class="glass">
-    <div class="emoji-avatar">🧑‍🎓</div>
-    <h2><%= user.fullName %></h2>
-    <p class="email"><%= user.email %></p>
-    <p class="username"><%= user.username %></p>
-    <div class="roles">
-      <span class="badge"><%= user.role.toUpperCase() %></span>
-      <% if (user.isAdmin) { %>
-        <span class="badge" style="background: gold; color: black;">Admin</span>
+    <!-- Skills -->
+    <% const skills = user.resumeExtractedData?.skills || []; %>
+    <div class="profile-section">
+      <div class="section-header">
+        <span class="section-icon">💻</span>
+        <h3 class="section-title">Technical Skills</h3>
+      </div>
+      <% if (skills.length > 0) { %>
+        <div class="skill-tags">
+          <% skills.forEach(skill => { %>
+            <span class="skill-tag"><%= skill %></span>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state-small">
+          <p>No skills listed yet</p>
+        </div>
       <% } %>
     </div>
   </div>
 
-  <!-- Quick Stats -->
-  <div class="glass">
-    <div class="section-title">📊 Quick Stats</div>
-    <p><strong>Level:</strong> <%= user.level %></p>
-    <p><strong>Points:</strong> <%= user.totalPoints %></p>
-    <p><strong>Streak:</strong> <%= user.streak %> days</p>
-    <p><strong>Last Solved:</strong> <%= user.lastSolvedDate?.toDateString() || 'N/A' %></p>
-  </div>
-
-  <!-- Portfolio -->
-  <div class="glass">
-    <div class="section-title">🌐 Portfolio</div>
-    <p><strong>GitHub:</strong> <%= user.portfolioLinks?.github || 'N/A' %></p>
-    <p><strong>LinkedIn:</strong> <%= user.portfolioLinks?.linkedin || 'N/A' %></p>
-    <p><strong>Website:</strong> <%= user.portfolioLinks?.portfolio || 'N/A' %></p>
-  </div>
-
-  <!-- Basic Info -->
-  <div class="glass">
-    <div class="section-title">👤 Basic Info</div>
-    <p><strong>DOB:</strong> <%= user.dob?.toDateString() || 'N/A' %></p>
-    <p><strong>Gender:</strong> <%= user.gender || 'N/A' %></p>
-    <p><strong>Phone:</strong> <%= user.phone || 'N/A' %></p>
-    <p><strong>Location:</strong> <%= user.location?.city || '' %>, <%= user.location?.state || '' %>, <%= user.location?.country || '' %></p>
-  </div>
-
-  <!-- College Info -->
-  <div class="glass">
-    <div class="section-title">🎓 College</div>
-    <% const college = user.resumeExtractedData?.collegeDetails || {} %>
-    <p><strong>College:</strong> <%= college.collegeName || 'N/A' %></p>
-    <p><strong>Degree:</strong> <%= college.degree || 'N/A' %></p>
-    <p><strong>Years:</strong> <%= college.startYear || 'N/A' %> - <%= college.endYear || 'N/A' %></p>
-    <p><strong>CGPA:</strong> <%= college.cgpa || 'N/A' %></p>
-  </div>
-
-  <!-- Skills -->
-  <div class="glass">
-    <div class="section-title">💻 Skills</div>
-    <% const skills = user.resumeExtractedData?.skills || [] %>
-    <% if (skills.length) { %>
-      <ul>
-        <% skills.forEach(skill => { %>
-          <li><%= skill %></li>
-        <% }) %>
-      </ul>
-    <% } else { %>
-      <p>No skills listed.</p>
-    <% } %>
-  </div>
-
-  <!-- Experience -->
-  <% if (user.resumeExtractedData?.experience?.length) { %>
-    <div class="glass">
-      <div class="section-title">💼 Experience</div>
+  <!-- Experience Section (Full Width) -->
+  <% if (user.resumeExtractedData?.experience?.length > 0) { %>
+    <div class="profile-section" style="margin-top: var(--spacing-lg);">
+      <div class="section-header">
+        <span class="section-icon">💼</span>
+        <h3 class="section-title">Work Experience</h3>
+      </div>
       <% user.resumeExtractedData.experience.forEach(exp => { %>
-        <div style="margin-bottom: 1rem;">
-          <p><strong><%= exp.position %></strong> @ <%= exp.company %></p>
-          <p><%= exp.type %>, <%= exp.mode %></p>
-          <p><%= exp.startDate %> → <%= exp.endDate %></p>
-          <p><%= exp.description %></p>
+        <div class="experience-item">
+          <div class="item-title"><%= exp.position %> @ <%= exp.company %></div>
+          <div class="item-meta">
+            <%= exp.type %> • <%= exp.mode %> • <%= exp.startDate %> - <%= exp.endDate %>
+          </div>
+          <div class="item-description"><%= exp.description %></div>
         </div>
       <% }) %>
     </div>
   <% } %>
 
-  <!-- Projects -->
-  <% if (user.resumeExtractedData?.projects?.length) { %>
-    <div class="glass">
-      <div class="section-title">🚀 Projects</div>
+  <!-- Projects Section (Full Width) -->
+  <% if (user.resumeExtractedData?.projects?.length > 0) { %>
+    <div class="profile-section" style="margin-top: var(--spacing-lg);">
+      <div class="section-header">
+        <span class="section-icon">🚀</span>
+        <h3 class="section-title">Projects</h3>
+      </div>
       <% user.resumeExtractedData.projects.forEach(p => { %>
-        <div style="margin-bottom: 1rem;">
-          <p><strong><%= p.title %></strong></p>
-          <p><%= p.technologies?.join(", ") %></p>
-          <p><%= p.description %></p>
-          <p>GitHub: <%= p.links?.github || 'N/A' %></p>
-          <p>Live: <%= p.links?.liveSite || 'N/A' %></p>
+        <div class="project-item">
+          <div class="item-title"><%= p.title %></div>
+          <div class="item-meta"><%= p.technologies?.join(', ') || '' %></div>
+          <div class="item-description"><%= p.description %></div>
+          <div style="margin-top: var(--spacing-sm); display: flex; gap: var(--spacing-md);">
+            <% if (p.links?.github) { %>
+              <a href="<%= p.links.github %>" class="text-purple" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            <% } %>
+            <% if (p.links?.liveSite) { %>
+              <a href="<%= p.links.liveSite %>" class="text-purple" target="_blank">
+                <i class="fa-solid fa-external-link-alt"></i> Live Demo
+              </a>
+            <% } %>
+          </div>
         </div>
       <% }) %>
     </div>
   <% } %>
 
   <!-- Certifications -->
-  <% if (user.resumeExtractedData?.certifications?.length) { %>
-    <div class="glass">
-      <div class="section-title">📚 Certifications</div>
-      <ul>
+  <% if (user.resumeExtractedData?.certifications?.length > 0) { %>
+    <div class="profile-section" style="margin-top: var(--spacing-lg);">
+      <div class="section-header">
+        <span class="section-icon">📚</span>
+        <h3 class="section-title">Certifications</h3>
+      </div>
+      <div class="link-list">
         <% user.resumeExtractedData.certifications.forEach(cert => { %>
-          <li><strong><%= cert.title %></strong> — <%= cert.link %></li>
+          <a href="<%= cert.link %>" class="link-item" target="_blank">
+            <i class="fa-solid fa-certificate link-icon"></i>
+            <span><%= cert.title %></span>
+          </a>
         <% }) %>
-      </ul>
+      </div>
     </div>
   <% } %>
-
-  <!-- Awards & Hobbies -->
-  <% if (user.resumeExtractedData?.awardsAndHobbies?.length) { %>
-    <div class="glass">
-      <div class="section-title">🏅 Awards & Hobbies</div>
-      <% user.resumeExtractedData.awardsAndHobbies.forEach(item => { %>
-        <div style="margin-bottom: 1rem;">
-          <p><strong><%= item.title %></strong></p>
-          <p><%= item.description %></p>
-          <p>Link: <%= item.link %></p>
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
-
-  <!-- Applied Jobs -->
-  <div class="glass">
-    <div class="section-title">🧾 Applied Jobs</div>
-    <% if (!user.appliedJobs?.length) { %>
-      <p>No jobs applied yet.</p>
-    <% } else { %>
-      <ul>
-        <% user.appliedJobs.forEach(app => { %>
-          <li>
-            Job ID: <%= app.jobId %> |
-            Status: <%= app.status %> |
-            Date: <%= new Date(app.appliedAt).toLocaleDateString() %>
-          </li>
-        <% }) %>
-      </ul>
-    <% } %>
-  </div>
-
 </div>
-
-</body>
-</html>
+ 

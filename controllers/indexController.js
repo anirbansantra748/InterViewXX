@@ -13,15 +13,21 @@ exports.homePage = async (req, res) => {
     const regex = new RegExp(escapeRegex(searchQuery), 'i');
     console.log("📌 Regex created:", regex);
 
-    console.log("📦 Fetching all matching questions...");
-    const allQuestions = await Question.find({
-      $or: [
-        { title: regex },
-        { tags: regex },
-        { difficulty: regex }
-      ]
-    }).sort({ createdAt: -1 });
-    console.log("✅ Found questions:", allQuestions.length);
+    let displayQuestions;
+    if (searchQuery) {
+      console.log("📦 Fetching matching questions for search...");
+      displayQuestions = await Question.find({
+        $or: [
+          { title: regex },
+          { tags: regex },
+          { difficulty: regex }
+        ]
+      }).sort({ createdAt: -1 });
+    } else {
+      console.log("✨ Fetching top 5 most liked questions...");
+      displayQuestions = await Question.find({}).sort({ likes: -1 }).limit(5);
+    }
+    console.log("✅ Display questions count:", displayQuestions.length);
 
     console.log("🔥 Fetching hot questions...");
     const hotQuestions = await Question.find({}).sort({ likes: -1 }).limit(5);
@@ -29,7 +35,7 @@ exports.homePage = async (req, res) => {
 
     res.render("listings/index.ejs", {
       user,
-      allQuestions,
+      allQuestions: displayQuestions,
       hotQuestions,
       searchQuery
     });
@@ -41,7 +47,7 @@ exports.homePage = async (req, res) => {
 };
 
 module.exports.thirdRound = (req, res) => {
-	res.render("listings/thirdRound.ejs");
+  res.render("listings/thirdRound.ejs");
 };
 
 module.exports.addDummyQuestion = async (req, res) => {
@@ -100,6 +106,6 @@ module.exports.addDummyQuestion = async (req, res) => {
   }
 };
 
-module.exports.aboutpage = async(req,res) =>{
+module.exports.aboutpage = async (req, res) => {
   res.render("listings/about.ejs");
 }

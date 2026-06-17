@@ -14,11 +14,12 @@ const uploadOnCloudinary = async (localFilePath) => {
 		if (!localFilePath || !fs.existsSync(localFilePath)) return null;
 
 		const result = await cloudinary.uploader.upload(localFilePath, {
-			resource_type: "auto",
+			resource_type: "raw",
+			folder: "resumes"
 		});
 
 		// Clean up local file after successful upload
-		// fs.unlinkSync(localFilePath);
+		if (fs.existsSync(localFilePath)) fs.unlinkSync(localFilePath);
 		return result;
 	} catch (err) {
 		// Clean up local file if upload fails

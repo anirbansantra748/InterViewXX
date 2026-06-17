@@ -1,186 +1,486 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  body {
-    background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
-    font-family: 'Poppins', sans-serif;
-    padding: 40px 20px;
-    color: #fff;
+  .register-container {
+    min-height: 100vh;
+    padding: var(--spacing-2xl) var(--spacing-lg);
   }
 
-  .register-form {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
-    padding: 30px;
-    max-width: 900px;
-    margin: auto;
-    border-radius: 16px;
+  .register-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .register-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .register-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--spacing-sm);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .register-subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .register-form-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .form-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--glass-border);
+  }
+
+  .section-icon {
+    font-size: var(--text-2xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .form-grid {
     display: grid;
-    gap: 18px;
-    animation: fadeIn 0.6s ease-in-out;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
   }
 
-  h2, h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #ffc26f;
-    border-bottom: 1px solid #ffffff15;
-    padding-bottom: 5px;
-    margin-top: 25px;
+  .submit-section {
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
   }
 
-  input, select, textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    background: rgba(255, 255, 255, 0.08);
-    color: white;
-    font-size: 0.95rem;
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-2xl);
+    position: relative;
   }
 
-  input::placeholder, textarea::placeholder {
-    color: #bbb;
+  .progress-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
   }
 
-  textarea {
-    resize: vertical;
-    min-height: 80px;
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-sm);
+    font-weight: var(--font-bold);
+    transition: var(--transition-base);
   }
 
-  input[type="file"] {
-    background: none;
+  .progress-step.active .step-number {
+    background: var(--purple-primary);
+    border-color: var(--purple-primary);
+    color: var(--text-primary);
   }
 
-  button {
-    background: #4a47a3;
-    padding: 12px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.2s ease;
+  .step-label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
   }
 
-  button:hover {
-    background: #6f6cc8;
-  }
-
-  .grid-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
-  }
-
-  .section {
-    margin-top: 15px;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 500px) {
-    .register-form {
-      padding: 20px;
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .progress-steps {
+      flex-wrap: wrap;
+    }
+    
+    .register-form-card {
+      padding: var(--spacing-lg);
     }
   }
 </style>
 
-<form class="register-form" action="/users/register" method="POST" enctype="multipart/form-data">
-  <h2>📝 Register New Account</h2>
-  <div class="grid-2">
-    <input type="text" name="username" placeholder="Username (Email)" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="text" name="fullName" placeholder="Full Name" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="date" name="dob">
-    <select name="gender">
-      <option value="">Gender</option>
-      <option>Male</option>
-      <option>Female</option>
-      <option>Other</option>
-    </select>
-    <input type="text" name="phone" placeholder="Phone Number">
-    <select name="role">
-      <option value="user" selected>User</option>
-      <option value="recruiter">Recruiter</option>
-    </select>
-    <input type="text" name="city" placeholder="City">
-    <input type="text" name="state" placeholder="State">
-    <input type="text" name="country" placeholder="Country">
+<div class="register-container">
+  <div class="register-wrapper">
+    <div class="register-header">
+      <h1 class="register-title">Create Your Account</h1>
+      <p class="register-subtitle">Join thousands of professionals preparing for their dream job</p>
+    </div>
+
+    <div class="register-form-card">
+      <form action="/users/register" method="POST" enctype="multipart/form-data">
+        
+        <!-- Basic Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">👤</span>
+            <h3 class="section-title">Basic Information</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="username">Username *</label>
+              <input type="text" class="form-input" id="username" name="username" placeholder="Enter username" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="password">Password *</label>
+              <input type="password" class="form-input" id="password" name="password" placeholder="Create password" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name *</label>
+              <input type="text" class="form-input" id="fullName" name="fullName" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email *</label>
+              <input type="email" class="form-input" id="email" name="email" placeholder="your.email@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dob">Date of Birth</label>
+              <input type="date" class="form-input" id="dob" name="dob" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="gender">Gender</label>
+              <select class="form-select" id="gender" name="gender">
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input type="tel" class="form-input" id="phone" name="phone" placeholder="+1 234 567 8900" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="role">Account Type</label>
+              <select class="form-select" id="role" name="role">
+                <option value="user">User</option>
+                <option value="recruiter">Recruiter</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">📍</span>
+            <h3 class="section-title">Location</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="city">City</label>
+              <input type="text" class="form-input" id="city" name="city" placeholder="Your city" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="state">State</label>
+              <input type="text" class="form-input" id="state" name="state" placeholder="Your state" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="country">Country</label>
+              <input type="text" class="form-input" id="country" name="country" placeholder="Your country" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Links -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🌐</span>
+            <h3 class="section-title">Portfolio & Social Links</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="github">GitHub Profile</label>
+              <input type="url" class="form-input" id="github" name="github" placeholder="https://github.com/username" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="linkedin">LinkedIn Profile</label>
+              <input type="url" class="form-input" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="portfolio">Portfolio Website</label>
+              <input type="url" class="form-input" id="portfolio" name="portfolio" placeholder="https://yourwebsite.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Uploads -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🖼️</span>
+            <h3 class="section-title">Upload Files</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="profileImage">Profile Image</label>
+              <input type="file" class="form-input" id="profileImage" name="profileImage" accept="image/*" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="resumeFile">Resume (PDF)</label>
+              <input type="file" class="form-input" id="resumeFile" name="resumeFile" accept=".pdf" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">📘</span>
+            <h3 class="section-title">Education Details</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="collegeName">College/University</label>
+              <input type="text" class="form-input" id="collegeName" name="collegeName" placeholder="Institution name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="degree">Degree</label>
+              <input type="text" class="form-input" id="degree" name="degree" placeholder="B.Tech, M.Sc, etc." />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="startYear">Start Year</label>
+              <input type="text" class="form-input" id="startYear" name="startYear" placeholder="2020" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="endYear">End Year</label>
+              <input type="text" class="form-input" id="endYear" name="endYear" placeholder="2024" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cgpa">CGPA</label>
+              <input type="text" class="form-input" id="cgpa" name="cgpa" placeholder="8.5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">💼</span>
+            <h3 class="section-title">Skills</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="skills">Technical Skills</label>
+            <input type="text" class="form-input" id="skills" name="skills" placeholder="JavaScript, Python, React, Node.js, MongoDB" />
+            <small class="text-muted">Separate multiple skills with commas</small>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🧑‍💼</span>
+            <h3 class="section-title">Work Experience (Optional)</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="expCompany">Company Name</label>
+              <input type="text" class="form-input" id="expCompany" name="expCompany" placeholder="Company name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expPosition">Position</label>
+              <input type="text" class="form-input" id="expPosition" name="expPosition" placeholder="Software Engineer" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expDuration">Duration</label>
+              <input type="text" class="form-input" id="expDuration" name="expDuration" placeholder="2 years" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expRole">Job Role</label>
+              <input type="text" class="form-input" id="expRole" name="expRole" placeholder="Backend Developer" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expStartDate">Start Date</label>
+              <input type="date" class="form-input" id="expStartDate" name="expStartDate" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expEndDate">End Date</label>
+              <input type="date" class="form-input" id="expEndDate" name="expEndDate" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expType">Employment Type</label>
+              <select class="form-select" id="expType" name="expType">
+                <option value="">Select type</option>
+                <option value="Internship">Internship</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="expMode">Work Mode</label>
+              <select class="form-select" id="expMode" name="expMode">
+                <option value="">Select mode</option>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="expDescription">Job Description</label>
+            <textarea class="form-textarea" id="expDescription" name="expDescription" placeholder="Describe your responsibilities and achievements..."></textarea>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🚀</span>
+            <h3 class="section-title">Projects (Optional)</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="projTitle">Project Title</label>
+              <input type="text" class="form-input" id="projTitle" name="projTitle" placeholder="E-commerce Platform" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projTech">Technologies Used</label>
+              <input type="text" class="form-input" id="projTech" name="projTech" placeholder="React, Node.js, MySQL" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projGithub">GitHub Repository</label>
+              <input type="url" class="form-input" id="projGithub" name="projGithub" placeholder="https://github.com/username/repo" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projLiveSite">Live Demo</label>
+              <input type="url" class="form-input" id="projLiveSite" name="projLiveSite" placeholder="https://project-demo.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="projDescription">Project Description</label>
+            <textarea class="form-textarea" id="projDescription" name="projDescription" placeholder="Describe what the project does and your contributions..."></textarea>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🎓</span>
+            <h3 class="section-title">Certifications (Optional)</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="certTitle">Certification Title</label>
+              <input type="text" class="form-input" id="certTitle" name="certTitle" placeholder="AWS Certified Developer" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="certLink">Certificate Link</label>
+              <input type="url" class="form-input" id="certLink" name="certLink" placeholder="https://certificate-url.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Awards & Hobbies -->
+        <div class="form-section">
+          <div class="section-header">
+            <span class="section-icon">🏅</span>
+            <h3 class="section-title">Awards & Hobbies (Optional)</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="awardTitle">Award/Hobby Title</label>
+              <input type="text" class="form-input" id="awardTitle" name="awardTitle" placeholder="Hackathon Winner" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awardLink">Supporting Link</label>
+              <input type="url" class="form-input" id="awardLink" name="awardLink" placeholder="https://award-link.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="awardDescription">Description</label>
+            <textarea class="form-textarea" id="awardDescription" name="awardDescription" placeholder="Tell us more about it..."></textarea>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-section">
+          <button type="submit" class="btn btn-primary btn-lg" style="min-width: 300px;">
+            <i class="fa-solid fa-user-plus"></i>
+            Create Account
+          </button>
+          <p class="mt-lg text-muted">
+            Already have an account? 
+            <a href="/users/login" class="text-purple">Login here</a>
+          </p>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
 
-  <h3>🌐 Portfolio Links</h3>
-  <div class="grid-2">
-    <input type="text" name="github" placeholder="GitHub Profile">
-    <input type="text" name="linkedin" placeholder="LinkedIn Profile">
-    <input type="text" name="portfolio" placeholder="Portfolio Site">
-  </div>
+<script>
+// Form validation feedback
+const form = document.querySelector('form');
+const requiredInputs = form.querySelectorAll('[required]');
 
-  <h3>🖼️ Uploads</h3>
-  <div class="grid-2">
-    <label>Profile Image:<input type="file" name="profileImage"></label>
-    <label>Resume File:<input type="file" name="resumeFile"></label>
-  </div>
+form.addEventListener('submit', function(e) {
+  let isValid = true;
+  
+  requiredInputs.forEach(input => {
+    if (!input.value.trim()) {
+      isValid = false;
+      input.style.borderColor = 'var(--error)';
+      setTimeout(() => {
+        input.style.borderColor = '';
+      }, 2000);
+    }
+  });
+  
+  if (!isValid) {
+    e.preventDefault();
+    alert('Please fill in all required fields');
+  }
+});
 
-  <h3>📘 College Details</h3>
-  <div class="grid-2">
-    <input type="text" name="collegeName" placeholder="College Name">
-    <input type="text" name="degree" placeholder="Degree">
-    <input type="text" name="startYear" placeholder="Start Year">
-    <input type="text" name="endYear" placeholder="End Year">
-    <input type="text" name="cgpa" placeholder="CGPA">
-  </div>
-
-  <h3>💼 Skills</h3>
-  <input type="text" name="skills" placeholder="e.g. JavaScript, Node.js">
-
-  <h3>🧑‍💼 Experience</h3>
-  <div class="grid-2">
-    <input type="text" name="expCompany" placeholder="Company Name">
-    <input type="text" name="expPosition" placeholder="Position">
-    <input type="text" name="expDuration" placeholder="Duration">
-    <input type="text" name="expRole" placeholder="Job Role">
-    <input type="text" name="expStartDate" placeholder="Start Date (YYYY-MM-DD)">
-    <input type="text" name="expEndDate" placeholder="End Date (YYYY-MM-DD)">
-    <select name="expType">
-      <option>Internship</option>
-      <option>Full-time</option>
-    </select>
-    <select name="expMode">
-      <option>Remote</option>
-      <option>On-site</option>
-    </select>
-  </div>
-  <textarea name="expDescription" placeholder="Describe your responsibilities..."></textarea>
-
-  <h3>🚀 Projects</h3>
-  <div class="grid-2">
-    <input type="text" name="projTitle" placeholder="Project Title">
-    <input type="text" name="projTech" placeholder="Technologies (comma-separated)">
-    <input type="text" name="projGithub" placeholder="GitHub Link">
-    <input type="text" name="projLiveSite" placeholder="Live Site Link">
-  </div>
-  <textarea name="projDescription" placeholder="Project Description"></textarea>
-
-  <h3>🎓 Certifications</h3>
-  <div class="grid-2">
-    <input type="text" name="certTitle" placeholder="Certificate Title">
-    <input type="text" name="certLink" placeholder="Certificate Link">
-  </div>
-
-  <h3>🏅 Awards & Hobbies</h3>
-  <div class="grid-2">
-    <input type="text" name="awardTitle" placeholder="Award / Hobby Title">
-    <input type="text" name="awardLink" placeholder="Supporting Link">
-  </div>
-  <textarea name="awardDescription" placeholder="Tell us more..."></textarea>
-
-  <button type="submit">✨ Register Now</button>
-</form>
+// Real-time validation
+requiredInputs.forEach(input => {
+  input.addEventListener('blur', function() {
+    if (!this.value.trim()) {
+      this.style.borderColor = 'var(--error)';
+    } else {
+      this.style.borderColor = 'var(--success)';
+    }
+  });
+  
+  input.addEventListener('input', function() {
+    if (this.value.trim()) {
+      this.style.borderColor = '';
+    }
+  });
+});
+</script>

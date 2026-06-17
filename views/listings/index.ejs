@@ -1,206 +1,658 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  body {
-    background-color: #0e0c1f;
-    background-image: linear-gradient(to right, #1a1333, #121020);
-    color: #f0f0f0;
-    font-family: 'Poppins', sans-serif;
-    padding: 30px 30px;
+  /* =============================================
+     HERO — PREMIUM UPGRADE
+     ============================================= */
+  .hero-section {
+    padding: 100px 0 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
   }
 
-  .container {
-    max-width: 1400px;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 0 30px rgba(110, 100, 255, 0.1);
-    backdrop-filter: blur(18px);
+  /* Animated radial glow behind hero */
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+      rgba(122, 95, 251, 0.12) 0%,
+      rgba(196, 132, 252, 0.06) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    animation: hero-pulse 8s ease-in-out infinite;
   }
 
-  .search-bar form {
-    width: 100%;
-    margin-bottom: 30px;
+  @keyframes hero-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50%       { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
   }
 
-  .search-bar input {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
-    color: #fff;
-    outline: none;
-    transition: 0.3s;
+  /* Floating grid dots */
+  .hero-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(122, 95, 251, 0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+    pointer-events: none;
   }
 
-  .search-bar input::placeholder {
-    color: #bbb;
+  .hero-content {
+    position: relative;
+    z-index: 1;
   }
 
-  .tag-container {
+  /* Eyebrow label above title */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(122, 95, 251, 0.12);
+    border: 1px solid rgba(122, 95, 251, 0.3);
+    border-radius: 9999px;
+    padding: 6px 18px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--purple-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeInUp 0.5s ease-out both;
+  }
+
+  .hero-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--purple-light);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.08;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.6s 0.1s ease-out both;
+  }
+
+  .hero-title .gradient-word {
+    background: linear-gradient(135deg, #9c7cff 0%, #f472b6 60%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: gradient-shift 4s linear infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-2xl);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+    animation: fadeInUp 0.6s 0.2s ease-out both;
+  }
+
+  .hero-search {
+    max-width: 660px;
+    margin: 0 auto var(--spacing-xl);
+    animation: fadeInUp 0.6s 0.3s ease-out both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-bottom: 60px;
+    animation: fadeInUp 0.6s 0.35s ease-out both;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin-top: 0;
+    animation: fadeInUp 0.6s 0.45s ease-out both;
+  }
+
+  .stat-card-hero {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    backdrop-filter: blur(16px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card-hero::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card-hero:hover {
+    transform: translateY(-4px);
+    border-color: rgba(122, 95, 251, 0.3);
+    box-shadow: 0 0 30px rgba(122, 95, 251, 0.15);
+  }
+
+  .stat-card-hero:hover::before { transform: scaleX(1); }
+
+  .stat-value-hero {
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label-hero {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+
+  /* Filter Section */
+  .filter-section {
+    margin: var(--spacing-2xl) 0;
+  }
+
+  .filter-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 35px;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-bottom: var(--spacing-xl);
   }
 
-  .tag-btn {
-    padding: 8px 16px;
-    background: #7a5ffb;
-    border-radius: 9999px;
-    color: white;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    user-select: none;
+  /* Question Card Enhanced */
+  .question-card-enhanced {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: var(--spacing-lg);
+    transition: all 0.35s ease;
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
   }
 
-  .tag-btn:hover {
-    background: #9c7cff;
+  .question-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    border-radius: 18px 18px 0 0;
   }
 
-  .section-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #d5caff;
-    border-left: 4px solid #a679ff;
-    padding-left: 12px;
-    margin-bottom: 16px;
-    margin-top: 40px;
+  .question-card-enhanced::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(122, 95, 251, 0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    border-radius: 18px;
   }
 
-  .question-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+  .question-card-enhanced:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(122, 95, 251, 0.2), 0 0 0 1px rgba(122, 95, 251, 0.2);
+    border-color: rgba(122, 95, 251, 0.35);
   }
 
-  .question-card {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    padding: 20px;
-    transition: 0.3s ease;
+  .question-card-enhanced:hover::before { transform: scaleX(1); }
+  .question-card-enhanced:hover::after  { opacity: 1; }
+
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
   }
 
-  .question-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 20px rgba(127, 112, 255, 0.2);
+  .question-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.4;
   }
 
-  .question-card h4 {
-    font-size: 1rem;
-    margin-bottom: 10px;
-    color: #fff;
+  .question-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
   }
 
-  .question-card p {
-    font-size: 0.9rem;
-    color: #bbb;
-    margin-bottom: 12px;
+  .question-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
   }
 
-  .question-card a {
-    font-size: 0.85rem;
-    padding: 8px 14px;
-    background: linear-gradient(to right, #a18cd1, #fbc2eb);
-    color: #111;
-    border-radius: 8px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: 0.3s ease;
+  .question-stats {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
   }
 
-  .question-card a:hover {
-    background: linear-gradient(to right, #c2ffd8, #465efb);
-    color: #000;
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
   }
 
-  .hot-question {
+  .question-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 14px;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .hot-question strong {
-    color: #fff;
-    font-size: 0.96rem;
+  /* Hot Questions */
+  .hot-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
   }
 
-  .hot-question small {
-    color: #bbb;
-    font-size: 0.8rem;
+  .hot-question-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    transition: var(--transition-base);
   }
 
-  .hot-question div:last-child {
-    color: #ff6d6d;
-    font-weight: 600;
+  .hot-question-item:hover {
+    transform: translateX(8px);
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.04);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+  }
+
+  .hot-question-content h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .hot-question-content small {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .hot-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: var(--font-bold);
+    color: #f87171;
+    font-size: var(--text-lg);
+  }
+
+  .fire-icon {
+    animation: flicker 1.5s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+  }
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.4;
+  }
+
+  .empty-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .empty-subtitle {
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 768px) {
-    .search-bar input {
-      font-size: 0.9rem;
-    }
+    .hero-title { font-size: 2.2rem; }
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .question-footer { flex-direction: column; gap: var(--spacing-md); align-items: stretch; }
+  }
 
-    .question-card a {
-      width: 100%;
-      text-align: center;
-    }
-
-    .container {
-      padding: 20px;
-    }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 
 <div class="container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
 
-  <!-- 🔍 Search Bar -->
-  <div class="search-bar">
-    <form method="GET" action="/home">
-      <input type="text" name="search" placeholder="Search by title, tag, or difficulty..." value="<%= searchQuery %>">
-    </form>
-  </div>
-
-  <!-- 🎯 Filter Tags -->
-  <div class="tag-container">
-    <span class="tag-btn" onclick="location.href='/home?search=Aptitude'">Aptitude</span>
-    <span class="tag-btn" onclick="location.href='/home?search=DSA'">DSA</span>
-    <span class="tag-btn" onclick="location.href='/home?search=Amazon'">Company-wise</span>
-    <span class="tag-btn" onclick="location.href='/home?search=Trending'">Trending</span>
-    <span class="tag-btn" onclick="location.href='/home?search=Recent'">Recently Added</span>
-  </div>
-
-  <!-- 🧠 Top Questions -->
-  <div class="section-title">🧠 Top Questions</div>
-  <div class="question-grid">
-    <% allQuestions.forEach(q => { %>
-      <div class="question-card">
-        <h4><%= q.title %></h4>
-        <p>Difficulty: <%= q.difficulty %></p>
-        <a href="/questions/<%= q._id %>">Solve Now</a>
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Interview Preparation Platform
       </div>
-    <% }) %>
-  </div>
 
-  <!-- 🔥 Hot Right Now -->
-  <div class="section-title">🔥 Hot Right Now</div>
-  <% hotQuestions.forEach(q => { %>
-    <div class="hot-question">
-      <div>
-        <strong><a href="/questions/<%= q._id %>"><%= q.title %></a></strong><br>
-        <small>Difficulty: <%= q.difficulty %></small>
+      <h1 class="hero-title">
+        Master Your<br>
+        <span class="gradient-word">Interview Skills</span>
+      </h1>
+      <p class="hero-subtitle">
+        Practice with curated questions from top companies, track your progress, and land your dream role.
+      </p>
+
+      <!-- Search Bar -->
+      <div class="hero-search">
+        <form method="GET" action="/home">
+          <div class="search-container" style="max-width:100%;">
+            <i class="fa-solid fa-search search-icon"></i>
+            <input 
+              type="text" 
+              name="search" 
+              class="search-input" 
+              placeholder="Search by title, tag, difficulty, or company..." 
+              value="<%= searchQuery %>"
+            />
+          </div>
+        </form>
       </div>
-      <div>🔥 <%= q.likes %></div>
+
+      <!-- CTA Buttons -->
+      <div class="hero-cta">
+        <a href="#questions" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-rocket"></i>
+          Start Practicing
+        </a>
+        <a href="/questions/list" class="btn btn-secondary btn-lg">
+          <i class="fa-solid fa-list"></i>
+          Browse All Questions
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card-hero">
+          <div class="stat-value-hero"><%= allQuestions.length %>+</div>
+          <div class="stat-label-hero">Questions</div>
+        </div>
+        <div class="stat-card-hero">
+          <div class="stat-value-hero">500+</div>
+          <div class="stat-label-hero">Companies</div>
+        </div>
+        <div class="stat-card-hero">
+          <div class="stat-value-hero">100k+</div>
+          <div class="stat-label-hero">Users</div>
+        </div>
+        <div class="stat-card-hero">
+          <div class="stat-value-hero">95%</div>
+          <div class="stat-label-hero">Success Rate</div>
+        </div>
+      </div>
     </div>
-  <% }) %>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="filter-section" id="questions">
+    <h3 class="text-center mb-lg">Filter by Category</h3>
+    <div class="filter-pills">
+      <span class="tag <%= searchQuery === '' ? 'active' : '' %>" onclick="location.href='/home'">
+        <i class="fa-solid fa-th"></i> All Questions
+      </span>
+      <span class="tag <%= searchQuery === 'DSA' ? 'active' : '' %>" onclick="location.href='/home?search=DSA'">
+        <i class="fa-solid fa-code"></i> DSA
+      </span>
+      <span class="tag <%= searchQuery === 'Aptitude' ? 'active' : '' %>" onclick="location.href='/home?search=Aptitude'">
+        <i class="fa-solid fa-brain"></i> Aptitude
+      </span>
+      <span class="tag <%= searchQuery === 'System Design' ? 'active' : '' %>" onclick="location.href='/home?search=System Design'">
+        <i class="fa-solid fa-project-diagram"></i> System Design
+      </span>
+      <span class="tag <%= searchQuery === 'JavaScript' ? 'active' : '' %>" onclick="location.href='/home?search=JavaScript'">
+        <i class="fab fa-js"></i> JavaScript
+      </span>
+      <span class="tag <%= searchQuery === 'Python' ? 'active' : '' %>" onclick="location.href='/home?search=Python'">
+        <i class="fab fa-python"></i> Python
+      </span>
+    </div>
+  </section>
+
+  <!-- Top Questions Grid -->
+  <section>
+    <div class="section-title">
+      <%= searchQuery ? '🔍 Search Results' : '🏆 Top 5 Most Liked Questions' %>
+    </div>
+    
+    <% if (allQuestions.length > 0) { %>
+      <div class="grid grid-auto">
+        <% allQuestions.forEach(q => { %>
+          <article class="question-card-enhanced">
+            <div class="question-header">
+              <div class="flex-1">
+                <h4 class="question-title"><%= q.title %></h4>
+                <div class="question-meta">
+                  <% if (q.difficulty === 'easy') { %>
+                    <span class="badge badge-easy">Easy</span>
+                  <% } else if (q.difficulty === 'medium') { %>
+                    <span class="badge badge-medium">Medium</span>
+                  <% } else if (q.difficulty === 'hard') { %>
+                    <span class="badge badge-hard">Hard</span>
+                  <% } %>
+                  
+                  <span class="badge badge-secondary">
+                    <i class="fa-solid fa-<%= q.type === 'mcq' ? 'check-circle' : 'pen' %>"></i>
+                    <%= q.type.toUpperCase() %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <% if (q.tags && q.tags.length > 0) { %>
+              <div class="question-tags">
+                <% q.tags.slice(0, 3).forEach(tag => { %>
+                  <span class="badge badge-primary"><%= tag %></span>
+                <% }) %>
+              </div>
+            <% } %>
+
+            <!-- Stats -->
+            <div class="question-stats">
+              <div class="stat-item">
+                <i class="fa-solid fa-heart" style="color: var(--error);"></i>
+                <span><%= q.likes || 0 %></span>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-star" style="color: var(--warning);"></i>
+                <span><%= q.points || 5 %> pts</span>
+              </div>
+              <% if (q.solvedBy && q.solvedBy.length > 0) { %>
+                <div class="stat-item">
+                  <i class="fa-solid fa-users" style="color: var(--success);"></i>
+                  <span><%= q.solvedBy.length %> solved</span>
+                </div>
+              <% } %>
+            </div>
+
+            <!-- Footer -->
+            <div class="question-footer">
+              <div class="text-sm text-muted">
+                <i class="fa-solid fa-clock"></i>
+                <%= q.createdAt ? new Date(q.createdAt).toLocaleDateString() : 'Recently' %>
+              </div>
+              <a href="/questions/<%= q._id %>" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-play"></i>
+                Solve Now
+              </a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+      
+      <% if (!searchQuery) { %>
+        <div class="text-center mt-xl">
+          <a href="/questions/list" class="btn btn-secondary btn-lg">
+            <i class="fa-solid fa-layer-group"></i>
+            View All Questions
+          </a>
+        </div>
+      <% } %>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3 class="empty-title">No questions found</h3>
+        <p class="empty-subtitle">Try adjusting your search or filter criteria</p>
+        <a href="/home" class="btn btn-primary">
+          <i class="fa-solid fa-refresh"></i>
+          Clear Filters
+        </a>
+      </div>
+    <% } %>
+  </section>
+
+  <!-- Hot Questions Section -->
+  <% if (hotQuestions && hotQuestions.length > 0) { %>
+    <section style="margin-top: var(--spacing-3xl);">
+      <div class="section-title">🔥 Hot Right Now</div>
+      <div class="hot-questions-list">
+        <% hotQuestions.forEach(q => { %>
+          <div class="hot-question-item">
+            <div class="hot-question-content">
+              <h4>
+                <a href="/questions/<%= q._id %>" style="color: inherit;">
+                  <%= q.title %>
+                </a>
+              </h4>
+              <small>
+                Difficulty: <strong><%= q.difficulty %></strong>
+                <% if (q.tags && q.tags.length > 0) { %>
+                  • <%= q.tags.slice(0, 2).join(', ') %>
+                <% } %>
+              </small>
+            </div>
+            <div class="hot-badge">
+              <span class="fire-icon">🔥</span>
+              <span><%= q.likes %></span>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
 </div>
+
+<script>
+// Smooth scroll to questions section
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
+
+// Add animation on scroll
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '0';
+      entry.target.style.transform = 'translateY(20px)';
+      entry.target.style.transition = 'all 0.6s ease';
+      
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, 100);
+      
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Observe all question cards
+document.querySelectorAll('.question-card-enhanced').forEach(card => {
+  observer.observe(card);
+});
+</script>

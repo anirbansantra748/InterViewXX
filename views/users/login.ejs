@@ -1,108 +1,230 @@
-
+<% layout("/layouts/boilerplate") %>
 
 <style>
-  body {
-    background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
-    font-family: 'Poppins', sans-serif;
-    color: white;
+  .auth-container {
+    min-height: 80vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    justify-content: center;
+    padding: var(--spacing-xl);
   }
 
-  .glass-form {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-    border-radius: 16px;
-    padding: 40px 30px;
+  .auth-card {
     width: 100%;
-    max-width: 400px;
-    animation: fadeIn 0.7s ease-out;
+    max-width: 450px;
+    background: var(--glass-bg);
+    border: 1 px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-lg), 0 0 40px var(--glass-shadow);
+    animation: fadeInUp 0.6s ease-out;
   }
 
-  .glass-form h2 {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .auth-header {
     text-align: center;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #ffc26f;
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-2xl);
   }
 
-  .glass-form label {
-    display: block;
-    margin-bottom: 8px;
-    color: #ccc;
-    font-size: 0.95rem;
+  .auth-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .glass-form input {
+  .auth-title {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+  }
+
+  .auth-subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: var(--text-lg);
+    pointer-events: none;
+  }
+
+  .auth-input {
     width: 100%;
-    padding: 12px 15px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    margin-bottom: 20px;
-    font-size: 0.95rem;
+    padding: 14px 20px 14px 48px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--text-base);
+    transition: var(--transition-base);
   }
 
-  .glass-form input:focus {
+  .auth-input:focus {
     outline: none;
-    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--purple-primary);
+    box-shadow: 0 0 0 3px rgba(122, 95, 251, 0.1);
   }
 
-  .glass-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4a47a3;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  .auth-input::placeholder {
+    color: var(--text-muted);
   }
 
-  .glass-form button:hover {
-    background-color: #6b66d6;
-  }
-
-  .glass-form a {
-    display: block;
+  .auth-footer {
     text-align: center;
-    margin-top: 16px;
-    font-size: 0.9rem;
-    color: #82cfff;
-    text-decoration: none;
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--glass-border);
   }
 
-  .glass-form a:hover {
+  .auth-link {
+    color: var(--purple-light);
+    font-weight: var(--font-medium);
+    transition: var(--transition-base);
+  }
+
+  .auth-link:hover {
+    color: var(--purple-glow);
     text-decoration: underline;
-    color: #fff;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: var(--text-lg);
+    transition: var(--transition-base);
+  }
+
+  .password-toggle:hover {
+    color: var(--purple-light);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
   }
 </style>
 
-<div class="glass-form">
-  <h2>🚪 Log In</h2>
-  <form action="/users/login" method="POST">
-    <label for="username">👤 Username:</label>
-    <input type="text" id="username" name="username" required />
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-icon">🚪</div>
+      <h1 class="auth-title">Welcome Back!</h1>
+      <p class="auth-subtitle">Login to continue your interview preparation</p>
+    </div>
 
-    <label for="password">🔒 Password:</label>
-    <input type="password" id="password" name="password" required />
+    <form class="auth-form" action="/users/login" method="POST">
+      <div class="input-group">
+        <i class="fa-solid fa-user input-icon"></i>
+        <input 
+          type="text" 
+          class="auth-input" 
+          id="username" 
+          name="username" 
+          placeholder="Username or Email"
+          required 
+          autocomplete="username"
+        />
+      </div>
 
-    <button type="submit">Log In</button>
+      <div class="input-group">
+        <i class="fa-solid fa-lock input-icon"></i>
+        <input 
+          type="password" 
+          class="auth-input" 
+          id="password" 
+          name="password" 
+          placeholder="Password"
+          required 
+          autocomplete="current-password"
+        />
+        <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
+      </div>
 
-    <a href="/users/register">📝 Don't have an account? Sign Up</a>
-  </form>
+      <button type="submit" class="btn btn-primary btn-full btn-lg">
+        <i class="fa-solid fa-sign-in-alt"></i>
+        Login
+      </button>
+    </form>
+
+    <div class="divider">Or</div>
+
+    <div class="auth-footer">
+      <p class="text-muted">
+        Don't have an account? 
+        <a href="/users/register" class="auth-link">Create Account</a>
+      </p>
+    </div>
+  </div>
 </div>
+
+<script>
+  // Password Toggle
+  const togglePassword = document.getElementById('togglePassword');
+  const password = document.getElementById('password');
+
+  togglePassword.addEventListener('click', function() {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
+
+  // Form Animation
+  const inputs = document.querySelectorAll('.auth-input');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.querySelector('.input-icon').style.color = 'var(--purple-light)';
+    });
+    
+    input.addEventListener('blur', function() {
+      this.parentElement.querySelector('.input-icon').style.color = 'var(--text-muted)';
+    });
+  });
+</script>

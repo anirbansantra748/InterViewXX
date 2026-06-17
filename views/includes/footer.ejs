@@ -1,63 +1,261 @@
-<footer class="w-full backdrop-blur-xl text-white py-14 px-6 md:px-20 mt-auto text-sm bg-white/5 border-t border-white/10 shadow-inner">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<footer class="footer-modern">
+  <div class="container">
+    <div class="footer-grid">
+      
+      <!-- Brand Section -->
+      <div class="footer-brand">
+        <h3 class="brand-name">
+          <span class="brand-icon">⚡</span>
+          InterViewXX
+        </h3>
+        <p class="brand-description">
+          Master your interview skills with curated questions from top companies. Built with ❤️ by Anirban Santra.
+        </p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/anirban-santra" target="_blank" class="social-link" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/anirbansantra" target="_blank" class="social-link" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.instagram.com/anirban4555" target="_blank" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="mailto:anirbansantra748@gmail.com" class="social-link" aria-label="Email">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+        </div>
+      </div>
 
-    <!-- 💬 Brand -->
-    <div>
-      <h2 class="text-2xl font-bold text-blue-300 mb-4">💬 InterViewX</h2>
-      <p class="text-gray-300 leading-relaxed">
-        Crafted by <span class="text-white font-medium">Anirban Santra</span>, LetsTalk makes learning and practicing coding feel intuitive, community-driven, and real-world focused.
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="/home"><i class="fa-solid fa-home"></i> Home</a></li>
+          <li><a href="/questions/list"><i class="fa-solid fa-question-circle"></i> Questions</a></li>
+          <li><a href="/jobs"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
+          <li><a href="/about"><i class="fa-solid fa-info-circle"></i> About</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="footer-section">
+        <h4 class="footer-heading">Resources</h4>
+        <ul class="footer-links">
+          <li><a href="/"><i class="fa-solid fa-book"></i> Interview Prep</a></li>
+          <li><a href="/"><i class="fa-solid fa-code"></i> Practice Problems</a></li>
+          <li><a href="/"><i class="fa-solid fa-users"></i> Community</a></li>
+          <li><a href="/"><i class="fa-solid fa-chart-line"></i> Progress Tracker</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-section">
+        <h4 class="footer-heading">Contact</h4>
+        <ul class="footer-contact">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Hooghly, West Bengal, 712124</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <span>anirbansantra748@gmail.com</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <span>+91 79800 15159</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <p class="copyright">
+        © <%= new Date().getFullYear() %> <strong>InterViewXX</strong>. All rights reserved.
       </p>
-    </div>
-
-    <!-- 📍 Contact Info -->
-    <div>
-      <h3 class="text-sm font-semibold text-blue-300 mb-4 uppercase tracking-widest">Contact</h3>
-      <ul class="space-y-1 text-gray-400 text-[15px]">
-        <li>📍 Hooghly, West Bengal</li>
-        <li>PIN: 712124</li>
-        <li class="text-blue-200 mt-2">📧 anirbansantra748@gmail.com</li>
-        <li class="text-blue-400 font-medium">📞 +91 79800 15159</li>
-      </ul>
-    </div>
-
-    <!-- 🧭 Navigation -->
-    <div>
-      <h3 class="text-sm font-semibold text-blue-300 mb-4 uppercase tracking-widest">Quick Links</h3>
-      <ul class="space-y-2 text-gray-300 text-[15px]">
-        <li><a href="/" class="hover:text-white duration-200">🏠 Home</a></li>
-        <li><a href="/questions/" class="hover:text-white duration-200">💻 Problems</a></li>
-        <li><a href="/about" class="hover:text-white duration-200">👨‍💻 About</a></li>
-        <li><a href="/jobs/" class="hover:text-white duration-200">🛠 Projects</a></li>
-        <li><a href="/about" class="hover:text-white duration-200">📩 Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- 📨 Newsletter & Socials -->
-    <div>
-      <h3 class="text-sm font-semibold text-blue-300 mb-4 uppercase tracking-widest">Stay Updated</h3>
-      <form class="flex bg-white/10 rounded-lg overflow-hidden ring-1 ring-white/20 mb-4 shadow-md">
-        <input
-          type="email"
-          placeholder="Your email"
-          required
-          class="flex-1 bg-transparent px-4 py-2 text-sm text-white placeholder:text-gray-400 outline-none"
-        />
-        <button type="submit" class="px-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition">
-          <i class="fa-solid fa-paper-plane text-white text-base"></i>
-        </button>
-      </form>
-
-      <div class="flex gap-4 text-xl mt-2">
-        <a href="https://www.linkedin.com/in/anirban-santra" target="_blank" class="hover:text-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://github.com/anirbansantra" target="_blank" class="hover:text-gray-300 transition"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.instagram.com/anirban4555" target="_blank" class="hover:text-pink-400 transition"><i class="fa-brands fa-instagram"></i></a>
-        <a href="mailto:anirbansantra748@gmail.com" class="hover:text-green-400 transition"><i class="fa-solid fa-envelope"></i></a>
+      <div class="footer-bottom-links">
+        <a href="/">Privacy Policy</a>
+        <span>•</span>
+        <a href="/">Terms of Service</a>
       </div>
     </div>
   </div>
-
-  <!-- 🔻 Bottom Line -->
-  <div class="border-t border-white/20 mt-10 pt-6 text-center text-gray-500 text-xs tracking-wide">
-    © <%= new Date().getFullYear() %> <span class="text-blue-300 font-semibold"> InterViewX</span> — Built with ❤️ by Anirban Santra. All rights reserved.
-  </div>
 </footer>
+
+<style>
+  .footer-modern {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--glass-border);
+    padding: var(--spacing-3xl) 0 var(--spacing-lg);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .footer-brand .brand-name {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    font-family: var(--font-secondary);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .footer-brand .brand-icon {
+    font-size: var(--text-3xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .brand-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+    transition: var(--transition-base);
+  }
+
+  .social-link:hover {
+    background: var(--purple-primary);
+    color: var(--text-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-purple);
+  }
+
+  .footer-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    transition: var(--transition-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .footer-links a:hover {
+    color: var(--purple-light);
+    transform: translateX(4px);
+  }
+
+  .footer-contact {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .footer-contact li i {
+    color: var(--purple-light);
+    margin-top: 2px;
+  }
+
+  .footer-bottom {
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .copyright {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .copyright strong {
+    color: var(--purple-light);
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-size: var(--text-sm);
+  }
+
+  .footer-bottom-links a {
+    color: var(--text-muted);
+    transition: var(--transition-base);
+  }
+
+  .footer-bottom-links a:hover {
+    color: var(--purple-light);
+  }
+
+  .footer-bottom-links span {
+    color: var(--glass-border);
+  }
+
+  @media (max-width: 992px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

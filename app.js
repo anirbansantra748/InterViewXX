@@ -54,14 +54,17 @@ app.use(helmet.contentSecurityPolicy({
       "'self'",
       "https://cdn.tailwindcss.com",
       "https://unpkg.com",
+      "https://kit.fontawesome.com",
+      "https://cdnjs.cloudflare.com",
       "'unsafe-inline'",
     ],
     styleSrc: [
       "'self'",
       "https://fonts.googleapis.com",
+      "https://cdnjs.cloudflare.com",
       "'unsafe-inline'",
     ],
-    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
     imgSrc: ["'self'", "https://img.freepik.com", "data:"],
   },
 }));
@@ -113,6 +116,7 @@ const generalRoutes = require('./routes/generalRoutes');
 const chatRoutes = require('./routes/chatoutes');
 const videoRoutes = require('./routes/videoRoutes');
 const questionRoutes = require('./routes/questionRoutes');
+const resumeRoutes = require('./routes/resumeRoutes'); // ⭐ NEW
 
 app.use('/', indexRoutes);
 app.use('/users', userRoutes);
@@ -128,6 +132,7 @@ app.use('/add-round/general', generalRoutes);
 app.use('/chats', chatRoutes);
 app.use('/video', videoRoutes);
 app.use('/questions', questionRoutes);
+app.use('/api/resume', resumeRoutes); // ⭐ NEW - AI Resume API
 
 // 404 Catch-All
 app.use((req, res, next) => {

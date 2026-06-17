@@ -51,7 +51,7 @@ exports.allJobs = async (req, res) => {
     }
 
     res.render('jobs/jobs', {
-      jobs,
+      allJobs: jobs,
       recommendedJobs,
       user,
       query: req.query
@@ -177,57 +177,57 @@ exports.jobDtails = async (req, res) => {
 
 exports.createJobForm = (req, res) => {
   console.log("Rendering create job form");
-    res.render('jobs/createJob');
+  res.render('jobs/createJob');
 };
 
 exports.createJob = async (req, res) => {
-    try {
-        const {
-            title,
-            description,
-            company,
-            location,
-            salaryRange,
-            jobType,
-            mode,
-            skillsRequired,
-            experienceRequired,
-            deadlineDate,
-            responsibilitiesSkills,
-            responsibilitiesTasks,
-            requirements,
-            totalRounds
-        } = req.body;
+  try {
+    const {
+      title,
+      description,
+      company,
+      location,
+      salaryRange,
+      jobType,
+      mode,
+      skillsRequired,
+      experienceRequired,
+      deadlineDate,
+      responsibilitiesSkills,
+      responsibilitiesTasks,
+      requirements,
+      totalRounds
+    } = req.body;
 
-        // Create job
-        const job = new Job({
-            title,
-            description,
-            company,
-            location,
-            salaryRange,
-            jobType,
-            totalRounds,
-            mode,
-            skillsRequired: skillsRequired?.split(',').map(s => s.trim()),
-            experienceRequired,
-            createdBy: req.user._id,
-            deadlineDate,
-            responsibilities: {
-                skills: responsibilitiesSkills?.split(',').map(s => s.trim()),
-                tasks: responsibilitiesTasks?.split(',').map(t => t.trim())
-            },
-            requirements: requirements?.split(',').map(r => r.trim())
-        });
+    // Create job
+    const job = new Job({
+      title,
+      description,
+      company,
+      location,
+      salaryRange,
+      jobType,
+      totalRounds,
+      mode,
+      skillsRequired: skillsRequired?.split(',').map(s => s.trim()),
+      experienceRequired,
+      createdBy: req.user._id,
+      deadlineDate,
+      responsibilities: {
+        skills: responsibilitiesSkills?.split(',').map(s => s.trim()),
+        tasks: responsibilitiesTasks?.split(',').map(t => t.trim())
+      },
+      requirements: requirements?.split(',').map(r => r.trim())
+    });
 
-        await job.save();
+    await job.save();
 
-        // ✅ Redirect to round selection (FIXED)
-        res.redirect(`/rounds/select-round/${job._id}`);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error creating job");
-    }
+    // ✅ Redirect to round selection (FIXED)
+    res.redirect(`/rounds/select-round/${job._id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error creating job");
+  }
 };
 
 // GET: /jobs/edit/:id
@@ -354,7 +354,7 @@ exports.searchJobs = async (req, res) => {
     }
 
     return res.render('jobs/jobs', {
-      jobs,
+      allJobs: jobs,
       recommendedJobs,
       user,
       query: req.query

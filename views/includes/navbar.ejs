@@ -1,37 +1,250 @@
-<nav class="w-full flex items-center justify-between px-6 md:px-12 py-3 glass backdrop-blur-md bg-white/5 border-b border-white/10 text-white shadow-sm rounded-2xl">
-  <!-- 🔰 Brand -->
-  <div class="text-2xl font-bold tracking-wide">
-    <a href="/home" class="hover:text-blue-300 transition-all">⚡ InterViewX</a>
-  </div>
+<nav class="navbar-modern">
+  <div class="container">
+    <div class="navbar-content">
+      <!-- Brand Logo -->
+      <div class="navbar-brand">
+        <a href="/home" class="brand-link">
+          <span class="brand-icon">⚡</span>
+          <span class="brand-text">InterViewXX</span>
+        </a>
+      </div>
 
-  <!-- 🔗 Links -->
-  <div class="flex items-center gap-5 sm:gap-6 text-sm sm:text-base font-medium">
-    <a href="/jobs" class="hover:text-blue-400 transition"><i class="fa-solid fa-briefcase"></i> Jobs</a>
-    <a href="/recruiter/register" class="hover:text-blue-400 transition">🏢 Recruiter Register</a>
+      <!-- Navigation Links -->
+      <div class="navbar-links">
+        <a href="/home" class="nav-link">
+          <i class="fa-solid fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="/jobs" class="nav-link">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Jobs</span>
+        </a>
+        <a href="/questions/list" class="nav-link">
+          <i class="fa-solid fa-question-circle"></i>
+          <span>Questions</span>
+        </a>
+        <a href="/recruiter/register" class="nav-link">
+          <i class="fa-solid fa-building"></i>
+          <span>Recruiters</span>
+        </a>
 
-    <% if (user) { %>
-      <!-- 👤 Show Chats only when logged in -->
-      <a href="/chats/chatbox/<%= user._id %>" class="flex items-center gap-1 bg-blue-600/30 hover:bg-blue-600/60 px-3 py-1.5 rounded-full backdrop-blur-md border border-blue-400/50 transition text-white font-semibold">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h8m-5 8l-4-4H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2h-3l-4 4z" />
-        </svg>
-        <span>Chats</span>
-      </a>
-    <% } %>
+        <% if (user) { %>
+          <!-- Chats Button -->
+          <a href="/chats/chatbox/<%= user._id %>" class="nav-link nav-link-special">
+            <i class="fa-solid fa-comments"></i>
+            <span>Chats</span>
+          </a>
 
-    <% if (!user) { %>
-      <!-- 🧑 Guest Links -->
-      <a href="/users/login" class="hover:text-blue-400 transition">🔐 Login</a>
-      <a href="/users/register" class="hover:text-blue-400 transition">📝 Register</a>
-    <% } else { %>
-      <!-- 👤 User Profile -->
-      <a href="/users/profile" class="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 hover:text-blue-300 transition">
-        <span class="text-lg">👨</span>
-        <span class="font-medium text-white">Profile</span>
-      </a>
+          <!-- Profile -->
+          <a href="/users/profile" class="nav-link nav-link-profile">
+            <i class="fa-solid fa-user-circle"></i>
+            <span><%= user.username || 'Profile' %></span>
+          </a>
 
-      <!-- 🚪 Logout -->
-      <a href="/users/logout">Logout ⍈</a>
-    <% } %>
+          <!-- Logout -->
+          <a href="/users/logout" class="btn btn-sm btn-outline">
+            <i class="fa-solid fa-sign-out-alt"></i>
+            Logout
+          </a>
+        <% } else { %>
+          <!-- Guest Links -->
+          <a href="/users/login" class="btn btn-sm btn-secondary">
+            <i class="fa-solid fa-sign-in-alt"></i>
+            Login
+          </a>
+          <a href="/users/register" class="btn btn-sm btn-primary">
+            <i class="fa-solid fa-user-plus"></i>
+            Register
+          </a>
+        <% } %>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
   </div>
 </nav>
+
+<style>
+/* Navbar Modern Styles */
+.navbar-modern {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) 0;
+  gap: var(--spacing-lg);
+}
+
+.navbar-brand {
+  flex-shrink: 0;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  font-family: var(--font-secondary);
+  color: var(--text-primary);
+  transition: var(--transition-base);
+}
+
+.brand-link:hover {
+  transform: scale(1.05);
+}
+
+.brand-icon {
+  font-size: var(--text-3xl);
+  filter: drop-shadow(0 0 10px var(--purple-primary));
+}
+
+.brand-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--glass-bg-hover);
+}
+
+.nav-link i {
+  font-size: var(--text-base);
+}
+
+.nav-link-special {
+  background: rgba(122, 95, 251, 0.2);
+  color: var(--purple-light);
+  border: 1px solid var(--purple-primary);
+}
+
+.nav-link-special:hover {
+  background: var(--purple-primary);
+  color: var(--text-primary);
+}
+
+.nav-link-profile {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  padding: var(--spacing-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.mobile-menu-toggle:hover {
+  background: var(--purple-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .navbar-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--glass-border);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: var(--transition-base);
+    pointer-events: none;
+  }
+
+  .navbar-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .nav-link {
+    justify-content: center;
+    padding: var(--spacing-md);
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-text {
+    font-size: var(--text-xl);
+  }
+  
+  .nav-link span {
+    display: inline;
+  }
+}
+</style>
+
+<script>
+// Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.getElementById('mobileMenuToggle');
+  const menu = document.querySelector('.navbar-links');
+  
+  if (toggle && menu) {
+    toggle.addEventListener('click', function() {
+      menu.classList.toggle('active');
+      const icon = toggle.querySelector('i');
+      if (menu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+  }
+});
+</script>

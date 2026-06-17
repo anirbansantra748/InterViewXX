@@ -1,0 +1,713 @@
+<style>
+  /* Resume Upload Section */
+  .resume-upload-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .resume-upload-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 10s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  .resume-upload-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .resume-upload-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .resume-upload-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: white;
+  }
+
+  .resume-upload-title h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    margin: 0;
+  }
+
+  .resume-upload-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: white;
+  }
+
+  .resume-upload-area {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .resume-upload-area:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.02);
+  }
+
+  .resume-upload-area.dragging {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: scale(1.05);
+  }
+
+  .upload-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    color: white;
+  }
+
+  .upload-text {
+    color: white;
+    font-size: var(--text-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .upload-hint {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--text-sm);
+  }
+
+  .upload-btn {
+    background: white;
+    color: #667eea;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-semibold);
+    border: none;
+    cursor: pointer;
+    margin-top: var(--spacing-md);
+    transition: all 0.3s ease;
+    font-size: var(--text-base);
+  }
+
+  .upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+
+  /* Progress Section */
+  .progress-section {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    display: none;
+  }
+
+  .progress-section.active {
+    display: block;
+  }
+
+  .progress-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .progress-step {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: white;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+  }
+
+  .progress-step.active {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .progress-step.completed {
+    background: rgba(76, 175, 80, 0.3);
+  }
+
+  .step-icon {
+    font-size: var(--text-2xl);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  .step-icon.completed {
+    background: #4caf50;
+  }
+
+  .step-icon.active {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .step-content {
+    flex: 1;
+  }
+
+  .step-title {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .step-description {
+    font-size: var(--text-sm);
+    opacity: 0.8;
+  }
+
+  .progress-bar-container {
+    background: rgba(255, 255, 255, 0.2);
+    height: 8px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-top: var(--spacing-md);
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #8bc34a);
+    transition: width 0.5s ease;
+    border-radius: var(--radius-full);
+  }
+
+  /* Results Modal */
+  .results-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: var(--spacing-lg);
+  }
+
+  .results-modal.active {
+    display: flex;
+  }
+
+  .results-content {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .results-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .close-modal {
+    background: none;
+    border: none;
+    font-size: var(--text-2xl);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+  }
+
+  .close-modal:hover {
+    color: var(--text-primary);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .result-stat {
+    background: var(--glass-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .result-stat-value {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--purple-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .result-stat-label {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .extracted-data-section {
+    margin-top: var(--spacing-xl);
+  }
+
+  .data-category {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .category-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .data-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .data-tag {
+    background: var(--purple-primary);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--purple-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .btn-secondary {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: white;
+    color: var(--purple-primary);
+    border: 2px solid var(--purple-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: var(--purple-primary);
+    color: white;
+  }
+
+  /* Additional utility classes */
+  .emoji-large {
+    font-size: 2.5rem;
+  }
+
+  .subtitle-text {
+    margin: 0;
+    opacity: 0.9;
+    font-size: var(--text-sm);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .experience-card {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+  }
+
+  .experience-duration {
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .results-content {
+      padding: var(--spacing-lg);
+    }
+
+    .results-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<!-- Resume Upload Section -->
+<div class="resume-upload-section">
+  <div class="resume-upload-content">
+    <div class="resume-upload-header">
+      <div class="resume-upload-title">
+        <span class="emoji-large">🤖</span>
+        <div>
+          <h2>AI-Powered Resume Analysis</h2>
+          <p class="subtitle-text">Upload your resume for instant AI extraction</p>
+        </div>
+      </div>
+      <div class="resume-upload-badge">
+        ✨ 100% FREE • No Quotas
+      </div>
+    </div>
+
+    <div class="resume-upload-area" id="uploadArea">
+      <div class="upload-icon">📄</div>
+      <div class="upload-text">Drag & Drop your resume here</div>
+      <div class="upload-hint">or click to browse (PDF only, max 10MB)</div>
+      <input type="file" id="resumeInput" accept=".pdf" class="hidden">
+      <button class="upload-btn" id="chooseFileBtn">
+        Choose File
+      </button>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="progress-section" id="progressSection">
+      <div class="progress-steps">
+        <div class="progress-step" id="step1">
+          <div class="step-icon">📤</div>
+          <div class="step-content">
+            <div class="step-title">Uploading Resume</div>
+            <div class="step-description">Securely uploading to cloud storage...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="step2">
+          <div class="step-icon">📄</div>
+          <div class="step-content">
+            <div class="step-title">Parsing PDF</div>
+            <div class="step-description">Extracting text from your resume...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="step3">
+          <div class="step-icon">🤖</div>
+          <div class="step-content">
+            <div class="step-title">AI Extraction</div>
+            <div class="step-description">Analyzing skills, experience, and education...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="step4">
+          <div class="step-icon">🔢</div>
+          <div class="step-content">
+            <div class="step-title">Generating Embeddings</div>
+            <div class="step-description">Creating vector embeddings (locally, no API calls)...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="step5">
+          <div class="step-icon">💾</div>
+          <div class="step-content">
+            <div class="step-title">Saving to Database</div>
+            <div class="step-description">Storing in MongoDB and Pinecone...</div>
+          </div>
+        </div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Results Modal -->
+<div class="results-modal" id="resultsModal">
+  <div class="results-content">
+    <div class="results-header">
+      <div class="results-title">
+        <span>✅</span>
+        <span>Resume Analysis Complete!</span>
+      </div>
+      <button class="close-modal" id="closeModalBtn">×</button>
+    </div>
+
+    <div class="results-grid">
+      <div class="result-stat">
+        <div class="result-stat-value" id="confidenceScore">0%</div>
+        <div class="result-stat-label">Confidence Score</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-value" id="skillsCount">0</div>
+        <div class="result-stat-label">Skills Extracted</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-value" id="experienceCount">0</div>
+        <div class="result-stat-label">Work Experience</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-value" id="projectsCount">0</div>
+        <div class="result-stat-label">Projects</div>
+      </div>
+    </div>
+
+    <div class="extracted-data-section" id="extractedDataSection">
+      <!-- Will be populated dynamically -->
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-primary" id="refreshProfileBtn">
+        🔄 Refresh Profile
+      </button>
+      <button class="btn-secondary" id="closeModalBtn2">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Resume Upload Handler
+  const uploadArea = document.getElementById('uploadArea');
+  const resumeInput = document.getElementById('resumeInput');
+  const progressSection = document.getElementById('progressSection');
+  const resultsModal = document.getElementById('resultsModal');
+  const chooseFileBtn = document.getElementById('chooseFileBtn');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const closeModalBtn2 = document.getElementById('closeModalBtn2');
+  const refreshProfileBtn = document.getElementById('refreshProfileBtn');
+
+  // Button event listeners
+  chooseFileBtn.addEventListener('click', () => {
+    resumeInput.click();
+  });
+
+  closeModalBtn.addEventListener('click', closeResultsModal);
+  closeModalBtn2.addEventListener('click', closeResultsModal);
+  refreshProfileBtn.addEventListener('click', refreshProfile);
+
+  // Drag and drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragging');
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragging');
+  });
+
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragging');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === 'application/pdf') {
+      handleResumeUpload(file);
+    } else {
+      alert('Please upload a PDF file');
+    }
+  });
+
+  resumeInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleResumeUpload(file);
+    }
+  });
+
+  async function handleResumeUpload(file) {
+    // Show progress section
+    progressSection.classList.add('active');
+    uploadArea.style.display = 'none';
+
+    try {
+      // Step 1: Upload file
+      await updateProgress(1, 'active');
+      const formData = new FormData();
+      formData.append('resume', file);
+
+      const uploadResponse = await fetch('/api/resume/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!uploadResponse.ok) throw new Error('Upload failed');
+      const uploadData = await uploadResponse.json();
+      await updateProgress(1, 'completed');
+      await updateProgressBar(20);
+
+      // Step 2-5: Parse and extract (polling)
+      await updateProgress(2, 'active');
+      await updateProgressBar(40);
+
+      const parseResponse = await fetch(`/api/resume/parse/<%= user._id %>`, {
+        method: 'POST'
+      });
+
+      if (!parseResponse.ok) throw new Error('Parsing failed');
+      const parseData = await parseResponse.json();
+
+      await updateProgress(2, 'completed');
+      await updateProgress(3, 'completed');
+      await updateProgress(4, 'completed');
+      await updateProgress(5, 'completed');
+      await updateProgressBar(100);
+
+      // Show results
+      setTimeout(() => {
+        showResults(parseData.data);
+      }, 500);
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to process resume: ' + error.message);
+      resetUploadSection();
+    }
+  }
+
+  async function updateProgress(step, status) {
+    const stepEl = document.getElementById(`step${step}`);
+    stepEl.classList.remove('active', 'completed');
+    if (status) {
+      stepEl.classList.add(status);
+      const icon = stepEl.querySelector('.step-icon');
+      if (status === 'completed') {
+        icon.textContent = '✅';
+      }
+    }
+    await new Promise(resolve => setTimeout(resolve, 300));
+  }
+
+  async function updateProgressBar(percent) {
+    document.getElementById('progressBar').style.width = percent + '%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  function showResults(data) {
+    // Update stats
+    document.getElementById('confidenceScore').textContent = 
+      (data.confidence || 0) + '%';
+    document.getElementById('skillsCount').textContent = 
+      data.extractedData?.skills?.length || 0;
+    document.getElementById('experienceCount').textContent = 
+      data.extractedData?.experience?.length || 0;
+    document.getElementById('projectsCount').textContent = 
+      data.extractedData?.projects?.length || 0;
+
+    // Show extracted data
+    const dataSection = document.getElementById('extractedDataSection');
+    let html = '';
+
+    if (data.extractedData?.skills?.length > 0) {
+      html += `
+        <div class="data-category">
+          <div class="category-title">💻 Skills Extracted</div>
+          <div class="data-list">
+            ${data.extractedData.skills.map(skill => 
+              `<span class="data-tag">${skill.name || skill}</span>`
+            ).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    if (data.extractedData?.experience?.length > 0) {
+      html += `
+        <div class="data-category">
+          <div class="category-title">💼 Work Experience</div>
+          ${data.extractedData.experience.map(exp => `
+            <div class="experience-card">
+              <strong>${exp.title || exp.position}</strong> at ${exp.company}<br>
+              <small class="experience-duration">${exp.duration || ''}</small>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    dataSection.innerHTML = html;
+
+    // Show modal
+    resultsModal.classList.add('active');
+    resetUploadSection();
+  }
+
+  function closeResultsModal() {
+    resultsModal.classList.remove('active');
+  }
+
+  function refreshProfile() {
+    window.location.reload();
+  }
+
+  function resetUploadSection() {
+    progressSection.classList.remove('active');
+    uploadArea.style.display = 'block';
+    document.getElementById('progressBar').style.width = '0%';
+    
+    // Reset all steps
+    for (let i = 1; i <= 5; i++) {
+      const step = document.getElementById(`step${i}`);
+      step.classList.remove('active', 'completed');
+    }
+  }
+</script>
