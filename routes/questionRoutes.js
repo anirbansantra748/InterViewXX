@@ -6,6 +6,7 @@ const {isLoggedIn} = require('../middlewares/isLoggedin')
 
 // 📝 View all questions (filter by tag/difficulty optionally)
 router.get('/', questionController.listQuestions);
+router.get('/list', questionController.listQuestions);
 
 // ➕ New MCQ / SAQ choose page
 router.get('/new',isLoggedIn,isAdmin,  questionController.chooseQuestionType);

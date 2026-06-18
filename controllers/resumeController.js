@@ -106,11 +106,15 @@ exports.parseResume = async (req, res) => {
 
         // Step 4: Store in Pinecone
         console.log('💾 Storing in vector database...');
-        await pineconeLocalService.upsertResume(userId, embedding, {
-            skills: extractedData.skills?.map(s => s.name || s) || [],
-            location: extractedData.personalInfo?.location || '',
-            seniorityLevel: extractedData.metadata?.seniorityLevel || 'Junior'
-        });
+        try {
+            await pineconeLocalService.upsertResume(userId, embedding, {
+                skills: extractedData.skills?.map(s => s.name || s) || [],
+                location: extractedData.personalInfo?.location || '',
+                seniorityLevel: extractedData.metadata?.seniorityLevel || 'Junior'
+            });
+        } catch (pineconeError) {
+            console.warn('⚠️ Pinecone vector upsert skipped due to missing or invalid credentials:', pineconeError.message);
+        }
 
         // Step 5: Update user in MongoDB
         user.resumeExtractedData = {
@@ -216,11 +220,15 @@ exports.updateResumeData = async (req, res) => {
         console.log('🔄 Regenerating embedding (locally)...');
         const embedding = await localEmbeddingService.generateResumeEmbedding(user.resumeExtractedData);
 
-        await pineconeLocalService.upsertResume(userId, embedding, {
-            skills: user.resumeExtractedData.skills?.map(s => s.name || s) || [],
-            location: user.resumeExtractedData.personalInfo?.location || '',
-            seniorityLevel: user.resumeExtractedData.aiMetadata?.seniorityLevel || 'Junior'
-        });
+        try {
+            await pineconeLocalService.upsertResume(userId, embedding, {
+                skills: user.resumeExtractedData.skills?.map(s => s.name || s) || [],
+                location: user.resumeExtractedData.personalInfo?.location || '',
+                seniorityLevel: user.resumeExtractedData.aiMetadata?.seniorityLevel || 'Junior'
+            });
+        } catch (pineconeError) {
+            console.warn('⚠️ Pinecone vector update skipped during profile update due to missing/invalid credentials:', pineconeError.message);
+        }
 
         await user.save();
 
@@ -250,7 +258,11 @@ exports.deleteResume = async (req, res) => {
         const { userId } = req.params;
 
         // Delete from Pinecone
-        await pineconeLocalService.deleteResume(userId);
+        try {
+            await pineconeLocalService.deleteResume(userId);
+        } catch (pineconeError) {
+            console.warn('⚠️ Pinecone vector delete skipped during deletion due to missing/invalid credentials:', pineconeError.message);
+        }
 
         // Clear resume data from MongoDB
         await User.findByIdAndUpdate(userId, {

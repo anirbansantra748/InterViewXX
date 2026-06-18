@@ -2,36 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= round.title %> - Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= round.title %> - Results Dashboard</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  
   <style>
+    :root {
+      --primary-color: #4ad2b6;
+      --bg-slate: #1f2226;
+      --bg-card: #23272c;
+      --border-glass: rgba(255, 255, 255, 0.04);
+      --text-white: #f3f4f6;
+      --text-muted: #9ca3af;
+      --neon-glow: 0 0 20px rgba(74, 210, 182, 0.15);
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(145deg, #2b2a41, #1d1b30);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-slate) 60%, #15171a 100%);
       margin: 0;
       padding: 50px 20px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
+      color: var(--text-white);
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(35, 39, 44, 0.65);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
       border-radius: 20px;
       padding: 40px;
-      max-width: 1000px;
+      max-width: 1100px;
       width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
     }
 
     h2 {
-      text-align: center;
-      margin-bottom: 30px;
+      margin: 0;
       font-size: 28px;
-      color: #e0dcff;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--primary-color);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
     }
 
     table {
@@ -39,87 +73,159 @@
       border-collapse: collapse;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-glass);
+      box-shadow: 0 4px 25px rgba(0,0,0,0.3);
     }
 
     th, td {
-      padding: 14px 18px;
+      padding: 16px 20px;
       text-align: left;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     th {
-      background: rgba(98, 75, 170, 0.4);
-      color: #fff;
-      font-weight: bold;
+      background: rgba(74, 210, 182, 0.08);
+      border-bottom: 1.5px solid rgba(74, 210, 182, 0.3);
+      color: var(--primary-color);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    tr {
+      border-bottom: 1px solid var(--border-glass);
+      transition: background 0.2s ease;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.02);
     }
 
     tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.01);
     }
 
     td {
-      color: #e0e0e0;
+      color: #e5e7eb;
     }
 
     .qualified {
-      color: #6aff95;
-      font-weight: bold;
+      color: #10b981;
+      font-weight: 600;
     }
 
     .not-qualified {
-      color: #ff7b7b;
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .proctor-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: #d1d5db;
+    }
+
+    .proctor-val.warn {
+      color: #fbbf24;
       font-weight: bold;
     }
 
-    .action-btns a {
-      margin-right: 12px;
-      text-decoration: none;
-      color: #b097ff;
-      font-weight: 500;
-      transition: 0.2s ease;
+    .proctor-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
-    .action-btns a:hover {
-      color: #e8d3ff;
+    .proctor-flag.safe {
+      background: rgba(16, 185, 129, 0.1);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .proctor-flag.flagged {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+    }
+
+    .action-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .action-links a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .action-links a:hover {
+      color: #8effe8;
       text-decoration: underline;
     }
 
     .no-result {
       text-align: center;
-      font-size: 16px;
-      color: #ccc;
-      padding: 25px 0;
+      font-size: 15px;
+      color: var(--text-muted);
+      padding: 40px 0;
+      border: 1.5px dashed var(--border-glass);
+      border-radius: 12px;
     }
 
-    /* Scrollbar for overflow */
+    /* Scrollbar for page */
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
-
     ::-webkit-scrollbar-track {
-      background: transparent;
+      background: var(--bg-slate);
     }
-
     ::-webkit-scrollbar-thumb {
-      background-color: rgba(176, 136, 255, 0.4);
-      border-radius: 4px;
+      background: rgba(74, 210, 182, 0.3);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-color);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📊 Results - <%= round.title %> (<%= jobTitle %>)</h2>
+    <div class="header-section">
+      <h2><%= round.title %> - Assessment Results</h2>
+      <div class="subtitle"><%= jobTitle %> • <%= round.roundType %> ROUND</div>
+    </div>
 
     <% if (results.length === 0) { %>
-      <div class="no-result">No users have attempted this round yet.</div>
+      <div class="no-result">
+        <i class="fa-regular fa-folder-open" style="font-size: 24px; display: block; margin-bottom: 10px; opacity: 0.5;"></i>
+        No candidates have submitted answers for this round yet.
+      </div>
     <% } else { %>
       <table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Full Name</th>
+            <th>Name</th>
             <th>Email</th>
+            <th>Score</th>
+            <th><i class="fa-solid fa-arrows-spin"></i> Tabs</th>
+            <th><i class="fa-solid fa-eye-slash"></i> Blurs</th>
+            <th><i class="fa-solid fa-paste"></i> Pastes</th>
+            <th>Integrity</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -128,14 +234,41 @@
           <% results.forEach((r, index) => { %>
             <tr>
               <td><%= index + 1 %></td>
-              <td><%= r.user?.fullName || 'N/A' %></td>
-              <td><%= r.user?.email || 'N/A' %></td>
-              <td class="<%= r.qualified ? 'qualified' : 'not-qualified' %>">
-                <%= r.qualified ? '✅ Passed' : '❌ Failed' %>
+              <td style="font-weight: 600;"><%= r.user?.fullName || 'N/A' %></td>
+              <td style="color: var(--text-muted);"><%= r.user?.email || 'N/A' %></td>
+              <td class="proctor-val" style="font-weight: 600; color: #fff;">
+                <%= r.score !== undefined ? `${r.score} marks` : 'N/A' %>
               </td>
-              <td class="action-btns">
-                <a href="/users/<%= r.user?._id %>/profile" target="_blank">👤 Profile</a>
-                <a href="/chats/chatbox/<%= r.user?._id %>">💬 Chat</a>
+              <td class="proctor-val <%= r.tabSwitches > 3 ? 'warn' : '' %>">
+                <%= r.tabSwitches %>
+              </td>
+              <td class="proctor-val <%= r.windowBlurs > 3 ? 'warn' : '' %>">
+                <%= r.windowBlurs %>
+              </td>
+              <td class="proctor-val <%= r.copyPasteAttempts > 3 ? 'warn' : '' %>">
+                <%= r.copyPasteAttempts %>
+              </td>
+              <td>
+                <% if (r.cheatingFlagged) { %>
+                  <span class="proctor-flag flagged">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Flagged
+                  </span>
+                <% } else { %>
+                  <span class="proctor-flag safe">
+                    <i class="fa-solid fa-circle-check"></i> Safe
+                  </span>
+                <% } %>
+              </td>
+              <td class="<%= r.qualified ? 'qualified' : 'not-qualified' %>">
+                <%= r.qualified ? 'Passed' : 'Failed' %>
+              </td>
+              <td class="action-links">
+                <a href="/users/<%= r.user?._id %>/profile" target="_blank">
+                  <i class="fa-solid fa-user"></i> Profile
+                </a>
+                <a href="/chats/chatbox/<%= r.user?._id %>">
+                  <i class="fa-solid fa-message"></i> Chat
+                </a>
               </td>
             </tr>
           <% }) %>

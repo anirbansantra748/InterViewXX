@@ -183,13 +183,26 @@ exports.submitRound = async (req, res) => {
       }
     }
 
-    // ✅ DSA Round Scoring (via Gemini)
+    // ✅ DSA Round Scoring (via Local Sandbox and Gemini Fallback)
     if (roundType === 'DSARound') {
+      const codeRunner = require('../utils/codeRunner');
       for (const q of roundContent.questions) {
         const userCode = answers[q._id];
         if (!userCode?.trim()) continue;
 
-        const prompt = `
+        console.log(`🚀 Executing sandbox runner for question: ${q.title}`);
+        const runResult = await codeRunner.runJavaScript(userCode, q.sampleInput || '');
+        console.log(`💻 Sandbox status: ${runResult.status}`);
+        
+        const cleanStdout = runResult.stdout.trim().replace(/\r\n/g, '\n');
+        const cleanExpected = (q.sampleOutput || '').trim().replace(/\r\n/g, '\n');
+
+        if (runResult.status === 'Success' && cleanStdout === cleanExpected) {
+          console.log("✅ Sandbox test case matched!");
+          score++;
+        } else {
+          console.log("⚠️ Sandbox mismatch or execution error. Falling back to Gemini for logical evaluation...");
+          const prompt = `
 ### Problem:
 ${q.problemStatement}
 
@@ -211,25 +224,35 @@ ${q.sampleOutput || 'N/A'}
 ### User Code:
 ${userCode}
 
+### Sandbox Run Status:
+${runResult.status}
+
+### Sandbox Stdout:
+${runResult.stdout || 'N/A'}
+
+### Sandbox Stderr/Error:
+${runResult.stderr || 'N/A'}
+
 ### Expected Output Logic:
 ${q.solution}
 
 ### Evaluation Prompt:
-Does the above code solve the given problem? Answer only 'Yes' or 'No' and a brief explanation.
-        `.trim();
+Does the above code solve the given problem logically, even if there was a stdout formatting or environment mismatch? Answer only 'Yes' or 'No' and a brief explanation.
+          `.trim();
 
-        try {
-          const geminiRes = await axios.post(GEMINI_API_URL, {
-            contents: [{ role: 'user', parts: [{ text: prompt }] }]
-          }, {
-            headers: { 'Content-Type': 'application/json' }
-          });
+          try {
+            const geminiRes = await axios.post(GEMINI_API_URL, {
+              contents: [{ role: 'user', parts: [{ text: prompt }] }]
+            }, {
+              headers: { 'Content-Type': 'application/json' }
+            });
 
-          const aiReply = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text?.toLowerCase() || '';
-          console.log(`🧠 AI reply for question "${q.title}":`, aiReply);
-          if (aiReply.includes('yes')) score++;
-        } catch (err) {
-          console.error("❌ Gemini API Error:", err.response?.status || err.code, err.response?.data || err.message);
+            const aiReply = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text?.toLowerCase() || '';
+            console.log(`🧠 AI fallback reply for question "${q.title}":`, aiReply);
+            if (aiReply.includes('yes')) score++;
+          } catch (err) {
+            console.error("❌ Gemini API Error in fallback:", err.response?.status || err.code, err.response?.data || err.message);
+          }
         }
       }
     }
@@ -238,14 +261,32 @@ Does the above code solve the given problem? Answer only 'Yes' or 'No' and a bri
     const passingMarks = roundContent.passingMarks || roundContent.totalMarks || 0;
     const passed = score >= passingMarks;
 
+    const tabSwitches = parseInt(req.body.proctor_tabSwitches) || 0;
+    const copyPasteAttempts = parseInt(req.body.proctor_copyPasteAttempts) || 0;
+    const windowBlurs = parseInt(req.body.proctor_windowBlurs) || 0;
+    const cheatingFlagged = tabSwitches > 3 || windowBlurs > 3;
+
     // ✅ Ensure isqualify is clean
     round.isqualify = round.isqualify.filter(entry => entry.user);
     const existingIndex = round.isqualify.findIndex(entry => entry.user?.toString() === userId.toString());
 
     if (existingIndex !== -1) {
       round.isqualify[existingIndex].qualified = passed;
+      round.isqualify[existingIndex].score = score;
+      round.isqualify[existingIndex].tabSwitches = tabSwitches;
+      round.isqualify[existingIndex].copyPasteAttempts = copyPasteAttempts;
+      round.isqualify[existingIndex].windowBlurs = windowBlurs;
+      round.isqualify[existingIndex].cheatingFlagged = cheatingFlagged;
     } else {
-      round.isqualify.push({ user: userId, qualified: passed });
+      round.isqualify.push({
+        user: userId,
+        qualified: passed,
+        score,
+        tabSwitches,
+        copyPasteAttempts,
+        windowBlurs,
+        cheatingFlagged
+      });
     }
 
     await round.save();
@@ -1032,7 +1073,12 @@ exports.getRoundResults = async (req, res) => {
 
     const results = round.isqualify.map(entry => ({
       user: entry.user,
-      qualified: entry.qualified
+      qualified: entry.qualified,
+      score: entry.score,
+      tabSwitches: entry.tabSwitches || 0,
+      copyPasteAttempts: entry.copyPasteAttempts || 0,
+      windowBlurs: entry.windowBlurs || 0,
+      cheatingFlagged: entry.cheatingFlagged || false
     }));
 
     res.render('rounds/roundResults', {

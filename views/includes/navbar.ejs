@@ -72,7 +72,7 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background: rgba(8, 7, 15, 0.85);
+  background: rgba(31, 34, 38, 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -82,38 +82,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
-  gap: 24px;
+  height: 56px;
+  gap: 16px;
 }
 
 /* Brand */
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
-.brand-link:hover { opacity: 0.8; }
+.brand-link:hover { opacity: 0.9; }
 
 .brand-orb {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #7a5ffb, #c084fc);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4ad2b6, #22d3ee);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(122, 95, 251, 0.4);
+  box-shadow: 0 0 16px rgba(74, 210, 182, 0.3);
 }
 
 .brand-orb-inner {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  font-weight: 600;
-  color: #fff;
+  font-weight: 700;
+  color: #1f2226;
   letter-spacing: 0.05em;
 }
 
@@ -121,7 +121,7 @@
   display: flex;
   flex-direction: column;
   line-height: 1;
-  gap: 3px;
+  gap: 2px;
 }
 
 .brand-name {
@@ -134,9 +134,9 @@
 
 .brand-sub {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
+  font-size: 7.5px;
   color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
@@ -145,14 +145,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 13px;
+  padding: 6px 12px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 500;
@@ -170,7 +170,7 @@
 }
 
 .nav-link-icon {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.7;
 }
 
@@ -179,24 +179,24 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 13px;
+  padding: 6px 12px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 500;
-  color: #9c7cff;
+  color: #4ad2b6;
   text-decoration: none;
   border-radius: 8px;
-  border: 1px solid rgba(122, 95, 251, 0.25);
-  background: rgba(122, 95, 251, 0.08);
+  border: 1px solid rgba(74, 210, 182, 0.25);
+  background: rgba(74, 210, 182, 0.05);
   letter-spacing: 0.04em;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .nav-link-special:hover {
-  background: rgba(122, 95, 251, 0.18);
-  border-color: rgba(122, 95, 251, 0.5);
-  color: #c4b5fd;
+  background: rgba(74, 210, 182, 0.15);
+  border-color: rgba(74, 210, 182, 0.4);
+  color: #8effe8;
 }
 
 /* Profile pill */
@@ -204,7 +204,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 12px 5px 6px;
+  padding: 4px 10px 4px 4px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 500;
@@ -225,16 +225,16 @@
 }
 
 .profile-avatar {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7a5ffb, #f472b6);
+  background: linear-gradient(135deg, #4ad2b6, #22d3ee);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  color: #fff;
+  color: #1f2226;
   font-family: 'Space Grotesk', sans-serif;
   flex-shrink: 0;
 }

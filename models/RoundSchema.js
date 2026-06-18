@@ -45,10 +45,14 @@ const roundSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    //add qualify students also add object id of useers
     isqualify: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        qualified: { type: Boolean, default: false }
+        qualified: { type: Boolean, default: false },
+        score: { type: Number },
+        tabSwitches: { type: Number, default: 0 },
+        copyPasteAttempts: { type: Number, default: 0 },
+        windowBlurs: { type: Number, default: 0 },
+        cheatingFlagged: { type: Boolean, default: false }
     }],
     data: { type: mongoose.Schema.Types.Mixed }
 

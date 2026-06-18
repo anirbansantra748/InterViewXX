@@ -243,7 +243,10 @@ function setupToolbarListeners() {
 	document.getElementById("redo-btn").addEventListener("click", redo);
 
 	// Clear button
-	document.getElementById("clear-btn").addEventListener("click", clearCanvas);
+	document.getElementById("clear-btn").addEventListener("click", () => {
+		clearCanvas();
+		socket.emit("canvas-clear", { roomId });
+	});
 
 	// Export button
 	const exportBtn = document.getElementById("export-btn");
@@ -385,21 +388,26 @@ function draw(e) {
 	const currentY = coords.y;
 
 	if (currentTool === "eraser") {
+		const prevX = lastX;
+		const prevY = lastY;
 		ctx.lineTo(currentX, currentY);
 		ctx.stroke();
 		lastX = currentX;
 		lastY = currentY;
+		emitDrawing(prevX, prevY, currentX, currentY, '#000000', toolSettings.eraser.width, 'eraser');
 		return;
 	}
 
 	if (currentTool === "pen" || currentTool === "marker") {
 		// Regular pen/marker drawing
+		const prevX = lastX;
+		const prevY = lastY;
 		ctx.lineTo(currentX, currentY);
 		ctx.stroke();
 		// Update last position
 		lastX = currentX;
 		lastY = currentY;
-		emitDrawing(lastX, lastY, currentX, currentY, toolSettings[currentTool].color, toolSettings[currentTool].width, currentTool);
+		emitDrawing(prevX, prevY, currentX, currentY, toolSettings[currentTool].color, toolSettings[currentTool].width, currentTool);
 		return;
 	}
 
@@ -445,7 +453,7 @@ function emitDrawing(x1, y1, x2, y2, color, width, tool) {
 }
 
 
-function stopDrawing() {
+function stopDrawing(e) {
 	if (currentTool === "select" && isSelecting) {
 		finishSelection();
 		return;
@@ -459,6 +467,20 @@ function stopDrawing() {
 	if (currentTool === "shape" && isDrawingShape) {
 		isDrawingShape = false;
 		shapePreviewData = null;
+
+		if (e) {
+			const coords = getCoordinates(e);
+			const endX = coords.x;
+			const endY = coords.y;
+			socket.emit("canvas-shape", {
+				shapeType: currentShape,
+				startX, startY,
+				endX, endY,
+				color: toolSettings.shape.color,
+				width: toolSettings.shape.width,
+				roomId
+			});
+		}
 	}
 
 	// Reset composite operation for eraser
@@ -912,8 +934,7 @@ function drawArrow(fromX, fromY, toX, toY) {
 		toX - headLength * Math.cos(angle + Math.PI / 6),
 		toY - headLength * Math.sin(angle + Math.PI / 6)
 	);
-	ctx.closePath();
-	ctx.fillStyle = toolSettings.shape.color;
+	ctx.fillStyle = ctx.strokeStyle;
 	ctx.fill();
 }
 
@@ -1304,6 +1325,11 @@ function exportCanvas() {
 
 
 socket.on("canvas-draw", ({ x1, y1, x2, y2, color, width, tool }) => {
+  if (tool === "eraser") {
+    ctx.globalCompositeOperation = "destination-out";
+  } else {
+    ctx.globalCompositeOperation = "source-over";
+  }
   ctx.strokeStyle = color;
   ctx.lineWidth = width;
   ctx.globalAlpha = tool === "marker" ? 0.1 : 1.0;
@@ -1312,6 +1338,7 @@ socket.on("canvas-draw", ({ x1, y1, x2, y2, color, width, tool }) => {
   ctx.lineTo(x2, y2);
   ctx.stroke();
   ctx.globalAlpha = 1.0;
+  ctx.globalCompositeOperation = "source-over";
 });
 
 socket.on("canvas-text", ({ text, x, y, color, size }) => {
@@ -1323,6 +1350,34 @@ socket.on("canvas-text", ({ text, x, y, color, size }) => {
   lines.forEach((line, i) => {
     ctx.fillText(line, x, y + i * lineHeight);
   });
+});
+
+socket.on("canvas-clear", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  saveToHistory();
+});
+
+socket.on("canvas-shape", ({ shapeType, startX, startY, endX, endY, color, width }) => {
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = width;
+  ctx.globalAlpha = 1.0;
+  ctx.beginPath();
+  
+  const w = endX - startX;
+  const h = endY - startY;
+  
+  if (shapeType === "rectangle") {
+    ctx.strokeRect(startX, startY, w, h);
+  } else if (shapeType === "circle") {
+    const radius = Math.sqrt(w * w + h * h);
+    ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+  } else if (shapeType === "arrow") {
+    drawArrow(startX, startY, endX, endY);
+  }
+  
+  saveToHistory();
 });
 
 //eta alada code kelabo copy korle eta pod marabi

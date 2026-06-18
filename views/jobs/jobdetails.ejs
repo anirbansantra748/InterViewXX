@@ -7,12 +7,12 @@
 
 <style>
   :root {
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --primary-gradient: var(--gradient-primary);
     --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    --card-bg: rgba(15, 23, 42, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-highlight: rgba(255, 255, 255, 0.03);
-    --neon-glow: 0 0 20px rgba(139, 92, 246, 0.15);
+    --card-bg: rgba(25, 27, 31, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-highlight: rgba(255, 255, 255, 0.02);
+    --neon-glow: var(--shadow-purple);
   }
 
   /* Global Layout Overrides for this page */
@@ -20,7 +20,7 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem 1rem;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-primary);
   }
 
   /* ----------------------
@@ -36,7 +36,7 @@
     position: relative;
     overflow: hidden;
     margin-bottom: 2.5rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -52,9 +52,9 @@
     right: -50px;
     width: 400px;
     height: 400px;
-    background: #8b5cf6;
+    background: var(--purple-primary);
     filter: blur(150px);
-    opacity: 0.15;
+    opacity: 0.1;
     border-radius: 50%;
     z-index: 0;
     pointer-events: none;
@@ -72,7 +72,7 @@
     width: 110px;
     height: 110px;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
@@ -108,7 +108,7 @@
   }
 
   .job-meta-item i {
-    color: #8b5cf6;
+    color: var(--purple-primary);
   }
 
   /* Hero Actions */
@@ -121,15 +121,15 @@
 
   .btn-premium {
     background: var(--primary-gradient);
-    color: white;
+    color: var(--text-dark);
     padding: 1rem 2.5rem;
     border-radius: 16px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.1rem;
     border: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px -5px rgba(74, 210, 182, 0.35);
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
@@ -137,11 +137,12 @@
 
   .btn-premium:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 20px 35px -5px rgba(74, 210, 182, 0.5);
+    color: var(--text-dark);
   }
 
   .btn-glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     color: white;
@@ -152,8 +153,9 @@
   }
 
   .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--purple-primary);
+    color: var(--purple-light);
   }
 
   /* ----------------------
@@ -212,9 +214,9 @@
 
   /* Skills Tags */
   .skill-tag-premium {
-    background: rgba(139, 92, 246, 0.15);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    color: #d8b4fe;
+    background: rgba(74, 210, 182, 0.12);
+    border: 1px solid rgba(74, 210, 182, 0.25);
+    color: var(--purple-light);
     padding: 0.5rem 1.25rem;
     border-radius: 50px;
     font-size: 0.9rem;
@@ -226,8 +228,8 @@
   }
 
   .skill-tag-premium:hover {
-    background: rgba(139, 92, 246, 0.25);
-    border-color: rgba(139, 92, 246, 0.5);
+    background: rgba(74, 210, 182, 0.22);
+    border-color: rgba(74, 210, 182, 0.45);
     transform: translateY(-1px);
   }
 
@@ -349,7 +351,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #a855f7;
+    color: var(--purple-primary);
     font-size: 1.2rem;
   }
 
@@ -456,7 +458,7 @@
                 <ul class="space-y-3">
                   <% job.responsibilities.tasks.forEach(task => { %>
                     <li class="flex items-start gap-3 text-gray-300">
-                      <i class="fa-solid fa-check-circle text-purple-400 mt-1"></i>
+                      <i class="fa-solid fa-check-circle text-purple-primary mt-1"></i>
                       <span><%= task %></span>
                     </li>
                   <% }) %>
@@ -552,7 +554,7 @@
 
           <% if (isOwner) { %>
             <div class="mt-8 ml-12 pl-6">
-              <a href="/rounds/select-round/<%= job._id %>" class="block p-4 text-center border border-dashed border-purple-500/30 rounded-xl text-purple-300 hover:bg-purple-500/10 transition-colors">
+              <a href="/rounds/select-round/<%= job._id %>" class="block p-4 text-center border border-dashed border-purple-primary/30 rounded-xl text-purple-light hover:bg-purple-primary/10 transition-colors">
                 <i class="fa-solid fa-plus-circle mr-2"></i> Add Interview Round
               </a>
             </div>

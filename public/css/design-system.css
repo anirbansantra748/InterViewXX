@@ -14,27 +14,27 @@
    ============================================ */
 :root {
   /* Color Palette */
-  --bg-primary: #07050f;
-  --bg-secondary: #110d22;
-  --bg-tertiary: #0c0a1a;
-  --bg-gradient: linear-gradient(135deg, #0e0b1e 0%, #07050f 60%, #0d0820 100%);
+  --bg-primary: #1f2226;
+  --bg-secondary: #23272c;
+  --bg-tertiary: #191b1f;
+  --bg-gradient: linear-gradient(135deg, #23272c 0%, #1f2226 60%, #15171a 100%);
   
   /* Accent Colors */
-  --purple-primary: #7a5ffb;
-  --purple-light: #9c7cff;
-  --purple-dark: #6844e8;
-  --purple-glow: #b490ff;
-  --pink-accent: #f472b6;
-  --cyan-accent: #22d3ee;
-  --gradient-primary: linear-gradient(135deg, #7a5ffb 0%, #f472b6 100%);
-  --gradient-secondary: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-  --gradient-tertiary: linear-gradient(135deg, #22d3ee 0%, #7a5ffb 100%);
+  --purple-primary: #4ad2b6;
+  --purple-light: #6ef2d6;
+  --purple-dark: #2ab296;
+  --purple-glow: #8effe8;
+  --pink-accent: #22d3ee;
+  --cyan-accent: #4ad2b6;
+  --gradient-primary: linear-gradient(135deg, #4ad2b6 0%, #22d3ee 100%);
+  --gradient-secondary: linear-gradient(135deg, #4ad2b6 0%, #1f2226 100%);
+  --gradient-tertiary: linear-gradient(135deg, #22d3ee 0%, #4ad2b6 100%);
   --gradient-shine: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%);
   
   /* Text Colors */
-  --text-primary: #f5f3ff;
-  --text-secondary: #c4b5fd;
-  --text-muted: #9ca3af;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
   --text-dark: #111111;
   
   /* Status Colors */
@@ -49,12 +49,12 @@
   --hard: #ef4444;
   
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-bg-hover: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(122, 95, 251, 0.4);
-  --glass-shadow: rgba(110, 100, 255, 0.12);
-  --glass-shadow-lg: rgba(110, 100, 255, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.04);
+  --glass-border-hover: rgba(74, 210, 182, 0.4);
+  --glass-shadow: rgba(74, 210, 182, 0.08);
+  --glass-shadow-lg: rgba(74, 210, 182, 0.15);
   
   /* Spacing */
   --spacing-xs: 4px;
@@ -74,12 +74,12 @@
   --radius-full: 9999px;
   
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
-  --shadow-purple: 0 0 25px rgba(122, 95, 251, 0.25);
-  --shadow-purple-lg: 0 0 50px rgba(122, 95, 251, 0.35);
-  --shadow-glow: 0 0 80px rgba(122, 95, 251, 0.15);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.45);
+  --shadow-purple: 0 0 25px rgba(74, 210, 182, 0.2);
+  --shadow-purple-lg: 0 0 50px rgba(74, 210, 182, 0.3);
+  --shadow-glow: 0 0 80px rgba(74, 210, 182, 0.1);
   
   /* Typography */
   --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

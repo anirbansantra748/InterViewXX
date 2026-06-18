@@ -178,6 +178,23 @@ io.on('connection', (socket) => {
     socket.to(data.roomId).emit('ice-candidate', data);
   });
 
+  // Whiteboard synchronization
+  socket.on('canvas-draw', (data) => {
+    socket.to(data.roomId).emit('canvas-draw', data);
+  });
+
+  socket.on('canvas-text', (data) => {
+    socket.to(data.roomId).emit('canvas-text', data);
+  });
+
+  socket.on('canvas-clear', (data) => {
+    socket.to(data.roomId).emit('canvas-clear');
+  });
+
+  socket.on('canvas-shape', (data) => {
+    socket.to(data.roomId).emit('canvas-shape', data);
+  });
+
   socket.on('disconnect', () => {
     console.log(`❌ User disconnected: ${socket.id}`);
   });

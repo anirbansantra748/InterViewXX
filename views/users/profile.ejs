@@ -207,6 +207,7 @@
 
   .link-item:hover {
     background: var(--purple-primary);
+    color: var(--text-dark);
     transform: translateX(8px);
   }
 
@@ -222,11 +223,12 @@
 
   .skill-tag {
     padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--purple-primary);
-    color: var(--text-primary);
+    background: rgba(74, 210, 182, 0.15);
+    color: var(--purple-light);
+    border: 1px solid rgba(74, 210, 182, 0.3);
     border-radius: var(--radius-full);
     font-size: var(--text-sm);
-    font-weight: var(--font-medium);
+    font-weight: var(--font-semibold);
   }
 
   .experience-item,
@@ -420,7 +422,7 @@
       <% if (skills.length > 0) { %>
         <div class="skill-tags">
           <% skills.forEach(skill => { %>
-            <span class="skill-tag"><%= skill %></span>
+            <span class="skill-tag"><%= typeof skill === 'object' ? (skill.name || skill.title || '') : skill %></span>
           <% }) %>
         </div>
       <% } else { %>

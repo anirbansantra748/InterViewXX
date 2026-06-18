@@ -3,6 +3,7 @@ const router = express.Router();
 const indexController = require('../controllers/indexController');
 
 //routes
+router.get('/', (req, res) => res.redirect('/home'));
 router.get('/home',indexController.homePage)
 
 router.get("/third",indexController.thirdRound)
