@@ -1,5 +1,5 @@
 const User = require("../models/UserSchema");
-const Recruiter = require("../models/RecruterSchema");
+const Recruiter = require("../models/RecruiterSchema");
 const passport = require("passport");
 const { uploadOnCloudinary } = require("../utils/cloudinary");
 

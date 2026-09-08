@@ -1,141 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Recruiter Profile</title>
-  <style>
-    * {
-      box-sizing: border-box;
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .employer-form-container {
+    max-width: 800px;
+    margin: var(--spacing-3xl) auto;
+    padding: var(--spacing-xl);
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .form-title {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    color: var(--green-primary);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .form-subtitle {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+  }
+
+  .employer-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .form-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--green-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .form-group-full {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
     }
+  }
+</style>
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1a0033, #2e004d);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-    }
+<div class="employer-form-container">
+  <div class="form-header">
+    <h2 class="form-title">Employer Profile</h2>
+    <p class="form-subtitle">Complete your company profile to start discovering top talent.</p>
+  </div>
 
-    .form-container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 600px;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-    }
+  <div class="employer-card">
+    <form action="/recruiter/profile" method="POST">
+      
+      <div class="form-section">
+        <h3 class="section-title">Company Details</h3>
+        <div class="form-grid">
+          
+          <div class="form-group form-group-full">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-input" name="companyDetails[name]" required placeholder="e.g., TechVerse Inc.">
+          </div>
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #ffffff;
-      font-weight: 600;
-    }
+          <div class="form-group form-group-full">
+            <label class="form-label">Description</label>
+            <textarea class="form-input" name="companyDetails[description]" placeholder="Brief about your company mission and vision..." rows="4"></textarea>
+          </div>
 
-    label {
-      display: block;
-      margin-bottom: 20px;
-      font-size: 15px;
-      color: #ddd;
-    }
+          <div class="form-group">
+            <label class="form-label">Website</label>
+            <input type="text" class="form-input" name="companyDetails[website]" placeholder="https://techverse.com">
+          </div>
 
-    input[type="text"],
-    textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 15px;
-      margin-top: 6px;
-      outline: none;
-    }
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-input" name="companyDetails[location]" placeholder="City, Country">
+          </div>
 
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
+          <div class="form-group">
+            <label class="form-label">Industry</label>
+            <input type="text" class="form-input" name="companyDetails[industry]" placeholder="e.g., IT Services, Fintech">
+          </div>
 
-    input::placeholder,
-    textarea::placeholder {
-      color: #bbb;
-    }
+          <div class="form-group">
+            <label class="form-label">Company Size</label>
+            <select class="form-select" name="companyDetails[size]">
+              <option value="">Select size...</option>
+              <option value="1-10">1-10 employees</option>
+              <option value="11-50">11-50 employees</option>
+              <option value="51-200">51-200 employees</option>
+              <option value="201-500">201-500 employees</option>
+              <option value="500+">500+ employees</option>
+            </select>
+          </div>
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 20px;
-      background: #9f7bff;
-      color: white;
-      border: none;
-      font-size: 16px;
-      border-radius: 10px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 5px 14px rgba(159, 123, 255, 0.3);
-    }
+        </div>
+      </div>
 
-    button:hover {
-      background: #b88cff;
-      transform: translateY(-2px);
-    }
+      <div class="form-section">
+        <h3 class="section-title">Your Role</h3>
+        <div class="form-group">
+          <label class="form-label">Your Designation</label>
+          <input type="text" class="form-input" name="designation" required placeholder="e.g., HR Manager, Technical Recruiter, CTO">
+        </div>
+      </div>
 
-    @media (max-width: 600px) {
-      .form-container {
-        padding: 25px;
-      }
-    }
-  </style>
-</head>
-<body style="margin-top: 4rem;">
-  <form action="/recruiter/profile" method="POST" class="form-container">
-    <h2>🧾 Recruiter Profile</h2>
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-floppy-disk mr-1"></i> Save Profile
+        </button>
+      </div>
 
-    <label>
-      Company Name
-      <input type="text" name="companyDetails[name]" required placeholder="e.g., TechVerse Inc.">
-    </label>
-
-    <label>
-      Website
-      <input type="text" name="companyDetails[website]" placeholder="e.g., https://techverse.com">
-    </label>
-
-    <label>
-      Description
-      <textarea name="companyDetails[description]" placeholder="Brief about your company..."></textarea>
-    </label>
-
-    <label>
-      Location
-      <input type="text" name="companyDetails[location]" placeholder="City, Country">
-    </label>
-
-    <label>
-      Industry
-      <input type="text" name="companyDetails[industry]" placeholder="e.g., IT Services, Fintech">
-    </label>
-
-    <label>
-      Company Size
-      <input type="text" name="companyDetails[size]" placeholder="e.g., 51-200 employees">
-    </label>
-
-    <label>
-      Your Designation
-      <input type="text" name="designation" required placeholder="e.g., HR Manager, CTO">
-    </label>
-
-    <button type="submit">💾 Save Profile</button>
-    <br><br><br>
-  </form>
-</body>
-</html>
+    </form>
+  </div>
+</div>

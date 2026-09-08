@@ -1,22 +1,127 @@
 <!-- sidebar.ejs -->
-<div id="sidebar"
-     class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 w-64 fixed top-0 left-0 mt-16 h-[calc(100vh-4rem)] transition-transform duration-300 transform md:translate-x-0 -translate-x-full z-40">
-  <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-    <span class="text-lg font-bold">Menu</span>
+<div id="sidebar" class="sidebar-hireska collapsed">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Menu</span>
   </div>
-  <nav class="mt-4 flex flex-col space-y-2 px-4">
-    <a href="/home" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-      <i class="fas fa-home"></i><span>Home</span>
+  <nav class="sidebar-nav">
+    <a href="/home" class="sidebar-link">
+      <i class="fa-solid fa-house-chimney sidebar-icon"></i>
+      <span>Home</span>
     </a>
-    <a href="/users/profile" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-      <i class="fas fa-user"></i><span>Profile</span>
+    <a href="/jobs" class="sidebar-link">
+      <i class="fa-solid fa-briefcase sidebar-icon"></i>
+      <span>Jobs</span>
     </a>
-    <a href="/settings" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-      <i class="fas fa-cog"></i><span>Settings</span>
+    <a href="/questions/list" class="sidebar-link">
+      <i class="fa-solid fa-code sidebar-icon"></i>
+      <span>Questions</span>
     </a>
-    <a href="/users/register">signup</a>
-    <a href="/users/login">Login</a>
-    <a href="/recruiter/register" style="">register Reqruiter</a>
-
+    <hr class="sidebar-divider">
+    <a href="/users/profile" class="sidebar-link">
+      <i class="fa-solid fa-user sidebar-icon"></i>
+      <span>Profile</span>
+    </a>
+    <a href="/users/login" class="sidebar-link">
+      <i class="fa-solid fa-arrow-right-to-bracket sidebar-icon"></i>
+      <span>Login</span>
+    </a>
+    <a href="/users/register" class="sidebar-link">
+      <i class="fa-solid fa-user-plus sidebar-icon"></i>
+      <span>Register</span>
+    </a>
+    <a href="/recruiter/register" class="sidebar-link">
+      <i class="fa-solid fa-building sidebar-icon"></i>
+      <span>For Employers</span>
+    </a>
   </nav>
 </div>
+
+<style>
+/* ===============================================
+   SIDEBAR — HIRESKA EDITION
+   =============================================== */
+.sidebar-hireska {
+  position: fixed;
+  top: 72px; /* Below navbar */
+  left: 0;
+  width: 260px;
+  height: calc(100vh - 72px);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  z-index: 1010;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-hireska.collapsed {
+  transform: translateX(-100%);
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.sidebar-nav {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: var(--bg-tertiary);
+  color: var(--green-primary);
+}
+
+.sidebar-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.sidebar-link:hover .sidebar-icon {
+  color: var(--green-primary);
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 12px 0;
+}
+
+/* Show on larger screens if needed, otherwise rely on JS toggle */
+@media (min-width: 1024px) {
+  /* Only show sidebar permanently if layout supports it. Usually app dashboards use it. */
+  .layout-with-sidebar .sidebar-hireska {
+    transform: translateX(0);
+  }
+}
+</style>

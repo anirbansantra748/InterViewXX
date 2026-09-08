@@ -4,499 +4,369 @@
   .profile-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--spacing-2xl) var(--spacing-lg);
+    padding: var(--spacing-xl);
   }
 
-  .profile-hero {
-    background: var(--gradient-primary);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-3xl);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+  /* Editorial Header */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-color);
   }
 
-  .profile-hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: rotate 15s linear infinite;
-  }
-
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .profile-hero-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .profile-avatar {
-    font-size: 6rem;
-    margin-bottom: var(--spacing-lg);
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
+  .profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Organic shape */
+    background: var(--green-primary);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto var(--spacing-lg);
-    border: 4px solid rgba(255, 255, 255, 0.3);
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    flex-shrink: 0;
   }
 
-  .profile-name {
+  .profile-header-info {
+    flex: 1;
+  }
+
+  .profile-greeting {
+    font-family: var(--font-display);
     font-size: var(--text-4xl);
-    font-weight: var(--font-bold);
-    color: var(--text-dark);
-    margin-bottom: var(--spacing-sm);
+    color: var(--green-primary);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: -0.02em;
   }
 
-  .profile-email {
-    color: rgba(17, 17, 17, 0.7);
+  .profile-role {
     font-size: var(--text-lg);
-    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
   }
 
   .profile-badges {
     display: flex;
     gap: var(--spacing-sm);
-    justify-content: center;
     flex-wrap: wrap;
   }
 
-  .profile-badge {
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: rgba(255, 255, 255, 0.3);
-    color: var(--text-dark);
-    border-radius: var(--radius-full);
-    font-weight: var(--font-semibold);
-    font-size: var(--text-sm);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-  }
-
-  .profile-badge.admin {
-    background: #fbbf24;
-    color: #000;
-  }
-
-  .stats-grid {
+  /* Editorial Layout Grid */
+  .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-2xl);
+    grid-template-columns: 1fr 350px;
+    gap: var(--spacing-2xl);
   }
 
-  .stat-card-profile {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
-    text-align: center;
-    backdrop-filter: blur(10px);
-    transition: var(--transition-base);
+  @media (max-width: 992px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
-  .stat-card-profile:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-purple);
-    border-color: var(--purple-primary);
-  }
-
-  .stat-icon {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .stat-number {
-    font-size: var(--text-3xl);
-    font-weight: var(--font-bold);
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .stat-label {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .profile-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--spacing-lg);
-  }
-
-  .profile-section {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
-    backdrop-filter: blur(10px);
-  }
-
-  .section-header {
+  /* Main Column */
+  .main-column {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 2px solid var(--purple-primary);
+    flex-direction: column;
+    gap: var(--spacing-2xl);
   }
 
-  .section-icon {
+  .section-heading {
+    font-family: var(--font-display);
     font-size: var(--text-2xl);
-  }
-
-  .section-title {
-    font-size: var(--text-xl);
-    font-weight: var(--font-bold);
-    color: var(--text-primary);
-    margin: 0;
-  }
-
-  .info-row {
+    color: var(--green-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-sm);
     display: flex;
     justify-content: space-between;
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--glass-border);
+    align-items: center;
   }
 
-  .info-row:last-child {
-    border-bottom: none;
+  /* Stats Row */
+  .stats-row {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
   }
 
-  .info-label {
-    color: var(--text-muted);
-    font-weight: var(--font-medium);
+  .stat-block {
+    flex: 1;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
   }
 
-  .info-value {
-    color: var(--text-primary);
-    text-align: right;
+  .stat-block-value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--green-primary);
+    margin-bottom: 4px;
+    line-height: 1;
   }
 
-  .link-list {
+  .stat-block-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Activity List (Applications/Interviews) */
+  .activity-list {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
   }
 
-  .link-item {
+  .activity-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: var(--spacing-sm);
     padding: var(--spacing-md);
-    background: var(--glass-bg-hover);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    transition: var(--transition-base);
-    text-decoration: none;
-    color: var(--text-primary);
+    transition: all 0.2s ease;
   }
 
-  .link-item:hover {
-    background: var(--purple-primary);
-    color: var(--text-dark);
-    transform: translateX(8px);
+  .activity-item:hover {
+    border-color: var(--green-action);
+    box-shadow: var(--shadow-sm);
   }
 
-  .link-icon {
-    font-size: var(--text-xl);
+  .activity-info h4 {
+    margin: 0 0 4px 0;
+    font-size: var(--text-base);
+    color: var(--green-primary);
   }
 
-  .skill-tags {
+  .activity-info p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  /* Sidebar Column */
+  .side-column {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-xl);
   }
 
-  .skill-tag {
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: rgba(74, 210, 182, 0.15);
-    color: var(--purple-light);
-    border: 1px solid rgba(74, 210, 182, 0.3);
-    border-radius: var(--radius-full);
-    font-size: var(--text-sm);
-    font-weight: var(--font-semibold);
-  }
-
-  .experience-item,
-  .project-item {
-    padding: var(--spacing-md);
-    background: var(--glass-bg-hover);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-md);
-    border-left: 3px solid var(--purple-primary);
-  }
-
-  .item-title {
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .item-meta {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .item-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .empty-state-small {
-    text-align: center;
+  .side-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
-    color: var(--text-muted);
+    box-shadow: var(--shadow-sm);
   }
 
-  @media (max-width: 768px) {
-    .profile-grid {
-      grid-template-columns: 1fr;
-    }
+  .side-card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .info-value {
+    font-size: var(--text-base);
+    color: var(--text-primary);
+  }
+
+  .link-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .link-pill:hover {
+    background: rgba(14, 59, 46, 0.05);
+    color: var(--green-primary);
   }
 </style>
 
 <div class="profile-container">
-  <!-- Hero Section -->
-  <div class="profile-hero">
-    <div class="profile-hero-content">
-      <div class="profile-avatar">🧑‍🎓</div>
-      <h1 class="profile-name"><%= user.fullName %></h1>
-      <p class="profile-email"><%= user.email %></p>
-      <p class="profile-email">@<%= user.username %></p>
+  
+  <!-- Editorial Header -->
+  <header class="profile-header">
+    <div class="profile-avatar-large">
+      <%= (user.fullName || user.username || 'U')[0].toUpperCase() %>
+    </div>
+    <div class="profile-header-info">
+      <h1 class="profile-greeting">Good morning, <%= user.fullName.split(' ')[0] %></h1>
+      <p class="profile-role">
+        <%= user.email %> • <%= user.location?.city || 'Planet Earth' %>
+      </p>
       <div class="profile-badges">
-        <span class="profile-badge">
-          <i class="fa-solid fa-user"></i>
-          <%= user.role.toUpperCase() %>
+        <span class="badge badge-primary">
+          <%= user.role === 'user' ? 'Candidate' : 'Employer' %>
         </span>
         <% if (user.isAdmin) { %>
-          <span class="profile-badge admin">
-            <i class="fa-solid fa-crown"></i>
-            ADMIN
-          </span>
+          <span class="badge badge-warning">Admin</span>
         <% } %>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- AI Resume Upload Component -->
-  <%- include('./resume-upload-component') %>
-
-  <!-- Quick Stats -->
-  <div class="stats-grid">
-    <div class="stat-card-profile">
-      <div class="stat-icon">📊</div>
-      <div class="stat-number"><%= user.level || 1 %></div>
-      <div class="stat-label">Level</div>
-    </div>
-    <div class="stat-card-profile">
-      <div class="stat-icon">⭐</div>
-      <div class="stat-number"><%= user.totalPoints || 0 %></div>
-      <div class="stat-label">Total Points</div>
-    </div>
-    <div class="stat-card-profile">
-      <div class="stat-icon">🔥</div>
-      <div class="stat-number"><%= user.streak || 0 %></div>
-      <div class="stat-label">Day Streak</div>
-    </div>
-    <div class="stat-card-profile">
-      <div class="stat-icon">✅</div>
-      <div class="stat-number"><%= user.appliedJobs?.length || 0 %></div>
-      <div class="stat-label">Applied Jobs</div>
-    </div>
-  </div>
-
-  <!-- Profile Sections Grid -->
-  <div class="profile-grid">
+  <div class="dashboard-grid">
     
-    <!-- Portfolio Links -->
-    <div class="profile-section">
-      <div class="section-header">
-        <span class="section-icon">🌐</span>
-        <h3 class="section-title">Portfolio & Links</h3>
-      </div>
-      <div class="link-list">
-        <% if (user.portfolioLinks?.github) { %>
-          <a href="<%= user.portfolioLinks.github %>" class="link-item" target="_blank">
-            <i class="fab fa-github link-icon"></i>
-            <span>GitHub Profile</span>
-          </a>
-        <% } %>
-        <% if (user.portfolioLinks?.linkedin) { %>
-          <a href="<%= user.portfolioLinks.linkedin %>" class="link-item" target="_blank">
-            <i class="fab fa-linkedin link-icon"></i>
-            <span>LinkedIn Profile</span>
-          </a>
-        <% } %>
-        <% if (user.portfolioLinks?.portfolio) { %>
-          <a href="<%= user.portfolioLinks.portfolio %>" class="link-item" target="_blank">
-            <i class="fa-solid fa-globe link-icon"></i>
-            <span>Portfolio Website</span>
-          </a>
-        <% } %>
-        <% if (!user.portfolioLinks?.github && !user.portfolioLinks?.linkedin && !user.portfolioLinks?.portfolio) { %>
-          <div class="empty-state-small">
-            <p>No portfolio links added yet</p>
-          </div>
-        <% } %>
-      </div>
-    </div>
-
-    <!-- Basic Info -->
-    <div class="profile-section">
-      <div class="section-header">
-        <span class="section-icon">👤</span>
-        <h3 class="section-title">Basic Information</h3>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Date of Birth</span>
-        <span class="info-value"><%= user.dob ? new Date(user.dob).toLocaleDateString() : 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Gender</span>
-        <span class="info-value"><%= user.gender || 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Phone</span>
-        <span class="info-value"><%= user.phone || 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Location</span>
-        <span class="info-value">
-          <%= [user.location?.city, user.location?.state, user.location?.country].filter(Boolean).join(', ') || 'N/A' %>
-        </span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Last Solved</span>
-        <span class="info-value"><%= user.lastSolvedDate ? new Date(user.lastSolvedDate).toLocaleDateString() : 'N/A' %></span>
-      </div>
-    </div>
-
-    <!-- College Info -->
-    <% const college = user.resumeExtractedData?.collegeDetails || {}; %>
-    <div class="profile-section">
-      <div class="section-header">
-        <span class="section-icon">🎓</span>
-        <h3 class="section-title">Education</h3>
-      </div>
-      <div class="info-row">
-        <span class="info-label">College</span>
-        <span class="info-value"><%= college.collegeName || 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Degree</span>
-        <span class="info-value"><%= college.degree || 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Duration</span>
-        <span class="info-value"><%= college.startYear || 'N/A' %> - <%= college.endYear || 'N/A' %></span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">CGPA</span>
-        <span class="info-value"><%= college.cgpa || 'N/A' %></span>
-      </div>
-    </div>
-
-    <!-- Skills -->
-    <% const skills = user.resumeExtractedData?.skills || []; %>
-    <div class="profile-section">
-      <div class="section-header">
-        <span class="section-icon">💻</span>
-        <h3 class="section-title">Technical Skills</h3>
-      </div>
-      <% if (skills.length > 0) { %>
-        <div class="skill-tags">
-          <% skills.forEach(skill => { %>
-            <span class="skill-tag"><%= typeof skill === 'object' ? (skill.name || skill.title || '') : skill %></span>
-          <% }) %>
+    <!-- Main Column (Activities, Apps, Interviews) -->
+    <div class="main-column">
+      
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-block">
+          <div class="stat-block-value"><%= user.appliedJobs?.length || 0 %></div>
+          <div class="stat-block-label">Applications</div>
         </div>
-      <% } else { %>
-        <div class="empty-state-small">
-          <p>No skills listed yet</p>
+        <div class="stat-block">
+          <div class="stat-block-value"><%= user.streak || 0 %></div>
+          <div class="stat-block-label">Day Streak</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-block-value"><%= user.totalPoints || 0 %></div>
+          <div class="stat-block-label">Total Points</div>
+        </div>
+      </div>
+
+      <!-- AI Resume Upload Component -->
+      <section>
+        <div class="section-heading">
+          Resume Intelligence
+        </div>
+        <%- include('./resume-upload-component') %>
+      </section>
+
+      <!-- Recent Activity / Applications -->
+      <section>
+        <div class="section-heading">
+          Recent Activity
+          <a href="#" class="text-sm font-medium text-primary" style="text-decoration: none;">View all</a>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-info">
+              <h4>Software Engineer Assessment</h4>
+              <p>Completed coding challenge • Score: 95/100</p>
+            </div>
+            <span class="badge badge-success">Passed</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-info">
+              <h4>Frontend Developer at TechNova</h4>
+              <p>Application submitted • Under review</p>
+            </div>
+            <span class="badge badge-primary">In Progress</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Sidebar Column (Profile Info, Links, Saved Jobs) -->
+    <div class="side-column">
+      
+      <div class="side-card">
+        <h3>About Me</h3>
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-label">Location</span>
+            <span class="info-value">
+              <%= [user.location?.city, user.location?.state, user.location?.country].filter(Boolean).join(', ') || 'Not specified' %>
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Phone</span>
+            <span class="info-value"><%= user.phone || 'Not specified' %></span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Member Since</span>
+            <span class="info-value">September 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Portfolio & Links</h3>
+        <div class="info-list" style="gap: 8px;">
+          <% if (user.portfolioLinks?.github) { %>
+            <a href="<%= user.portfolioLinks.github %>" class="link-pill" target="_blank">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+          <% } %>
+          <% if (user.portfolioLinks?.linkedin) { %>
+            <a href="<%= user.portfolioLinks.linkedin %>" class="link-pill" target="_blank">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          <% } %>
+          <% if (user.portfolioLinks?.portfolio) { %>
+            <a href="<%= user.portfolioLinks.portfolio %>" class="link-pill" target="_blank">
+              <i class="fa-solid fa-globe"></i> Website
+            </a>
+          <% } %>
+          <% if (!user.portfolioLinks?.github && !user.portfolioLinks?.linkedin && !user.portfolioLinks?.portfolio) { %>
+            <p class="text-sm text-muted mb-0">No links added yet.</p>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Education Snapshot if available from AI -->
+      <% const college = user.resumeExtractedData?.collegeDetails; %>
+      <% if (college && college.collegeName) { %>
+        <div class="side-card">
+          <h3>Education</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">Institution</span>
+              <span class="info-value" style="font-size: 14px;"><%= college.collegeName %></span>
+            </div>
+            <% if (college.degree) { %>
+            <div class="info-item mt-2">
+              <span class="info-label">Degree</span>
+              <span class="info-value" style="font-size: 14px;"><%= college.degree %> <%= college.branch ? 'in ' + college.branch : '' %></span>
+            </div>
+            <% } %>
+          </div>
         </div>
       <% } %>
+
     </div>
   </div>
-
-  <!-- Experience Section (Full Width) -->
-  <% if (user.resumeExtractedData?.experience?.length > 0) { %>
-    <div class="profile-section" style="margin-top: var(--spacing-lg);">
-      <div class="section-header">
-        <span class="section-icon">💼</span>
-        <h3 class="section-title">Work Experience</h3>
-      </div>
-      <% user.resumeExtractedData.experience.forEach(exp => { %>
-        <div class="experience-item">
-          <div class="item-title"><%= exp.position %> @ <%= exp.company %></div>
-          <div class="item-meta">
-            <%= exp.type %> • <%= exp.mode %> • <%= exp.startDate %> - <%= exp.endDate %>
-          </div>
-          <div class="item-description"><%= exp.description %></div>
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
-
-  <!-- Projects Section (Full Width) -->
-  <% if (user.resumeExtractedData?.projects?.length > 0) { %>
-    <div class="profile-section" style="margin-top: var(--spacing-lg);">
-      <div class="section-header">
-        <span class="section-icon">🚀</span>
-        <h3 class="section-title">Projects</h3>
-      </div>
-      <% user.resumeExtractedData.projects.forEach(p => { %>
-        <div class="project-item">
-          <div class="item-title"><%= p.title %></div>
-          <div class="item-meta"><%= p.technologies?.join(', ') || '' %></div>
-          <div class="item-description"><%= p.description %></div>
-          <div style="margin-top: var(--spacing-sm); display: flex; gap: var(--spacing-md);">
-            <% if (p.links?.github) { %>
-              <a href="<%= p.links.github %>" class="text-purple" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-              </a>
-            <% } %>
-            <% if (p.links?.liveSite) { %>
-              <a href="<%= p.links.liveSite %>" class="text-purple" target="_blank">
-                <i class="fa-solid fa-external-link-alt"></i> Live Demo
-              </a>
-            <% } %>
-          </div>
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
-
-  <!-- Certifications -->
-  <% if (user.resumeExtractedData?.certifications?.length > 0) { %>
-    <div class="profile-section" style="margin-top: var(--spacing-lg);">
-      <div class="section-header">
-        <span class="section-icon">📚</span>
-        <h3 class="section-title">Certifications</h3>
-      </div>
-      <div class="link-list">
-        <% user.resumeExtractedData.certifications.forEach(cert => { %>
-          <a href="<%= cert.link %>" class="link-item" target="_blank">
-            <i class="fa-solid fa-certificate link-icon"></i>
-            <span><%= cert.title %></span>
-          </a>
-        <% }) %>
-      </div>
-    </div>
-  <% } %>
 </div>
- 

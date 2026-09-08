@@ -12,7 +12,6 @@ exports.showGeneralForm = async (req, res) => {
   }
 };
 
-// Handle POST request to create a general round
 exports.createGeneralRound = async (req, res) => {
   try {
     const jobId = req.params.jobId;
@@ -30,7 +29,7 @@ exports.createGeneralRound = async (req, res) => {
 
     await newRound.save();
 
-    res.redirect(`/job/${jobId}`); // Redirect back to job or dashboard
+    res.redirect(`/job/${jobId}`);
   } catch (err) {
     console.error('Error creating General Round:', err);
     res.status(500).send('Failed to create general round.');

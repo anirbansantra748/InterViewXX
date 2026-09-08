@@ -8,10 +8,10 @@
 
 		<title>InterViewXX - Master Your Interview Skills</title>
 
-		<!-- Google Fonts: Space Grotesk + JetBrains Mono + Plus Jakarta Sans -->
+		<!-- Google Fonts: Inter + Outfit -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 		
 		<!-- Design System CSS -->
 		<link rel="stylesheet" href="/css/design-system.css" />
@@ -21,95 +21,53 @@
 
 		<style>
 			/* =============================================
-			   STRATOS-INSPIRED GLOBAL UPGRADES
+			   HIRESKA GLOBAL STYLES
 			   ============================================= */
-
-			/* Override fonts to Stratos stack */
-			:root {
-				--font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-				--font-secondary: 'Space Grotesk', sans-serif;
-				--font-mono: 'JetBrains Mono', monospace;
-				--font-display: 'Space Grotesk', sans-serif;
-
-				/* Norden-inspired color overrides */
-				--bg-primary: #1f2226;
-				--bg-secondary: #23272c;
-				--bg-gradient: linear-gradient(135deg, #23272c 0%, #1f2226 60%, #15171a 100%);
-			}
-
-			/* Micro dot grid overlay — Stratos signature */
-			body::before {
-				background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-				background-size: 28px 28px;
-				border-radius: 0;
-				width: 100%;
-				height: 100%;
-				pointer-events: none;
-				z-index: 0;
-				opacity: 1;
-			}
-
-			/* Force mono font on labels, badges, small utility text */
-			.font-mono,
-			.badge,
-			.tag,
-			.stat-label,
-			.stat-label-hero,
-			.form-label,
-			.section-title {
-				font-family: var(--font-mono) !important;
-			}
-
-			/* Headings → Space Grotesk display */
-			h1, h2, h3, h4, h5, h6 {
-				font-family: var(--font-display);
-				letter-spacing: -0.02em;
-			}
-
-			/* Body text → Plus Jakarta Sans */
-			body, p, a, span, li, td, th, input, select, textarea, button {
-				font-family: var(--font-primary);
-			}
-
-			/* Ambient sphere 3 — mint bottom-left */
-			.ambient-sphere-3 {
-				position: fixed;
-				bottom: -100px;
-				left: 10%;
-				width: 400px;
-				height: 400px;
-				background: radial-gradient(circle, rgba(74, 210, 182, 0.05) 0%, transparent 70%);
-				border-radius: 50%;
-				pointer-events: none;
-				z-index: 0;
-			}
-
-			/* Sticky top bar coordinate stamp — Stratos HUD feel */
-			.hud-stamp {
-				font-family: var(--font-mono);
-				font-size: 10px;
-				color: rgba(255,255,255,0.25);
-				letter-spacing: 0.15em;
-				text-transform: uppercase;
-			}
-
-			/* Section divider rule — Stratos thin line */
-			.stratos-divider {
-				border: none;
-				border-top: 1px solid rgba(255,255,255,0.05);
-				margin: 0;
-			}
 
 			/* Main content z-layer above ambient elements */
 			header, main, footer, nav {
 				position: relative;
 				z-index: 2;
 			}
+			
+			/* Ambient shape 1 - Peach top right */
+			.ambient-shape-1 {
+				position: fixed;
+				top: -100px;
+				right: -100px;
+				width: 600px;
+				height: 600px;
+				background: radial-gradient(circle, rgba(255, 159, 110, 0.08) 0%, transparent 70%);
+				border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+				pointer-events: none;
+				z-index: 0;
+				animation: morph 15s ease-in-out infinite alternate;
+			}
+
+			/* Ambient shape 2 - Mint bottom left */
+			.ambient-shape-2 {
+				position: fixed;
+				bottom: -150px;
+				left: -100px;
+				width: 700px;
+				height: 700px;
+				background: radial-gradient(circle, rgba(14, 59, 46, 0.04) 0%, transparent 70%);
+				border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+				pointer-events: none;
+				z-index: 0;
+				animation: morph 20s ease-in-out infinite alternate-reverse;
+			}
+
+			@keyframes morph {
+				0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) rotate(0deg); }
+				100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(30px, 30px) rotate(10deg); }
+			}
 		</style>
 	</head>
 	<body>
-		<!-- Ambient sphere elements — fixed, behind everything -->
-		<div class="ambient-sphere-3"></div>
+		<!-- Ambient shape elements — fixed, behind everything -->
+		<div class="ambient-shape-1"></div>
+		<div class="ambient-shape-2"></div>
 
 		<%- include("../includes/navbar.ejs") %>
 
@@ -117,7 +75,7 @@
 			<%- body %>
 		</main>
 
-		<hr class="stratos-divider">
+		<hr class="border-t border-[#E4E7E5] my-0">
 		<%- include("../includes/footer.ejs") %>
 	</body>
 </html>

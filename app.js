@@ -9,6 +9,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const http = require('http');
 const { Server } = require('socket.io');
 
@@ -21,9 +22,12 @@ const User = require('./models/UserSchema');
 const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/InterviewApp';
 const app = express();
 const server = http.createServer(app);
+const ALLOWED_ORIGINS = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',')
+  : ['http://localhost:3000'];
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: ALLOWED_ORIGINS,
     methods: ['GET', 'POST']
   }
 });
@@ -70,23 +74,42 @@ app.use(helmet.contentSecurityPolicy({
 }));
 
 // Session store
+if (!process.env.SESSION_SECRET) {
+  console.warn('⚠️  SESSION_SECRET not set in .env — using insecure default. Set it before deploying.');
+}
+const sessionSecret = process.env.SESSION_SECRET || 'dev-only-change-me';
 const store = MongoStore.create({
   mongoUrl,
-  crypto: { secret: process.env.SESSION_SECRET || 'AnirbanOpi1234' },
+  crypto: { secret: sessionSecret },
   touchAfter: 24 * 3600,
 });
 store.on('error', err => console.error("❌ MongoStore Error:", err));
 
 app.use(session({
   store,
-  secret: process.env.SESSION_SECRET || 'AnirbanOpi1234',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }));
+
+// Rate limiting — protect sensitive routes from abuse
+const apiLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 30, // 30 requests per minute per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});
+const codeLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 10, // 10 code executions per minute — prevent abuse
+  message: { error: 'Code execution rate limit exceeded.' },
+});
 
 // Passport Config
 app.use(passport.initialize());
@@ -110,10 +133,10 @@ const jobRoutes = require('./routes/jobRoutes');
 const roundRoutes = require('./routes/roundRoutes');
 const mcqRoutes = require('./routes/mcqRoute');
 const dsaRoutes = require('./routes/dsaRoutes');
-const grammarRoutes = require('./routes/grammerRoutes');
+const grammarRoutes = require('./routes/grammarRoutes');
 const aptiRoutes = require('./routes/aptiRoutes');
 const generalRoutes = require('./routes/generalRoutes');
-const chatRoutes = require('./routes/chatoutes');
+const chatRoutes = require('./routes/chatRoutes');
 const videoRoutes = require('./routes/videoRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const resumeRoutes = require('./routes/resumeRoutes'); // ⭐ NEW
@@ -132,7 +155,19 @@ app.use('/add-round/general', generalRoutes);
 app.use('/chats', chatRoutes);
 app.use('/video', videoRoutes);
 app.use('/questions', questionRoutes);
-app.use('/api/resume', resumeRoutes); // ⭐ NEW - AI Resume API
+app.use('/api/resume', apiLimiter, resumeRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  const mongoStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  res.status(mongoStatus === 'connected' ? 200 : 503).json({
+    ok: mongoStatus === 'connected',
+    status: mongoStatus === 'connected' ? 'healthy' : 'unhealthy',
+    uptime: process.uptime(),
+    mongo: mongoStatus,
+    timestamp: new Date().toISOString(),
+  });
+});
 
 // 404 Catch-All
 app.use((req, res, next) => {

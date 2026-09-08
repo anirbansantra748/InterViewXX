@@ -2,125 +2,87 @@
 
 <style>
   /* =============================================
-     HERO — PREMIUM UPGRADE
+     HERO — HIRESKA EDITION
      ============================================= */
   .hero-section {
     padding: 100px 0 80px;
-    text-align: center;
     position: relative;
     overflow: hidden;
   }
 
-  /* Animated radial glow behind hero */
-  .hero-section::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 900px;
-    height: 900px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle,
-      rgba(122, 95, 251, 0.12) 0%,
-      rgba(196, 132, 252, 0.06) 40%,
-      transparent 70%
-    );
-    pointer-events: none;
-    animation: hero-pulse 8s ease-in-out infinite;
-  }
-
-  @keyframes hero-pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    50%       { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-  }
-
-  /* Floating grid dots */
-  .hero-section::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle, rgba(122, 95, 251, 0.15) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.3;
-    pointer-events: none;
-  }
-
   .hero-content {
     position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Organic Abstract Shape behind Hero */
+  .hero-bg-shape {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: var(--bg-tertiary);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  .hero-bg-shape-2 {
+    position: absolute;
+    bottom: 10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 159, 110, 0.08); /* Peach accent */
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     z-index: 1;
   }
 
-  /* Eyebrow label above title */
+  /* Eyebrow label */
   .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(122, 95, 251, 0.12);
-    border: 1px solid rgba(122, 95, 251, 0.3);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 9999px;
-    padding: 6px 18px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--purple-light);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    animation: fadeInUp 0.5s ease-out both;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .hero-eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--purple-light);
+    width: 8px;
+    height: 8px;
+    background: var(--green-action);
     border-radius: 50%;
-    animation: pulse-dot 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.5; transform: scale(0.8); }
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 800;
-    line-height: 1.08;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
     margin-bottom: var(--spacing-lg);
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
-    animation: fadeInUp 0.6s 0.1s ease-out both;
-  }
-
-  .hero-title .gradient-word {
-    background: linear-gradient(135deg, #9c7cff 0%, #f472b6 60%, #fb923c 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% auto;
-    animation: gradient-shift 4s linear infinite;
-  }
-
-  @keyframes gradient-shift {
-    0%   { background-position: 0% center; }
-    100% { background-position: 200% center; }
+    color: var(--green-primary);
+    letter-spacing: -0.03em;
   }
 
   .hero-subtitle {
     font-size: var(--text-lg);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: var(--spacing-2xl);
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
-    animation: fadeInUp 0.6s 0.2s ease-out both;
-  }
-
-  .hero-search {
-    max-width: 660px;
-    margin: 0 auto var(--spacing-xl);
-    animation: fadeInUp 0.6s 0.3s ease-out both;
+    max-width: 600px;
+    line-height: 1.6;
   }
 
   .hero-cta {
@@ -128,66 +90,38 @@
     gap: var(--spacing-md);
     justify-content: center;
     margin-bottom: 60px;
-    animation: fadeInUp 0.6s 0.35s ease-out both;
   }
 
   /* Stats Grid */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-md);
-    margin-top: 0;
-    animation: fadeInUp 0.6s 0.45s ease-out both;
+    gap: var(--spacing-lg);
+    width: 100%;
+    margin-top: var(--spacing-xl);
   }
 
   .stat-card-hero {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 16px;
-    padding: 24px 16px;
-    text-align: center;
-    backdrop-filter: blur(16px);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
   }
-
-  .stat-card-hero::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-
-  .stat-card-hero:hover {
-    transform: translateY(-4px);
-    border-color: rgba(122, 95, 251, 0.3);
-    box-shadow: 0 0 30px rgba(122, 95, 251, 0.15);
-  }
-
-  .stat-card-hero:hover::before { transform: scaleX(1); }
 
   .stat-value-hero {
-    font-size: 2rem;
-    font-weight: 800;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--green-primary);
     line-height: 1;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .stat-label-hero {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 14px;
+    color: var(--text-secondary);
     font-weight: 500;
   }
 
@@ -199,68 +133,38 @@
   .filter-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     justify-content: center;
     margin-bottom: var(--spacing-xl);
   }
 
-  /* Question Card Enhanced */
+  /* Question Card */
   .question-card-enhanced {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 18px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    transition: all 0.35s ease;
-    backdrop-filter: blur(16px);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .question-card-enhanced::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-    border-radius: 18px 18px 0 0;
-  }
-
-  .question-card-enhanced::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(122, 95, 251, 0.04) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    pointer-events: none;
-    border-radius: 18px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
   }
 
   .question-card-enhanced:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(122, 95, 251, 0.2), 0 0 0 1px rgba(122, 95, 251, 0.2);
-    border-color: rgba(122, 95, 251, 0.35);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(14, 59, 46, 0.15);
   }
-
-  .question-card-enhanced:hover::before { transform: scaleX(1); }
-  .question-card-enhanced:hover::after  { opacity: 1; }
 
   .question-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
   }
 
   .question-title {
     font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
+    font-weight: 600;
+    color: var(--green-primary);
     margin-bottom: var(--spacing-sm);
     line-height: 1.4;
   }
@@ -299,7 +203,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: var(--spacing-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--border-color);
   }
 
   /* Hot Questions */
@@ -313,70 +217,49 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: var(--spacing-md) var(--spacing-lg);
     transition: var(--transition-base);
   }
 
   .hot-question-item:hover {
-    transform: translateX(8px);
-    border-color: rgba(239, 68, 68, 0.4);
-    background: rgba(239, 68, 68, 0.04);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+    transform: translateX(4px);
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: var(--shadow-sm);
   }
 
   .hot-question-content h4 {
     font-size: var(--text-base);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
+    font-weight: 600;
+    color: var(--green-primary);
     margin-bottom: var(--spacing-xs);
-  }
-
-  .hot-question-content small {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
   }
 
   .hot-badge {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    font-weight: var(--font-bold);
-    color: #f87171;
+    font-weight: 600;
+    color: #F59E0B;
     font-size: var(--text-lg);
   }
 
-  .fire-icon {
-    animation: flicker 1.5s infinite;
-  }
-
-  @keyframes flicker {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.1); }
+  /* Search Container overriding for home */
+  .hero-search-wrapper {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-xl);
   }
 
   /* Empty State */
   .empty-state {
     text-align: center;
     padding: var(--spacing-3xl);
-  }
-
-  .empty-icon {
-    font-size: 4rem;
-    margin-bottom: var(--spacing-lg);
-    opacity: 0.4;
-  }
-
-  .empty-title {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .empty-subtitle {
-    color: var(--text-muted);
-    margin-bottom: var(--spacing-xl);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
   }
 
   /* Responsive */
@@ -385,45 +268,44 @@
   }
 
   @media (max-width: 768px) {
-    .hero-title { font-size: 2.2rem; }
+    .hero-title { font-size: 2.5rem; }
     .hero-cta { flex-direction: column; align-items: stretch; }
-    .question-footer { flex-direction: column; gap: var(--spacing-md); align-items: stretch; }
-  }
-
-  @media (max-width: 480px) {
-    .stats-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 
-<div class="container">
-  <!-- Hero Section -->
+<!-- Hero Section Background Shapes -->
+<div class="hero-bg-shape"></div>
+<div class="hero-bg-shape-2"></div>
+
+<div class="container relative z-10">
   <section class="hero-section">
     <div class="hero-content">
 
       <!-- Eyebrow -->
       <div class="hero-eyebrow">
         <span class="hero-eyebrow-dot"></span>
-        Interview Preparation Platform
+        Real People. Real Skills. Real Opportunities.
       </div>
 
       <h1 class="hero-title">
-        Master Your<br>
-        <span class="gradient-word">Interview Skills</span>
+        Hiring <br>
+        human potential, <br>
+        not just résumés.
       </h1>
       <p class="hero-subtitle">
-        Practice with curated questions from top companies, track your progress, and land your dream role.
+        Live interviews, collaborative coding, and AI-powered insights — all in one place.
       </p>
 
       <!-- Search Bar -->
-      <div class="hero-search">
+      <div class="hero-search-wrapper">
         <form method="GET" action="/home">
-          <div class="search-container" style="max-width:100%;">
+          <div class="search-container">
             <i class="fa-solid fa-search search-icon"></i>
             <input 
               type="text" 
               name="search" 
               class="search-input" 
-              placeholder="Search by title, tag, difficulty, or company..." 
+              placeholder="Search jobs, companies, or skills..." 
               value="<%= searchQuery %>"
             />
           </div>
@@ -432,67 +314,62 @@
 
       <!-- CTA Buttons -->
       <div class="hero-cta">
-        <a href="#questions" class="btn btn-primary btn-lg">
-          <i class="fa-solid fa-rocket"></i>
-          Start Practicing
+        <a href="/users/register" class="btn btn-primary btn-lg">
+          Get Started <i class="fa-solid fa-arrow-right ml-1"></i>
         </a>
         <a href="/questions/list" class="btn btn-secondary btn-lg">
-          <i class="fa-solid fa-list"></i>
-          Browse All Questions
+          <i class="fa-solid fa-play-circle mr-1"></i> Watch Video
         </a>
       </div>
 
       <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card-hero">
-          <div class="stat-value-hero"><%= allQuestions.length %>+</div>
-          <div class="stat-label-hero">Questions</div>
+          <div class="stat-value-hero">10K+</div>
+          <div class="stat-label-hero">Candidates</div>
         </div>
         <div class="stat-card-hero">
-          <div class="stat-value-hero">500+</div>
+          <div class="stat-value-hero">2K+</div>
           <div class="stat-label-hero">Companies</div>
         </div>
         <div class="stat-card-hero">
-          <div class="stat-value-hero">100k+</div>
-          <div class="stat-label-hero">Users</div>
+          <div class="stat-value-hero">50K+</div>
+          <div class="stat-label-hero">Interviews</div>
         </div>
         <div class="stat-card-hero">
           <div class="stat-value-hero">95%</div>
-          <div class="stat-label-hero">Success Rate</div>
+          <div class="stat-label-hero">Satisfaction Rate</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Filter Section -->
-  <section class="filter-section" id="questions">
-    <h3 class="text-center mb-lg">Filter by Category</h3>
+  <section class="filter-section" id="explore">
+    <h3 class="text-center mb-4" style="color: var(--green-primary);">Explore Opportunities</h3>
     <div class="filter-pills">
       <span class="tag <%= searchQuery === '' ? 'active' : '' %>" onclick="location.href='/home'">
-        <i class="fa-solid fa-th"></i> All Questions
+        All
       </span>
       <span class="tag <%= searchQuery === 'DSA' ? 'active' : '' %>" onclick="location.href='/home?search=DSA'">
-        <i class="fa-solid fa-code"></i> DSA
+        Engineering
       </span>
-      <span class="tag <%= searchQuery === 'Aptitude' ? 'active' : '' %>" onclick="location.href='/home?search=Aptitude'">
-        <i class="fa-solid fa-brain"></i> Aptitude
+      <span class="tag <%= searchQuery === 'Design' ? 'active' : '' %>" onclick="location.href='/home?search=Design'">
+        Design
       </span>
-      <span class="tag <%= searchQuery === 'System Design' ? 'active' : '' %>" onclick="location.href='/home?search=System Design'">
-        <i class="fa-solid fa-project-diagram"></i> System Design
+      <span class="tag <%= searchQuery === 'Product' ? 'active' : '' %>" onclick="location.href='/home?search=Product'">
+        Product
       </span>
-      <span class="tag <%= searchQuery === 'JavaScript' ? 'active' : '' %>" onclick="location.href='/home?search=JavaScript'">
-        <i class="fab fa-js"></i> JavaScript
-      </span>
-      <span class="tag <%= searchQuery === 'Python' ? 'active' : '' %>" onclick="location.href='/home?search=Python'">
-        <i class="fab fa-python"></i> Python
+      <span class="tag <%= searchQuery === 'Marketing' ? 'active' : '' %>" onclick="location.href='/home?search=Marketing'">
+        Marketing
       </span>
     </div>
   </section>
 
-  <!-- Top Questions Grid -->
-  <section>
+  <!-- Content Grid -->
+  <section class="mb-5">
     <div class="section-title">
-      <%= searchQuery ? '🔍 Search Results' : '🏆 Top 5 Most Liked Questions' %>
+      <%= searchQuery ? 'Search Results' : 'Recommended for you' %>
     </div>
     
     <% if (allQuestions.length > 0) { %>
@@ -504,15 +381,14 @@
                 <h4 class="question-title"><%= q.title %></h4>
                 <div class="question-meta">
                   <% if (q.difficulty === 'easy') { %>
-                    <span class="badge badge-easy">Easy</span>
+                    <span class="badge badge-easy">Junior</span>
                   <% } else if (q.difficulty === 'medium') { %>
-                    <span class="badge badge-medium">Medium</span>
+                    <span class="badge badge-medium">Mid-Level</span>
                   <% } else if (q.difficulty === 'hard') { %>
-                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-hard">Senior</span>
                   <% } %>
                   
                   <span class="badge badge-secondary">
-                    <i class="fa-solid fa-<%= q.type === 'mcq' ? 'check-circle' : 'pen' %>"></i>
                     <%= q.type.toUpperCase() %>
                   </span>
                 </div>
@@ -523,59 +399,28 @@
             <% if (q.tags && q.tags.length > 0) { %>
               <div class="question-tags">
                 <% q.tags.slice(0, 3).forEach(tag => { %>
-                  <span class="badge badge-primary"><%= tag %></span>
+                  <span class="tag" style="padding: 4px 10px; font-size: 12px;"><%= tag %></span>
                 <% }) %>
               </div>
             <% } %>
 
-            <!-- Stats -->
-            <div class="question-stats">
-              <div class="stat-item">
-                <i class="fa-solid fa-heart" style="color: var(--error);"></i>
-                <span><%= q.likes || 0 %></span>
-              </div>
-              <div class="stat-item">
-                <i class="fa-solid fa-star" style="color: var(--warning);"></i>
-                <span><%= q.points || 5 %> pts</span>
-              </div>
-              <% if (q.solvedBy && q.solvedBy.length > 0) { %>
-                <div class="stat-item">
-                  <i class="fa-solid fa-users" style="color: var(--success);"></i>
-                  <span><%= q.solvedBy.length %> solved</span>
-                </div>
-              <% } %>
-            </div>
-
             <!-- Footer -->
             <div class="question-footer">
               <div class="text-sm text-muted">
-                <i class="fa-solid fa-clock"></i>
-                <%= q.createdAt ? new Date(q.createdAt).toLocaleDateString() : 'Recently' %>
+                Posted <%= q.createdAt ? new Date(q.createdAt).toLocaleDateString() : 'Recently' %>
               </div>
-              <a href="/questions/<%= q._id %>" class="btn btn-sm btn-primary">
-                <i class="fa-solid fa-play"></i>
-                Solve Now
+              <a href="/questions/<%= q._id %>" class="text-primary font-medium" style="font-size: 14px;">
+                View Details <i class="fa-solid fa-arrow-right ml-1"></i>
               </a>
             </div>
           </article>
         <% }) %>
       </div>
-      
-      <% if (!searchQuery) { %>
-        <div class="text-center mt-xl">
-          <a href="/questions/list" class="btn btn-secondary btn-lg">
-            <i class="fa-solid fa-layer-group"></i>
-            View All Questions
-          </a>
-        </div>
-      <% } %>
     <% } else { %>
       <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <h3 class="empty-title">No questions found</h3>
-        <p class="empty-subtitle">Try adjusting your search or filter criteria</p>
-        <a href="/home" class="btn btn-primary">
-          <i class="fa-solid fa-refresh"></i>
+        <h3 style="font-family: var(--font-display); color: var(--green-primary); margin-bottom: 8px;">No results found</h3>
+        <p class="text-secondary mb-3">Try adjusting your search or filter criteria</p>
+        <a href="/home" class="btn btn-secondary">
           Clear Filters
         </a>
       </div>
@@ -584,75 +429,27 @@
 
   <!-- Hot Questions Section -->
   <% if (hotQuestions && hotQuestions.length > 0) { %>
-    <section style="margin-top: var(--spacing-3xl);">
-      <div class="section-title">🔥 Hot Right Now</div>
+    <section class="mb-5">
+      <div class="section-title">Trending Now</div>
       <div class="hot-questions-list">
         <% hotQuestions.forEach(q => { %>
           <div class="hot-question-item">
             <div class="hot-question-content">
               <h4>
-                <a href="/questions/<%= q._id %>" style="color: inherit;">
+                <a href="/questions/<%= q._id %>" style="color: inherit; text-decoration: none;">
                   <%= q.title %>
                 </a>
               </h4>
-              <small>
-                Difficulty: <strong><%= q.difficulty %></strong>
+              <p class="text-sm text-secondary m-0">
                 <% if (q.tags && q.tags.length > 0) { %>
-                  • <%= q.tags.slice(0, 2).join(', ') %>
+                  <%= q.tags.slice(0, 2).join(', ') %>
                 <% } %>
-              </small>
+              </p>
             </div>
-            <div class="hot-badge">
-              <span class="fire-icon">🔥</span>
-              <span><%= q.likes %></span>
-            </div>
+            <a href="/questions/<%= q._id %>" class="btn btn-sm btn-outline">View</a>
           </div>
         <% }) %>
       </div>
     </section>
   <% } %>
 </div>
-
-<script>
-// Smooth scroll to questions section
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  });
-});
-
-// Add animation on scroll
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '0';
-      entry.target.style.transform = 'translateY(20px)';
-      entry.target.style.transition = 'all 0.6s ease';
-      
-      setTimeout(() => {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }, 100);
-      
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-// Observe all question cards
-document.querySelectorAll('.question-card-enhanced').forEach(card => {
-  observer.observe(card);
-});
-</script>

@@ -1,30 +1,30 @@
-<footer class="footer-stratos">
-  <!-- Top rule -->
-  <div class="footer-top-rule"></div>
-
+<footer class="footer-hireska">
   <div class="container">
     <div class="footer-grid">
 
       <!-- Brand col -->
       <div class="footer-brand-col">
         <div class="footer-brand-mark">
-          <div class="footer-orb">IX</div>
+          <div class="brand-mark" style="transform: scale(0.8); transform-origin: left center;">
+            <div class="brand-shape-main"></div>
+            <div class="brand-shape-accent"></div>
+          </div>
           <div>
-            <div class="footer-brand-name">InterViewXX</div>
-            <div class="footer-brand-tagline">RECRUITMENT PLATFORM · v2.0</div>
+            <div class="footer-brand-name">Hireska</div>
+            <div class="footer-brand-tagline">People move possibilities</div>
           </div>
         </div>
         <p class="footer-brand-desc">
-          A full-stack recruitment platform with real-time video interviews, collaborative coding, semantic search, and AI-powered round management. Built by Anirban Santra.
+          A modern recruitment platform that combines human conversations, real skills, and AI to build a more open, fair, and opportunity-driven future.
         </p>
         <div class="footer-socials">
-          <a href="https://www.linkedin.com/in/anirban-santra" target="_blank" class="social-pill" aria-label="LinkedIn">
+          <a href="#" class="social-pill" aria-label="LinkedIn">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="https://github.com/anirbansantra748" target="_blank" class="social-pill" aria-label="GitHub">
-            <i class="fab fa-github"></i>
+          <a href="#" class="social-pill" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
           </a>
-          <a href="mailto:anirbansantra748@gmail.com" class="social-pill" aria-label="Email">
+          <a href="#" class="social-pill" aria-label="Email">
             <i class="fa-solid fa-envelope"></i>
           </a>
         </div>
@@ -34,10 +34,10 @@
       <div class="footer-col">
         <div class="footer-col-label">Platform</div>
         <ul class="footer-links">
-          <li><a href="/home"><i class="fa-solid fa-house-chimney"></i> Home</a></li>
-          <li><a href="/questions/list"><i class="fa-solid fa-code"></i> Questions</a></li>
-          <li><a href="/jobs"><i class="fa-solid fa-briefcase"></i> Job Board</a></li>
-          <li><a href="/recruiter/register"><i class="fa-solid fa-building"></i> Post Jobs</a></li>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/jobs">Job Board</a></li>
+          <li><a href="/questions/list">Questions</a></li>
+          <li><a href="/recruiter/register">For Employers</a></li>
         </ul>
       </div>
 
@@ -45,35 +45,31 @@
       <div class="footer-col">
         <div class="footer-col-label">Account</div>
         <ul class="footer-links">
-          <li><a href="/users/register"><i class="fa-solid fa-user-plus"></i> Register</a></li>
-          <li><a href="/users/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a></li>
-          <li><a href="/users/profile"><i class="fa-solid fa-circle-user"></i> Profile</a></li>
+          <li><a href="/users/register">Register</a></li>
+          <li><a href="/users/login">Login</a></li>
+          <li><a href="/users/profile">Profile</a></li>
         </ul>
       </div>
 
       <!-- System info -->
       <div class="footer-col">
-        <div class="footer-col-label">System</div>
+        <div class="footer-col-label">Technology</div>
         <div class="footer-sys-card">
           <div class="sys-row">
             <span class="sys-key">Stack</span>
-            <span class="sys-val">Node · Express · MongoDB</span>
+            <span class="sys-val">Node · Express</span>
           </div>
           <div class="sys-row">
-            <span class="sys-key">Realtime</span>
-            <span class="sys-val">Socket.IO · WebRTC</span>
+            <span class="sys-key">Video</span>
+            <span class="sys-val">WebRTC</span>
           </div>
           <div class="sys-row">
-            <span class="sys-key">Search</span>
-            <span class="sys-val">Pinecone · Xenova</span>
-          </div>
-          <div class="sys-row">
-            <span class="sys-key">Auth</span>
-            <span class="sys-val">Passport.js</span>
+            <span class="sys-key">AI Engine</span>
+            <span class="sys-val">Gemini 1.5</span>
           </div>
           <div class="sys-row">
             <span class="sys-key">Status</span>
-            <span class="sys-val sys-live"><span class="sys-dot"></span>Operational</span>
+            <span class="sys-val sys-live"><span class="sys-dot"></span>All systems operational</span>
           </div>
         </div>
       </div>
@@ -82,125 +78,98 @@
 
     <!-- Bottom bar -->
     <div class="footer-bottom">
-      <span class="footer-copy">© <%= new Date().getFullYear() %> <strong>InterViewXX</strong> · All rights reserved</span>
-      <span class="footer-coords">SYS_V2.0 · Kolkata, India</span>
+      <span class="footer-copy">© <%= new Date().getFullYear() %> <strong>Hireska</strong>. All rights reserved.</span>
+      <span class="footer-coords">More than hiring. A fairer tomorrow.</span>
     </div>
   </div>
 </footer>
 
 <style>
 /* ===============================================
-   FOOTER — STRATOS EDITION
+   FOOTER — HIRESKA EDITION
    =============================================== */
-.footer-stratos {
-  background: rgba(4, 3, 10, 0.9);
-  margin-top: 80px;
-  padding: 60px 0 28px;
+.footer-hireska {
+  background: var(--bg-tertiary);
+  margin-top: 100px;
+  padding: 80px 0 32px;
   position: relative;
-}
-
-.footer-top-rule {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(122,95,251,0.3) 30%, rgba(244,114,182,0.2) 70%, transparent 100%);
+  border-top: 1px solid var(--border-color);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.4fr;
-  gap: 48px;
-  margin-bottom: 48px;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 64px;
+  margin-bottom: 64px;
 }
 
 /* Brand column */
 .footer-brand-mark {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.footer-orb {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #7a5ffb, #c084fc);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0.05em;
-  box-shadow: 0 0 16px rgba(122,95,251,0.3);
-  flex-shrink: 0;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
 .footer-brand-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
+  font-family: var(--font-display);
+  font-size: 20px;
   font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.01em;
+  color: var(--green-primary);
+  letter-spacing: -0.02em;
 }
 
 .footer-brand-tagline {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  color: rgba(255,255,255,0.25);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 
 .footer-brand-desc {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px;
-  color: rgba(255,255,255,0.35);
-  line-height: 1.7;
-  margin-bottom: 20px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 90%;
 }
 
 .footer-socials {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 .social-pill {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.4);
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: 16px;
   transition: all 0.2s ease;
   text-decoration: none;
 }
 
 .social-pill:hover {
-  background: rgba(122,95,251,0.15);
-  border-color: rgba(122,95,251,0.4);
-  color: #9c7cff;
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: #fff;
   transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Link columns */
 .footer-col-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-family: var(--font-display);
+  font-size: 16px;
   font-weight: 600;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
+  color: var(--green-primary);
+  margin-bottom: 24px;
 }
 
 .footer-links {
@@ -208,78 +177,71 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .footer-links a {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px;
-  color: rgba(255,255,255,0.35);
+  font-family: var(--font-primary);
+  font-size: 15px;
+  color: var(--text-secondary);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   transition: all 0.2s ease;
 }
 
-.footer-links a i {
-  font-size: 11px;
-  color: rgba(122,95,251,0.5);
-  width: 14px;
-}
-
 .footer-links a:hover {
-  color: rgba(255,255,255,0.8);
-  transform: translateX(3px);
-}
-
-.footer-links a:hover i {
-  color: #9c7cff;
+  color: var(--green-action);
 }
 
 /* System info card */
 .footer-sys-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
 }
 
 .sys-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+  gap: 12px;
+}
+.sys-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .sys-key {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .sys-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
+  font-family: var(--font-primary);
+  font-size: 13px;
+  color: var(--text-primary);
   text-align: right;
+  font-weight: 500;
 }
 
 .sys-live {
-  color: #34d399 !important;
+  color: var(--green-action);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .sys-dot {
-  width: 5px;
-  height: 5px;
-  background: #34d399;
+  width: 8px;
+  height: 8px;
+  background: var(--green-action);
   border-radius: 50%;
   animation: pulse-live 2s ease-in-out infinite;
 }
@@ -291,39 +253,37 @@
 
 /* Bottom bar */
 .footer-bottom {
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+  padding-top: 32px;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
 }
 
 .footer-copy {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.05em;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  color: var(--text-muted);
 }
 
 .footer-copy strong {
-  color: rgba(155,120,255,0.6);
+  color: var(--green-primary);
 }
 
 .footer-coords {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.12);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 48px;
   }
   .footer-brand-col {
     grid-column: 1 / -1;
@@ -333,12 +293,11 @@
 @media (max-width: 600px) {
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 40px;
   }
   .footer-bottom {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
   }
 }
 </style>

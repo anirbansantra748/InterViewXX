@@ -1,4 +1,4 @@
-const Recruiter = require('../models/RecruterSchema');
+const Recruiter = require('../models/RecruiterSchema');
 const User = require('../models/UserSchema');
 const Job = require('../models/JobSchema');
 const Round = require('../models/RoundSchema');
